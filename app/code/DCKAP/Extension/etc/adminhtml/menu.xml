@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="DCKAP_Extension::parent" title="DCKAP Extension" module="DCKAP_Extension" sortOrder="10" resource="DCKAP_Extension::parent"/>
+    </menu>
+</config>

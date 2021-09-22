@@ -1,0 +1,61 @@
+<?php
+$submitUrl = $block->getUrl('productimport/videoimport/save');
+?>
+<div class="import-videos">
+    <form id="import-form" action="<?php echo $submitUrl; ?>" method="post" enctype="multipart/form-data">
+        <div class="page-main-actions">
+            <div class="page-actions-placeholder" style=""></div>
+            <div class="page-actions" data-ui-id="page-actions-toolbar-content-header">
+                <div class="page-actions-inner" data-title="Import">
+                    <div class="page-actions-buttons">
+                        <button id="upload_button" title="Check Data" type="submit"
+                                class="action-default scalable save primary">
+                            <span>Import Videos</span>
+                        </button>
+                        <a href="<?php echo $block->getSampleCsvUrl(); ?>" title="Sample csv download" class="action-default scalable save primary" style="line-height: 30px;">
+                            <span>Sample CSV</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div><input name="form_key" type="hidden" value="<?php echo $block->getFormKey() ?>"/></div>
+        <fieldset class="fieldset admin__fieldset" style="display: block;">
+            <legend class="admin__legend legend">
+                <span>File to Import</span>
+            </legend>
+            <br>
+            <div class="messages">
+            </div>
+            <div class="admin__field field field-video_csv  required _required">
+                <label class="label admin__field-label" for="video_csv">
+                    <span>Select File to Import</span>
+                </label>
+                <div class="admin__field-control control">
+                    <input id="video_csv" name="video_csv" value="" title="Select File to Import" class="attachment required-entry _required" type="file" aria-required="true" />
+                </div>
+            </div>
+            <!--<div class="admin__field field field-type required _required with-note">
+                <label class="label admin__field-label" for="type"><span>Select Type</span></label>
+                <div class="admin__field-control control">
+                    <select id="type" name="type" title="Select Type" class="type required-entry _required select admin__control-select" aria-required="true">
+                        <option value="">-- Please Select --</option>
+                        <option value="1">Add as New</option>
+                        <option value="2">Update</option>
+                    </select>
+                    <div class="note admin__field-note" id="type-note"></div>
+                </div>
+            </div>-->
+            <div class="admin__field field field-thumb_dir  with-note">
+                <label class="label admin__field-label" for="thumb_dir">
+                    <span>Thumbnail File Directory</span>
+                </label>
+                <div class="admin__field-control control">
+                    <input id="thumb_dir" name="thumb_dir" value="" title="Thumbnail File Directory" class="thumb_dir input-text admin__control-text" type="text">
+                    <div class="note admin__field-note" id="thumb_dir-note">For Type "Local Server" use relative path to Magento installation, e.g. var/export, var/import, pub/media/import/video
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

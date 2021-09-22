@@ -1,0 +1,17 @@
+<?php
+/** @var Dckap\Theme\Block\FollowUsLinks $followUs */
+$followUs = $block->getFollowUsLinks(); ?>
+<div class="block-links footer-middle">
+    <?php if ($followUs): ?>
+        <div class="footer-social-icons">
+            <h3><?= $block->escapeHtml(__("Follow Us On:")); ?></h3>
+            <ul>
+                <?php foreach ($followUs as $follow): ?>
+                    <li class="<?=  $block->escapeHtml($follow['follow_us_type']); ?>">
+                        <a href="<?= $block->escapeUrl($follow['follow_us_link']); ?>"></a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+</div>

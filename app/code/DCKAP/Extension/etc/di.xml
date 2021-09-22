@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--<preference for="Magento\Customer\Controller\Account\Create" type="DCKAP\Extension\Controller\Account\Create" />-->
+    <preference for="Akeneo\Connector\Job\Attribute" type="DCKAP\Extension\Job\Attribute" />
+    <preference for="Akeneo\Connector\Job\Category" type="DCKAP\Extension\Job\Category" />
+     <preference for="Akeneo\Connector\Job\Product" type="DCKAP\Extension\Job\Product" />
+</config>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_MegaMenu
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2016-2017 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="bss_megamenu_category_store_grid_data_source" xsi:type="string">Bss\Megamenu\Model\ResourceModel\MenuStores\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Bss\Megamenu\Model\ResourceModel\MenuStores\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">bss_megamenu_stores</argument>
+            <argument name="resourceModel" xsi:type="string">Bss\Megamenu\Model\ResourceModel\MenuStores</argument>
+        </arguments>
+    </virtualType>
+</config>

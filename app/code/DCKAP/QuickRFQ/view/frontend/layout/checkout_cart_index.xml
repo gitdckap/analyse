@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="checkout_cart_item_renderers"/>
+    <body>
+        <referenceContainer name="checkout.cart.methods">
+            <block class="Dckap\QuickRFQ\Block\Index\Quote" name="request_for_quote_button" template="Dckap_QuickRFQ::quote.phtml" before="checkout.cart.methods.onepage.bottom" />
+        </referenceContainer>
+         <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" after="-" name="custom.trigger" template="Dckap_QuickRFQ::customtrigger.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="checkout.cart.coupon" remove="true"/>
+    </body>
+</page>

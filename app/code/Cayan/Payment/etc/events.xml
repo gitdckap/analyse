@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cayan Payments
+ *
+ * @package Cayan\Payment
+ * @author Igor Miura
+ * @author Joseph Leedy
+ * @copyright Copyright (c) 2017 Cayan (https://cayan.com/)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="payment_method_assign_data_cayancc">
+        <observer name="cayancc_gateway_data_assign" instance="Cayan\Payment\Observer\DataAssignObserver" />
+    </event>
+    <event name="checkout_submit_all_after">
+        <observer name="cayancard_after_order" instance="Cayan\Payment\Observer\GiftCard\AfterOrder" />
+    </event>
+    <event name="sales_order_creditmemo_refund">
+        <observer name="cayancard_customerbalance" instance="Cayan\Payment\Observer\RefundObserver"/>
+    </event>
+    <event name="adminhtml_sales_order_creditmemo_register_before">
+        <observer name="cayancard_customerbalance_before" instance="Cayan\Payment\Observer\CreditmemoDataImportObserver"/>
+    </event>
+    <event name="order_cancel_after">
+        <observer name="cayancard_order_cancel" instance="Cayan\Payment\Observer\GiftCard\CancelOrder"/>
+    </event>
+</config>

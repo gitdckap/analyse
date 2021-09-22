@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="DCKAP_AkeneoSync::css/style.css"/>
+    </head>
+    <referenceBlock name="page.title">
+        <action method="setPageTitle">
+            <argument name="title" xsi:type="string">Akeneo Parent product Import</argument>
+        </action>
+    </referenceBlock>
+    <body>
+        <referenceContainer name="content">
+            <block class="DCKAP\AkeneoSync\Block\Adminhtml\ConfigProduct" template="DCKAP_AkeneoSync::product_import.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

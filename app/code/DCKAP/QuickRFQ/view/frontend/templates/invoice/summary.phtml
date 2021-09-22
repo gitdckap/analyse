@@ -1,0 +1,236 @@
+<?php $permission = $block->isDisplayed();
+//$permission = true;
+if ($permission) {
+    $priceHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
+    $orderList = $block->getDdiInvoices();
+    $custLedger = $block->getDdiCustLedger();
+    $orderHandle = $block->getHandle();
+    if (isset($orderHandle['start_date'])) {
+        $startDate = $orderHandle['start_date'];
+    } else {
+        $startDate = date('m/d/y', strtotime('-90 day'));
+    }
+    if (isset($orderHandle['end_date'])) {
+        $endDate = $orderHandle['end_date'];
+    } else {
+        $endDate = date('m/d/y');
+    }
+    if (!(bool)strtotime($startDate)) {
+        $error = 1;
+        $error_msg = "Invalid start date.";
+    } elseif (!(bool)strtotime($endDate)) {
+        $error = 1;
+        $error_msg = "Invalid end date.";
+    } ?>
+    <div class="row toolbar invoice-actions top">
+        <div class="col-md-12 col-sm-12">
+            <div class="start_date-filter">
+                <label for="start_date">Start Date</label>
+                <input type="text" class="start_date date hasDatepicker" name="start_date" value="<?php echo $startDate; ?>" />
+            </div>
+            <div class="end_date-filter">
+                <label for="end_date">End Date</label>
+                <input type="text" class="end_date date hasDatepicker" name="end_date" value="<?php echo $endDate; ?>" />
+            </div>
+            <a class="btn btn-default search-by-date" href="#" title="Filter by Date">Search</a>
+        </div>
+    </div>
+    <?php if (!empty($error)) { ?>
+        <div class="message info empty"><span><?= $error_msg; ?></span></div>
+    <?php }
+    elseif (empty($orderList) && empty($custLedge)){ ?>
+        <div class="message info"><span><?= __("No Invoice in the requested date range.") ?></span></div>
+    <?php }
+    else {
+        if (count($orderList)):
+            $viewUrl = $block->getUrl('quickrfq/invoice/view'); ?>
+        <div id="message-error" style="display: none;"></div>
+    <?php if ($custLedger && count($custLedger)) { ?>
+        <div class="invoice-summary">
+            <h3>Receivables</h3>
+            <div class="table-wrapper">
+                <table class="data table table-order-pad" id="invoice-summary-table">
+                    <caption class="table-caption"><?= __('Invoice Summary') ?></caption>
+        <?php foreach ($custLedger as $custLedge) { ?>
+                    <thead>
+                    <tr>
+                        <th scope="col" class="col"><?= __('Receivable Aging') ?></th>
+                        <th scope="col" class="col"><?= __('Current') ?></th>
+                        <?php foreach ($custLedge as $key => $val) {
+                            if ($key == 'arBalance' || $key == 'oldestOpenInvoiceDays' || $key == 'Current') {
+                                continue;
+                            } else {
+                                $disKey = '';
+                                $key1 = explode(' - ', $key);
+                                if (sizeof($key1) > 1) {
+                                    $disKey = $key1[1].' Days';
+                                }
+                                ?>
+                            <th scope="col" class="col"><?php if ($disKey != '') { echo $disKey; } else { echo $key; } ?></th>
+                        <?php }
+                        } ?>
+                        <th scope="col" class="col"><?= __('Oldest OI # of Days') ?></th>
+                    </tr>
+                    </thead>
+                        <tbody>
+                        <tr class="content">
+                            <td data-th="Receivable Aging" class="col"><?php echo $priceHelper->currency($custLedge['arBalance'], true, false); ?></td>
+                            <td data-th="Current" class="col"><?php echo $priceHelper->currency($custLedge['Current'], true, false); ?></td>
+                            <?php foreach ($custLedge as $key => $val) {
+                                if ($key == 'arBalance' || $key == 'oldestOpenInvoiceDays' || $key == 'Current') {
+                                    continue;
+                                } else {
+                                    $disKey = '';
+                                    $key1 = explode(' - ', $key);
+                                    if (sizeof($key1) > 1) {
+                                        $disKey = $key1[1].' Days';
+                                    }
+                                    ?>
+                                    <td data-th="<?php if ($disKey != '') { echo $disKey; } else { echo $key; } ?>" class="col"><?php echo $priceHelper->currency($val, true, false); ?></td>
+                                <?php }
+                            } ?>
+                            <td data-th="Oldest OI" class="col"><?php echo $custLedge['oldestOpenInvoiceDays']; ?></td>
+                        </tbody>
+                    <?php } ?>
+                </table>
+            </div>
+        </div>
+    <?php } ?>
+        <div class="row toolbar order-history-actions top">
+            <h3>Invoices</h3>
+            <?php if ($block->getPayOnline()) { ?>
+            <div class="col-md-2 col-sm-2">
+                <div class="pay-invoice">
+                    <button class="add-icon btn btn-success">Pay Invoice</button>
+                </div>
+            </div>
+            <?php } ?>
+            <div class="pager">
+                <p class="toolbar-amount">
+                    <span class="toolbar-number">Items <?php echo isset($orderHandle['start']) ?  $orderHandle['start'] :  '1' ?> to <?php echo isset($orderHandle['end']) ?  $orderHandle['end'] :  '25' ?> of <?php echo isset($orderHandle['records_count']) ?  $orderHandle['records_count'] :  '' ?> total</span>
+                </p>
+            </div>
+        </div>
+        <div class="table-wrapper orders-history">
+            <table class="data table table-order-pad invoice-summary-list-table" id="my-orders-table">
+                <caption class="table-caption"><?= __('Invoice List') ?></caption>
+                <thead>
+                <tr>
+                    <?php if ($block->getPayOnline()) { ?>
+                    <th scope="col" class="col"><?= __('') ?></th>
+                    <?php } ?>
+                    <th scope="col" class="col invoice-number"><?= __('Invoice #') ?></th>
+                    <th scope="col" class="col order-number"><?= __('Order #') ?></th>
+                    <th scope="col" class="col po-number"><?= __('P/O #') ?></th>
+                    <th scope="col" class="col tracking-number"><?= __('Tracking #') ?></th>
+                    <th scope="col" class="col order-date"><?= __('Date') ?></th>
+                    <th scope="col" class="col due-date"><?= __('Due Date') ?></th>
+                    <th scope="col" class="col order-total"><?= __('Invoice Total') ?></th>
+                    <th scope="col" class="col balance"><?= __('Balance Due') ?></th>
+                    <th scope="col" class="col actions"><?= __('') ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($orderList as $item): ?>
+                    <tr class="content">
+                        <?php if ($block->getPayOnline()) { ?>
+                        <td data-th="Select" class="col select-action"><input type="checkbox" class="select_invoice" name="selected_invoice[]" value="<?php echo $item['invoiceNumber']; ?>" /></td>
+                        <?php } ?>
+                        <td data-th="Invoice #" class="col invoice-number"><?php echo $item['invoiceNumber']; ?></td>
+                        <td data-th="Order #" class="col order-number"><?php echo $item['orderNumber']; ?></td>
+                        <td data-th="P/O #" class="col po-number"><?php echo $item['poNum']; ?></td>
+                        <td data-th="Tracking #" class="col tracking-number"><?php echo ''; ?></td>
+                        <td data-th="Date" class="col invoice-date"><?php echo $item['invoiceDate']; ?></td>
+                        <td data-th="Due Date" class="col due-date"><?php echo $item['dueDate']; ?></td>
+                        <td data-th="Invoice Total" class="col order-total"><?php echo $item['invoiceTotal']; ?></td>
+                        <td data-th="Balance Due" class="col order-total"><?php echo $item['openAmount']; ?></td>
+                        <td data-th="" class="col actions"><a href="<?php echo $viewUrl.'id/'.$item['invoiceNumber']; ?>" title="View" class="action view" target="_blank"><span>View Invoice</span></a></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="order-products-toolbar toolbar top">
+            <div class="pager">
+                <div class="pages">
+                    <strong class="label pages-label" id="paging-label">Page</strong>
+                    <ul class="items pages-items" aria-labelledby="paging-label">
+                        <li class="item pages-item-previous">
+                            <?php $href = '#';
+                            if (isset($orderHandle['prev_page'])) {
+                                $href = '?page=' . $orderHandle['prev_page'].'&startDate='.$startDate.'&endDate='.$endDate;
+                            } ?>
+                            <a class="action  previous" href="<?php echo $href; ?>" title="Previous">
+                                <span class="label">Page</span>
+                                <span>Previous</span>
+                            </a>
+                        </li>
+                        <li class="item pages-item-next">
+                            <?php $href = '#';
+                            if (isset($orderHandle['next_page'])) {
+                                $href = '?page=' . $orderHandle['next_page'].'&startDate='.$startDate.'&endDate='.$endDate;
+                            } ?>
+                            <a class="action  next" href="<?php echo $href; ?>" title="Next">
+                                <span class="label">Page</span>
+                                <span>Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <?php endif ?>
+<?php }
+} else { ?>
+    <div class="message info"><span><?= __("You don't have permission to access this page.") ?></span></div>
+<?php } ?>
+<script>
+    require([
+        'jquery',
+        'mage/mage',
+        'mage/calendar',
+        'mage/url',
+    ], function($, mage, calendar, urlBuilder){
+        $('.date').datepicker({
+            dateFormat: 'mm/dd/y',
+            changeMonth: true,
+            changeYear: true
+        });
+
+        /* date by filter */
+        $(document).on("click", "a.search-by-date", function (e) {
+            var val = $(this).val();
+            if ($(".start_date").val() != '' && $(".end_date").val() != '') {
+                var url = '<?php echo $block->getUrl("quickrfq/invoice/summary/"); ?>';
+                var startDate = '';
+                var endDate = '';
+                if ($(".start_date").val() != '') {
+                    startDate = $(".start_date").val();
+                }
+                if ($(".end_date").val() != '') {
+                    endDate = $(".end_date").val();
+                }
+                url += '?startDate='+startDate+'&endDate='+endDate;
+                window.location.href = url;
+            } else {
+                alert('Please select date fields to proceed.');
+            }
+        });
+
+        /* pay multiple invoices */
+        $(document).on("click", ".pay-invoice button", function (e) {
+            e.preventDefault();
+            var selectedInvoice = '';
+            if ($("input.select_invoice:checked").length == 0) {
+                alert('Please select invoice to proceed.');
+            } else {
+                $.each($("input.select_invoice:checked"), function () {
+                    console.log($(this).val());
+                    selectedInvoice += $(this).val() + '__';
+                });
+                var serviceurl = urlBuilder.build('dckapcheckout/index/index');
+                window.location.href = serviceurl + '?data=' + selectedInvoice;
+            }
+        });
+    });
+</script>

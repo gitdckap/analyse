@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="DCKAP_AkeneoSync::log" title="Custom Log" module="DCKAP_AkeneoSync" sortOrder="40" action="akeneosync/log" resource="DCKAP_AkeneoSync::log" parent="Akeneo_Connector::akeneo_connector"/>
+    </menu>
+</config>

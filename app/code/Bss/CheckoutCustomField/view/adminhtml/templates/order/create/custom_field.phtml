@@ -1,0 +1,37 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_CheckoutCustomField
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+// @codingStandardsIgnoreFile
+?>
+<?php if ($block->hasCustomField()) : ?>
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo $block->getHeaderText() ?></span>
+        <div class="actions"></div>
+    </div>
+    <div id="custom_field_fieds" class="admin__page-section-content">
+        <?php echo $block->getForm()->getHtml() ?>
+    </div>
+    <script >
+        require(['jquery'],
+            function ($) {
+                'use strict';
+                return function (config) {
+                    $("#custom_field_fieds").trigger('contentUpdated');
+                }
+            });
+    </script>
+<?php endif; ?>

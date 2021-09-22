@@ -1,0 +1,473 @@
+<?php
+/**
+ * Copyright © 2016 DCKAP. All rights reserved.
+ */
+/** @var \DCKAP\OrderApproval\Block\submittedorders $block */
+$DataHelper = $this->helper('DCKAP\OrderApproval\Helper\Data');
+if ($DataHelper->checkApprovalFunctionalityStatus()) {
+$intDefaultShipTo = 999999999;
+$_orders = $block->getOrders();
+$arrPostParams = $this->getRequest()->getParams();
+$arrCustomerShipToAddress = $block->getCustomerShipToAddresses();
+$arrShipToAddressAndNumbers = $DataHelper->getShiptoItems();
+$strDefaultStartDate = date('yy-m-d', strtotime('-90 day'));
+$strDefaultEndDate = date('yy-m-d');
+
+?>
+    <div class="table-wrapper orders-history">
+        <div class="page-title-wrapper">
+            <h1 class="page-title">
+                <span class="base" data-ui-id="page-title-wrapper">Submitted Orders</span></h1>
+        </div>
+        <?php
+        $arrShipToNumber = [];
+        $arrSortOrderData = array("entity_id" => "Reference #", "ship_to_number" => "Ship To");
+
+        if (true == is_array($arrPostParams) && 0 < count($arrPostParams) && true == array_key_exists('startDate', $arrPostParams) && true == array_key_exists('endDate', $arrPostParams)) {
+            $strStartDate = $arrPostParams['startDate'];
+            $strEndDate = $arrPostParams['endDate'];
+        }
+        ?>
+        <div class="submitted_order_filter">
+            <div class="col-md-12 col-sm-12">
+                <div class="start_date-filter">
+                    <label for="start_date">Start Date</label>
+                    <input type="date" class="start_date date-picker"  value="<?php echo $strStartDate ?? $strDefaultStartDate; ?>" name="start_date"/>
+                </div>
+                <div class="end_date-filter">
+                    <label for="end_date">End Date</label>
+                    <input type="date" class="end_date date-picker" name="end_date" Value="<?php echo $strEndDate ?? $strDefaultEndDate; ?>"/>
+                </div>
+                <button class="action primary sort-by-date">Search</button>
+                <button class="action primary" onclick="location.href='<?php echo $block->getSubmittedOrdersListUrl(); ?>'">Reset Filter
+                </button>
+            </div>
+            <br/>
+            <div class="col-md-12 col-sm-12 ship-to-filter-sec">
+                <div class="start_date-filter">
+                    <div class="toolbar-sorter sorter">
+                        <label class="sorter-label" for="sorter">Sort By</label>
+                        <select id="misc-sorter" data-role="sorter" class="sorter-options">
+                            <option class="not-selected" value="select">Please Select</option>
+                            <?php foreach ($arrSortOrderData as $key => $ShipToNumber) { ?>
+                                <option value="<?php echo $key; ?>" <?php if (false == is_null($arrPostParams) && true == array_key_exists('sort', $arrPostParams) && $key == $arrPostParams['sort']) {
+                                    echo 'selected="selected"';
+                                } ?>><?php echo $ShipToNumber; ?></option>
+                            <?php } ?>
+                        </select>
+                        <?php if (false == is_null($arrPostParams) && true == array_key_exists('orderby', $arrPostParams) && 'asc' == $arrPostParams['orderby'] || false == array_key_exists('orderby', $arrPostParams) ) { ?>
+
+                        <a title="Set Ascending Direction" id="sort-desc" class="action sorter-action sort-desc"
+                           data-role="direction-switcher" data-value="desc" style="display: block;">
+                            <span>Set Ascending Direction</span>
+                        </a>
+                        <?php }  if (false == is_null($arrPostParams) && true == array_key_exists('orderby', $arrPostParams) && 'desc' == $arrPostParams['orderby']) {?>
+                           <a title="Set Descending Direction" id="sort-asc" class="action sorter-action sort-asc"
+                           data-role="direction-switcher" data-value="asc" >
+                            <span>Set Descending Direction</span>
+                        </a>
+                        <?php } ?>
+                    </div>
+                </div>
+                <div class="end_date-filter">
+                    <label for="end_date">Ship To</label>
+                    <select class="order-pad-selection" name="ship_to" id="sorter-by-ship-to" style="width:300px;">
+                        <!-- Dropdown List Option -->
+                    </select>
+                </div>
+                <div class="edit_by_approver">
+                    <div class="checkbox checkbox-primary">
+                        <label>Approver Edited Orders </label><input class="styled ftr-edit-approver" type="checkbox" <?php
+                        if(isset($arrPostParams['isEdited'])){
+                            echo 'checked';
+                        }
+                        ?>>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php if($_orders && 0 < count($_orders)) : ?>
+        <div class="table-responsive">
+            <table class="data table table-order-items history" id="my-orders-table">
+                <caption class="table-caption"><?= $block->escapeHtml(__('Orders')) ?></caption>
+                <thead>
+                <tr>
+                    <th scope="col" id="facility_header"
+                        class="col id"><?= $block->escapeHtml(__('Reference #')) ?></th>
+                    <th scope="col" class="col po"><?= $block->escapeHtml(__('PO #')) ?></th>
+                    <th scope="col" class="col date"><?= $block->escapeHtml(__('Date')) ?></th>
+                    <?= $block->getChildHtml('extra.column.header') ?>
+                    <th scope="col" class="col shipping"><?= $block->escapeHtml(__('Ship To')) ?></th>
+                    <th scope="col" class="col total"><?= $block->escapeHtml(__('Order Total')) ?></th>
+                    <th scope="col" class="col status"><?= $block->escapeHtml(__('Status')) ?></th>
+                    <th scope="col" class="col actions"><?= $block->escapeHtml(__('Action')) ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($_orders as $_order) : ?>
+                    <tr>
+                        <td data-th="<?= $block->escapeHtml(__('Reference #')) ?>" class="col id"><?= $block->escapeHtml($_order->getRealOrderId()) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('PO #')) ?>" class="col id"><?= $block->escapeHtml($DataHelper->getPurchaseOrderNumberByQuoteId($_order->getQuoteId())) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Date')) ?>" class="col date"><?= $block->formatDate($_order->getCreatedAt()) ?></td>
+                        <?php $extra = $block->getChildBlock('extra.container'); ?>
+                        <?php if ($extra) : ?>
+                            <?php $extra->setOrder($_order); ?>
+                            <?= $extra->getChildHtml() ?>
+                        <?php endif; ?>
+                        <td data-th="<?= $block->escapeHtml(__('Ship To')) ?>" class="col shipping"><?= $_order->getShipToNumber(); ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Order Total')) ?>" class="col total"><?= /* @noEscape */ $_order->formatPrice($_order->getGrandTotal()) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Status')) ?>" class="col status"><?= $block->escapeHtml($_order->getStatusLabel()) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Actions')) ?>" class="col actions">
+                            <a href="<?= $block->escapeUrl($block->getViewUrl($_order->getId())) ?>" class="action view">
+                                <span><?= $block->escapeHtml(__('View')) ?></span>
+                            </a>
+                            <?php if ($_order->getStatus() == 'pending_approval') { ?>
+                                <a href="<?= $block->escapeUrl($block->getCancelUrl($_order->getId())) ?>" class="action cancel">
+                                    <span><?= $block->escapeHtml(__('Cancel')) ?></span>
+                                </a>
+                            <?php } ?>
+                            <?php if ($_order->getStatus() == 'approved') { ?>
+                                <a href="#" class="action view-edited-details" data-existing-order-url="<?= $block->escapeUrl($block->getSubmitedUrl($_order->getExistingOrderId())) ?>" data-existing-order-id="<?= $block->escapeHtml($_order->getExistingOrderId()) ?>" >
+                                    <span><?= $block->escapeHtml(__('Edited By')) ?></span>
+                                </a>
+                                <div class="order-editor-details">
+                                    <?php
+                                    $arrOrderDetails = $block->getUnserilizeOrderDetail($_order->getExistingOrderDetails());
+                                    ?>
+                                <div class="alert-modal-content-<?=$block->escapeHtml($_order->getExistingOrderId())?>">
+                                    <?php if(is_array($arrOrderDetails)) { ?>
+                                    <p><b>First Name:</b> <?= $arrOrderDetails['firstName'];?></p>
+                                    <p><b>Last Name:</b> <?= $arrOrderDetails['lastName'];?></p>
+                                    <p><b>Email Id:</b> <?= $arrOrderDetails['email'];?></p>
+                                    <p><b>Company:</b> <?= $arrOrderDetails['billCompanyName'];?></p>
+                                     <p><b>Account Number:</b> <?= $arrOrderDetails['accountNumber'];?></p>
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
+
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <?php
+    if ($block->getPagerHtml()) :
+        $strDecodedHtml =  html_entity_decode( $block->getPagerHtml());
+        ?>
+        <div class="order-products-toolbar toolbar bottom"><?= $strDecodedHtml;  ?></div>
+    <?php endif ?>
+<?php else : ?>
+    </div>
+    <div class="message info empty"><span><?= $block->escapeHtml(__('You have not Submitted the order to approve.')) ?></span></div>
+<?php endif ?>
+<style>
+    .date-picker {
+        font-family: 'PT Sans', sans-serif;
+        font-size: 1.2rem;
+        display: block;
+        padding: 0.5rem 1rem;
+    }
+    #sorter-by-ship-to{
+        max-width: 60% !important;
+    }
+    .ship-to-filter-sec{
+        max-width: 100%;
+        display: inline-flex;
+    }
+   .sorter-options:hover ,.sorter-action:hover{
+        cursor: pointer;
+    }
+    body > div.modals-wrapper > aside.modal-popup.confirm._show > div.modal-inner-wrap > header > button{
+        display: none;
+    }
+    .ftr-edit-approver{
+        width: 23px;
+        height: 23px;
+    }
+    .order-editor-details{
+        display:none;
+    }
+
+</style>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'Magento_Checkout/js/select2',
+        'mage/mage',
+        'Magento_Ui/js/modal/alert'
+    ], function ($,select2, mage, alert) {
+        $('.date').datepicker({
+            dateFormat: 'mm/dd/y',
+            changeMonth: true,
+            changeYear: true
+        });
+
+        $(document).on("click", "a.action.view-edited-details", function (e) {
+            var existingOrderUrl = $(this).data("existing-order-url");
+            var existingOrderId =  $(this).data("existing-order-id");
+
+            alert({
+                title: 'This Order Edited By     Approver',
+                content: $('.alert-modal-content-'+existingOrderId),
+                autoOpen: true,
+                clickableOverlay: false,
+                focus: "",
+                actions: {
+                    always: function () {
+                        console.log("modal closed");
+                    }
+                },
+                buttons: [{
+                    text: $.mage.__('View Original Order'),
+                    class: 'action-primary action-accept',
+                    click: function () {
+                        window.location.href = existingOrderUrl;
+                    }
+                },
+                    {
+                        text: $.mage.__('Cancel'),
+                        class: 'action-primary action-accept',
+                        click: function () {
+                            window.location.reload();
+                    }
+                }]
+            });
+        });
+
+        $(document).ready(function () {
+            /* sort-by selection */
+            var arrmixShipToLocation = [
+                {
+                    id: "",
+                    text: "<?= $block->escapeHtml(__( 'Please Select') ) ?>"
+                },
+                {
+                    id: "<?php echo $intDefaultShipTo; ?>",
+                    text: "<?php echo $intDefaultShipTo; ?>"
+                },
+                <?php
+                if (true == is_array($arrShipToAddressAndNumbers) && 0 < count($arrShipToAddressAndNumbers)) {
+                foreach ($arrShipToAddressAndNumbers as $arrShipToAddressAndNumber) {
+
+                if (true == is_array($arrCustomerShipToAddress) && false == empty($arrCustomerShipToAddress) && true == array_key_exists($arrShipToAddressAndNumber['value'], $arrCustomerShipToAddress)) { ?>
+                {
+                    id: "<?php echo$arrShipToAddressAndNumber['value']; ?>",
+                    text: "<?php echo $block->escapeHtml(ucfirst(trim($arrCustomerShipToAddress[$arrShipToAddressAndNumber['value']]))); ?>"
+                },
+                <?php }
+                }
+             } ?>
+            ];
+            $("#sorter-by-ship-to").select2({
+                data: arrmixShipToLocation
+            });
+            <?php
+            $boolIsShipToAvailable = true;
+
+            if( false == empty($arrPostParams) && true == array_key_exists('srtshipto', $arrPostParams ) && false == empty( $arrPostParams['srtshipto'] ) && true == is_array( $arrShipToAddressAndNumbers) ) {
+                $boolIsShipToAvailable = (bool) array_key_exists($arrPostParams['srtshipto'], array_column($arrShipToAddressAndNumbers,'label','value'));
+
+                if( $arrPostParams['srtshipto'] == $intDefaultShipTo ){
+                    $boolIsShipToAvailable = true;
+                }
+            }
+            if( false == empty($arrPostParams) && true == array_key_exists('srtshipto', $arrPostParams ) && false == empty( $arrPostParams['srtshipto'] ) && true == $boolIsShipToAvailable ) { ?>
+            $('#sorter-by-ship-to').val('<?php echo $arrPostParams['srtshipto']; ?>');
+            $('#sorter-by-ship-to').select2().trigger('change');
+
+            <?php } else if( false == $boolIsShipToAvailable) {  ?>
+            alert({
+                title: '<?= $block->escapeHtml(__('Shipto not found') ) ?>',
+                content: '<?= $block->escapeHtml(__('The Shipto number that you have entered does not exist. Please enter a valid Shipto.') ) ?>',
+                autoOpen: true,
+                clickableOverlay: false,
+                focus: "",
+                actions: {
+                    always: function () {
+                        console.log("modal closed");
+                    }
+                },
+                buttons: [{
+                    text: $.mage.__('OK'),
+                    class: 'action-primary action-accept'
+                }]
+            });
+            $('aside.modal-popup.confirm._show > div.modal-inner-wrap > header > button').css("display", "block");
+            <?php } ?>
+        });
+        /* sort by option click */
+        $(document).on("click", ".sort-by-date", function (e) {
+            var val = $(this).val();
+
+            if ($(".start_date").val() != '' && $(".end_date").val() != '') {
+                var url = '<?php echo $block->escapeUrl(  $block->getSubmittedOrdersListUrl() );?>';
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                var startDate = '';
+                var endDate = '';
+
+                if ($(".start_date").val() != '') {
+                    startDate = $(".start_date").val();
+                }
+                if ($(".end_date").val() != '') {
+                    endDate = $(".end_date").val();
+                }
+                url += '?startDate=' + startDate + '&endDate=' + endDate;
+                for(var i = 0; i < hashes.length; i++)
+                {
+                    hash = hashes[i].split('=');
+                    if(  hash[0]== "srtshipto" ||  hash[0]== "limit" || hash[0]== "sort" || hash[0]== "orderby" || hash[0]== "isEdited" ){
+                        url +='&'+hash[0]+'='+hash[1];
+                    }
+                }
+                window.location.href = url;
+            } else {
+                alert('Please select date field to proceed.');
+            }
+        });
+        /* sort by option click */
+        $(document).on("change", ".ftr-edit-approver", function (e) {
+            var url = '<?php echo $block->escapeUrl($block->getSubmittedOrdersListUrl());?>';
+            if ($('.ftr-edit-approver').is(":checked")) {
+                url += '?isEdited=1';
+                window.location.href = url;
+            }
+            window.location.href = url;
+        });
+
+        /* shipto number based filter */
+        $(document).on("click", "#misc-sorter", function (e) {
+            var val = $(this).val();
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for(var i = 0; i < hashes.length; i++)
+            {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+
+            if( vars['sort'] == val ){
+                return false;
+            }
+
+            if (val != '' && val !='select') {
+                var url = '<?php echo $block->escapeUrl( $block->getSubmittedOrdersListUrl() );?>';
+                url += '?sort=' + val;
+                for(var i = 0; i < hashes.length; i++)
+                {
+                    hash = hashes[i].split('=');
+                    if( hash[0]== "endDate" ||hash[0]== "startDate" || hash[0]== "srtshipto" ||  hash[0]== "limit" || hash[0]== "orderby" || hash[0]== "isEdited"){
+                        url +='&'+hash[0]+'='+hash[1];
+                    }
+                }
+                 window.location.href = url;
+            }
+        });
+
+        $(document).on("change", "#sorter-by-ship-to", function(e) {
+            var val = $(this).val();
+
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+            for(var i = 0; i < hashes.length; i++)
+            {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+
+            if( vars['srtshipto'] == val ){
+                return false;
+            }
+            var shiptSortByParamter = '';
+            if (val != '') {
+                var url = '<?php echo $block->getSubmittedOrdersListUrl();?>';
+                shiptSortByParamter = val;
+                url += '?srtshipto=' + shiptSortByParamter;
+                for(var i = 0; i < hashes.length; i++)
+                {
+                    hash = hashes[i].split('=');
+                    if( hash[0]== "endDate" ||hash[0]== "startDate" || hash[0]== "sort" ||  hash[0]== "limit" || hash[0]== "orderby" || hash[0]== "isEdited"){
+                        url +='&'+hash[0]+'='+hash[1];
+                    }
+                }
+                window.location.href = url;
+            }
+        });
+
+        $(document).on('click',"#sort-asc", function(e){
+            var url = '<?php echo $block->getSubmittedOrdersListUrl();?>';
+            url += '?orderby=asc';
+            var hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for(var i = 0; i < hashes.length; i++)
+            {
+                hash = hashes[i].split('=');
+                if(hash[0]== "sort" || hash[0]== "endDate" ||hash[0]== "startDate" || hash[0]== "srtshipto"||  hash[0]== "limit" || hash[0]== "isEdited"){
+                    url +='&'+hash[0]+'='+hash[1];
+                }
+            }
+            window.location.href = url;
+        });
+
+        $(document).on('click',"#sort-desc", function(e){
+            var url = '<?php echo $block->getSubmittedOrdersListUrl();?>';
+            console.log(url);
+            url += '?orderby=desc';
+
+            var hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for(var i = 0; i < hashes.length; i++)
+            {
+                hash = hashes[i].split('=');
+                if(hash[0]== "sort" || hash[0]== "endDate" ||hash[0]== "startDate" || hash[0]== "srtshipto"||  hash[0]== "limit" || hash[0]== "isEdited"){
+                    url +='&'+hash[0]+'='+hash[1];
+                }
+            }
+
+            window.location.href = url;
+        });
+        /* Approve the order */
+        $(document).on("click", "a.action.cancel", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: 'is_ajax=1',
+                showLoader: true,
+                success: function (res) {
+                    console.log(res);
+                    alert({
+                        title: res.status,
+                        content: res.message,
+                        autoOpen: true,
+                        clickableOverlay: false,
+                        focus: "",
+                        actions: {
+                            always: function () {
+                                console.log("modal closed");
+                            }
+                        },
+                        buttons: [{
+                            text: $.mage.__('OK'),
+                            class: 'action-primary action-accept',
+                            click: function () {
+                                window.location.reload();
+                            }
+                        }]
+                    });
+                }
+            });
+        });
+    });
+</script>
+<?php } else { ?>
+    <div class="message info empty"><span><?= $block->escapeHtml(__("You don't have permission to access this page.")) ?></span></div>
+<?php } ?>

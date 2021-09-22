@@ -1,0 +1,16 @@
+<?php
+if ($block->getCustomerSessionLogged() == true) {
+    if ($block->getUrl('*/*/', ['_current' => true, '_use_rewrite' => true]) == $block->getUrl('checkout/cart')) {
+        $block->getDisplayAction();
+    }
+    if ($block->getUrl('*/*/', ['_current' => true, '_use_rewrite' => true]) == $block->getUrl('checkout/')) {
+        $block->getDisplayAction();?>
+        <style>
+            .messages div:nth-child(2) {
+                display:none;
+            }
+        </style>
+        <?php
+    }
+}
+?>

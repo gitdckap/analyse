@@ -1,0 +1,51 @@
+<?php /*
+$brands = $this->getBrands();
+if ($brands && count($brands)) {
+?>
+
+<div class="block block-compare" data-bind="scope: 'compareProducts'" data-role="compare-products-sidebar">
+    <div class="block-title">
+        <strong id="block-compare-heading" role="heading" aria-level="2"><?php echo __('Shop By Brand');?>:</strong>
+    </div>
+    <ul class="items">
+    	<?php  
+	foreach (range('0', '9') as $char) :?>
+		<?php if(isset($brands[$char])):?>
+			<div class="brand-char-sidebar">
+<!-- 				<strong> # <?php echo $char;?></strong> -->
+				<?php foreach($brands[$char] as $_brand):?>
+					<li>
+					<?php if($_brand['url_key']):?>
+						<a href="<?php echo $this->getUrl('brand').$_brand['url_key'] ?>"><?php echo $_brand['name'];?></a>
+					<?php else:?>
+						<a href="<?php echo $this->getUrl('brand/view/',array('id'=>$_brand['id']));?>"><?php echo $_brand['name'];?></a>
+					<?php endif;?>
+					</li>
+				<?php endforeach;?>
+			</div>
+		<?php endif;?>
+	<?php endforeach;?>
+	<?php  
+	foreach (range('A', 'Z') as $char) :?>
+		<?php if(isset($brands[$char])):?>
+			<div class="brand-char-sidebar">
+<!-- 				<strong> # <?php echo $char;?></strong> -->
+				<?php foreach($brands[$char] as $_brand):?>
+					<li>
+					<?php if($_brand['url_key']):?>
+						<a href="<?php echo $this->getUrl('brand').$_brand['url_key'] ?>"><?php echo $_brand['name'];?></a>
+					<?php else:?>
+						<a href="<?php echo $this->getUrl('brand/view/',array('id'=>$_brand['id']));?>"><?php echo $_brand['name'];?></a>
+					<?php endif;?>
+					</li>
+				<?php endforeach;?>
+			</div>
+		<?php endif;?>
+	<?php endforeach;?>
+        <li>
+            <a href="<?php echo $this->getUrl('brand'); ?>"><?php echo 'View All';?></a>
+        </li>
+	</ul>
+</div>
+<?php } ?>
+*/ ?>

@@ -1,0 +1,20 @@
+{
+  "name": "dckap/module-OrderApproval",
+  "description": "N/A",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "dckap",
+      "email": "email@example.com"
+    }
+  ],
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "DCKAP\\OrderApproval\\": ""
+    }
+  }
+}

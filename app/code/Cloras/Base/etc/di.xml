@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    
+    <preference for="Cloras\Base\Api\CustomerInterface" type="Cloras\Base\Repo\Customers" />
+    <preference for="Cloras\Base\Api\CustomerFieldsInterface" type="Cloras\Base\Model\Fields\Customers" />
+    <preference for="Cloras\Base\Api\CustomerIndexRepositoryInterface" type="Cloras\Base\Repo\CustomerIndex" />
+    <preference for="Cloras\Base\Api\Data\CustomerSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Cloras\Base\Api\Data\CustomerInterface" type="Cloras\Base\Model\Data\CustomerDTO" />
+    <preference for="Cloras\Base\Api\Data\ItemsInterface" type="Cloras\Base\Model\Data\Items" />
+    <preference for="Cloras\Base\Api\Data\ProductIndexInterface" type="Cloras\Base\Model\Data\ProductDTO" />
+
+    <preference for="Cloras\Base\Api\OrderIndexRepositoryInterface" type="Cloras\Base\Repo\OrdersIndex" />
+    <preference for="Cloras\Base\Api\Data\OrderSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Cloras\Base\Api\Data\OrderInterface" type="Cloras\Base\Model\Data\OrderDTO" />
+    <preference for="Cloras\Base\Api\Data\OrderItemsInterface" type="Cloras\Base\Model\Data\Order\Items" />
+    <preference for="Cloras\Base\Api\OrderFieldsInterface" type="Cloras\Base\Model\Fields\Orders" />
+
+    <preference for="Cloras\Base\Api\Data\ProductInterface" type="Cloras\Base\Model\Data\Product\Items" />
+    <preference for="Cloras\Base\Api\ProductFieldsInterface" type="Cloras\Base\Model\Fields\Products" />
+
+    <preference for="Cloras\Base\Api\IntegrationInterface" type="Cloras\Base\Repo\Integration" />
+    <preference for="Cloras\Base\Api\RepoResultsInterface" type="Cloras\Base\Repo\RepoResults" />
+    <preference for="Cloras\Base\Api\Data\RepoItemsInterface" type="Cloras\Base\Model\Data\Repo\Items" />
+    <preference for="Cloras\Base\Api\ShippingMethodInterface" type="Cloras\Base\Model\ShippingMethod"/>
+    <preference for="Cloras\Base\Api\PaymentMethodInterface" type="Cloras\Base\Model\PaymentMethod"/>
+    <preference for="Cloras\Base\Api\Data\IntegrationItemsInterface" type="Cloras\Base\Model\Data\Integration\Items" />
+    <preference for="Cloras\Base\Api\Data\ResultsInterface" type="Cloras\Base\Model\Data\Results\Items" />
+
+    <preference for="Cloras\Base\Api\OrderResultsInterface" type="Cloras\Base\Repo\Orders" />
+    <preference for="Cloras\Base\Api\ProductResultsInterface" type="Cloras\Base\Repo\Products" />
+    
+    <preference for="Cloras\Base\Api\ProductIndexRepositoryInterface" type="Cloras\Base\Repo\ProductIndex" />
+    <!--<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <plugin name="sales_order_additional_columns" type="Cloras\Base\Plugin\SalesOrderCustomColumn" sortOrder="10" disabled="false" />
+    </type>-->
+
+    <!--<type name="Cloras\Base\Model\Fields\Orders">
+        <arguments>
+            <argument name="config" xsi:type="object">Magento\Framework\Api\ExtensionAttribute\Config</argument>
+        </arguments>
+    </type>
+    <type name="Cloras\Base\Model\Fields\Products">
+        <arguments>
+            <argument name="config" xsi:type="object">Magento\Framework\Api\ExtensionAttribute\Config</argument>
+        </arguments>
+    </type>	-->
+    <!--<type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="order_item_get" type="Cloras\Base\Plugin\OrderItemGet"/>        
+    </type>-->
+   
+    <!--Dynamic Pricing-->
+    <!--<type name="Magento\Catalog\Model\Product">
+        <plugin name="cloras_base_productplugin" type="\Cloras\Base\Plugin\ProductPlugin" sortOrder="1"/>
+    </type>
+
+    <type name="Magento\Customer\Model\ResourceModel\CustomerRepository">
+        <plugin name="customer_delete_action" type="Cloras\Base\Plugin\DeleteCustomer" />
+    </type>
+
+    <type name="Magento\Sales\Api\OrderManagementInterface">
+            <plugin name="OrderPlaceAfterPlugin" type="Cloras\Base\Plugin\Order\PlaceAfterPlugin" sortOrder="99" />
+     </type>-->
+    
+</config>

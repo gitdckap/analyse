@@ -1,0 +1,550 @@
+<?php
+$params = $this->getRequest()->getParams();
+$invoiceData = $this->helper('Dckap\Checkout\Helper\Data')->getInvoices($params);
+$paymentMethod = $this->helper('DCKAP\Extension\Helper\Data')->getPayInvoicePayment();
+	$cctypecheck = $this->helper('DCKAP\Extension\Helper\Data')->getpayflowproAllowCreditCards();
+	$cctypecheck = preg_split ("/\,/", $cctypecheck);
+$priceHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
+$staticUrl = $block->getStaticUrl();
+
+if ($paymentMethod != '' && ($paymentMethod == 'authorizenet_acceptjs' || $paymentMethod == 'anet_creditcard')) {
+    /**
+     * Here need to add authorize.net form and its script/functionalities
+     */
+    $authUrl = $block->getUrl('dckapcheckout/payinvoice/authorize');
+    ?>
+
+
+    <form class="form" id="co-payment-form" method="post" action="<?php echo $authUrl; ?>" enctype="multipart/form-data">
+        <span class="total-amount" style="display: block; margin-bottom: 15px; border-bottom: 1px solid;">Total Amount: <b><?php echo $priceHelper->currency($invoiceData['total'], true, false); ?></b></span>
+        <fieldset class="fieldset payment items ccard authorizenet_acceptjs" id="payment_form_authorizenet_acceptjs">
+            <div class="field type">
+                <div class="control">
+                    <ul class="credit-card-types">
+                        <li class="item">
+                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/ae.png" alt="American Express" width="46" height="30">
+                        </li>
+                        <li class="item">
+                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/vi.png" alt="Visa" width="46" height="30">
+                        </li>
+
+                        <li class="item">
+                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/mc.png" alt="MasterCard" width="46" height="30">
+                        </li>
+
+                        <li class="item">
+                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/di.png" alt="Discover" width="46" height="30">
+                        </li>
+                    </ul>
+                    <input type="hidden" name="payment[cc_type]" class="input-text" value="" id="authorizenet_acceptjs_cc_type" data-container="authorizenet_acceptjs-cc-type" />
+                </div>
+            </div>
+            <div class="field number required">
+                <label class="label" for="authorizenet_acceptjs_cc_number">
+                    <span><span>Credit Card Number</span></span>
+                </label>
+                <div class="control">
+                    <input type="number" name="payment[cc_number]" class="input-text" value="" id="authorizenet_acceptjs_cc_number" title="Credit Card Number" required />
+                </div>
+            </div>
+            <div class="field date required" id="authorizenet_acceptjs_cc_type_exp_div">
+                <label class="label" for="authorizenet_acceptjs_expiration">
+                    <span><span>Expiration Date</span></span>
+                </label>
+                <div class="control">
+                    <div class="fields group group-2">
+                        <div class="field no-label month">
+                            <div class="control">
+                                <select name="payment[cc_exp_month]" class="select select-month" id="authorizenet_acceptjs_expiration" required>
+                                    <option value="">Month</option>
+                                    <option value="1">01 - January</option>
+                                    <option value="2">02 - February</option>
+                                    <option value="3">03 - March</option>
+                                    <option value="4">04 - April</option>
+                                    <option value="5">05 - May</option>
+                                    <option value="6">06 - June</option>
+                                    <option value="7">07 - July</option>
+                                    <option value="8">08 - August</option>
+                                    <option value="9">09 - September</option>
+                                    <option value="10">10 - October</option>
+                                    <option value="11">11 - November</option>
+                                    <option value="12">12 - December</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field no-label year">
+                            <div class="control">
+                                <select name="payment[cc_exp_year]" class="select select-year" id="authorizenet_acceptjs_expiration_yr" required>
+                                    <option value="">Year</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field cvv required" id="authorizenet_acceptjs_cc_type_cvv_div">
+                <label class="label" for="authorizenet_acceptjs_cc_cid">
+                    <span><span>Card Verification Number</span></span>
+                </label>
+                <div class="control _with-tooltip">
+                    <input type="number" autocomplete="off" class="input-text cvv" name="payment[cc_cid]" value="" id="authorizenet_acceptjs_cc_cid" title="Card Verification Number" required />
+                    <div class="field-tooltip toggle">
+                <span class="field-tooltip-action action-cvv" tabindex="0" title="What is this?" aria-haspopup="true" aria-expanded="false" role="button">
+                    <span><span>What is this?</span></span>
+                </span>
+                        <div class="field-tooltip-content" data-target="dropdown" aria-hidden="true"><img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Checkout/cvv.png" alt="Card Verification Number Visual Reference" title="Card Verification Number Visual Reference"></div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <input type="hidden" name="invoice" value="<?php echo $params['data']; ?>" />
+        <button class="action primary" id="pay-invoice" type="submit" title="Pay">
+            <span>Submit</span>
+        </button>
+    </form>
+    <script>
+        require([
+            'jquery',
+            'mage/url',
+            'Magento_Ui/js/modal/alert'
+        ], function($, urlBuilder, alert){
+            $(document).ready(function () {
+                /*$('#pay-invoice').on('click', function (e) {
+                    // e.preventDefault();
+                    // e.stopPropagation();
+                    // console.log('hello') ;
+                    $("#co-payment-form").submit();
+                });*/
+
+                $('.field-tooltip .field-tooltip-action.action-cvv').on('click', function (e) {
+                     $('.field-tooltip .field-tooltip-content').toggle();
+                });
+            });
+
+            /*function validate(){
+                var ccnumber = $('#authorizenet_acceptjs_cc_number').val();
+                if (!$.trim(ccnumber)) {
+                    $('#authorizenet_acceptjs_cc_number').parents('.field.number').append('')
+                    return false;
+                } else {
+                    return true;
+                }
+            }*/
+        });
+    </script>
+
+<?php } elseif ($paymentMethod != '' && $paymentMethod == 'elementpayment') {
+    $transportKeyUrl = $block->getUrl('dckapcheckout/payinvoice/transportkey/');
+    $payInvoiceUrl = $block->getUrl('dckapcheckout/payinvoice/payinvoice/');
+    ?>
+<iframe id="cayan-iframe" style="width: 500px;height: 550px;border: none;overflow-y: hidden;"></iframe>
+<button class="action primary" id="pay-invoice" type="button" title="Pay" style="display: none;">
+    <span>Submit</span>
+</button>
+<script>
+    require([
+        'jquery',
+        'mage/mage',
+        'mage/url',
+        'Magento_Ui/js/modal/alert',
+        'Magento_Ui/js/modal/confirm',
+        'loader',
+        'domReady!'
+    ], function($, mage, urlBuilder, alert, confirm){
+        $(document).ready(function () {
+            $('#pay-invoice').on('click', function (e) {
+                $('body').trigger('processStart');
+                if ($('#cayan-iframe').contents()) {
+                    var transactionDetails = $('#cayan-iframe').contents().find('#cc-transaction-result');
+                    if (transactionDetails.length) {
+                        var stat = transactionDetails.find('#status').val();
+                        if (stat == 'User_Cancelled') {
+                            alert({
+                                title: "Transaction Cancelled",
+                                content: "Please try again later",
+                                autoOpen: true,
+                                clickableOverlay: false,
+                                focus: "",
+                                actions: {
+                                    always: function(){
+                                        console.log("modal closed");
+                                        window.location.href = urlBuilder.build('quickrfq/invoice/summary/');
+                                    }
+                                }
+                            });
+                            // alert('Transaction Cancelled. Please refresh the page and try again.');
+                        } else if (stat == 'APPROVED' || stat == 'DECLINED,DUPLICATE;1110;duplicate transaction') {
+                            var status = transactionDetails.find('#status').val();
+                            var cc_holder = transactionDetails.find('#cc_holder').val();
+                            var cc_number = transactionDetails.find('#cc_number').val();
+                            var cc_type = transactionDetails.find('#cc_type').val();
+                            var cc_auth_code = transactionDetails.find('#cc_auth_code').val();
+                            var cc_token = transactionDetails.find('#cc_token').val();
+                            var cc_exp_date = transactionDetails.find('#cc_exp_date').val();
+                            var cc_validation_key = transactionDetails.find('#cc_validation_key').val();
+                            var cc_amount_approved = transactionDetails.find('#cc_amount_approved').val();
+                            var serviceurl = "<?php echo $payInvoiceUrl; ?>";
+                            var invoice = "<?php echo $params['data']; ?>";
+                            $.ajax({
+                                url: serviceurl,
+                                type: 'POST',
+                                data: "invoice="+invoice+"&status="+status+"&cc_holder="+cc_holder+"&cc_number="+cc_number+"&cc_type="+cc_type+"&cc_auth_code="+cc_auth_code+"&cc_token="+cc_token+"&cc_exp_date="+cc_exp_date+"&cc_validation_key="+cc_validation_key+"&cc_amount_approved="+cc_amount_approved,
+                                dataType: 'JSON',
+                                //showLoader: true,
+                                success: function (data) {
+                                    console.log('ajax success after void');
+                                    console.log(data);
+                                    $('body').trigger('processStop');
+                                    $('.page.messages').css('display','none');
+                                    if(data.status == 'fail' && data.void == 1) {
+                                        confirm({
+                                            title: $.mage.__('Transaction Failure'),
+                                            content: data.msg,
+                                            actions: {
+                                                confirm: function() {
+                                                    window.location.href = window.location.href;
+                                                    $('body').trigger('processStart');
+                                                },
+                                                cancel: function() {
+                                                    window.location.href = window.location.href;
+                                                    $('body').trigger('processStart');
+                                                },
+                                                always: function() {
+                                                    window.location.href = window.location.href;
+                                                    $('body').trigger('processStart');
+                                                }
+                                            },
+                                            buttons: [{
+                                                text: $.mage.__('OK'),
+                                                class: 'action primary action-new',
+                                                click: function (event) {
+                                                    this.closeModal(event, true);
+                                                }
+                                            }]
+                                        });
+                                    } else {
+                                        confirm({
+                                            title: $.mage.__('Transaction Status'),
+                                            content: data.msg,
+                                            actions: {
+                                                confirm: function() {
+                                                    window.location.href = urlBuilder.build('quickrfq/invoice/summary/');
+                                                    $('body').trigger('processStart');
+                                                    // do something when the confirmation button is clicked
+                                                },
+                                                cancel: function() {
+                                                    window.location.href = urlBuilder.build('quickrfq/invoice/summary/');
+                                                    $('body').trigger('processStart');
+                                                },
+                                                always: function() {
+                                                    window.location.href = urlBuilder.build('quickrfq/invoice/summary/');
+                                                    $('body').trigger('processStart');
+                                                }
+                                            },
+                                            buttons: [{
+                                                text: $.mage.__('OK'),
+                                                class: 'action primary action-new',
+                                                click: function (event) {
+                                                    this.closeModal(event, true);
+                                                }
+                                            }]
+                                        });
+                                    }
+                                }
+                            });
+                        } else {
+                            alert({
+                                title: stat,
+                                content: "Something went wrong. Please try again later.",
+                                autoOpen: true,
+                                clickableOverlay: false,
+                                focus: "",
+                                actions: {
+                                    always: function(){
+                                        console.log("modal closed");
+                                        window.location.href = urlBuilder.build('quickrfq/invoice/summary/');
+                                    }
+                                }
+                            });
+                        }
+                    }
+                } else {
+                    alert({
+                        title: "Something went wrong",
+                        content: "Please try again later",
+                        autoOpen: true,
+                        clickableOverlay: false,
+                        focus: "",
+                        actions: {
+                            always: function(){
+                                console.log("modal closed");
+                                window.location.href = urlBuilder.build('checkout/cart/');
+                            }
+                        }
+                    });
+                    // alert('Something went wrong. Please try again later.');
+                }
+            });
+
+            /* cayan iframe implementation */
+            function calliframe() {
+                $('body').trigger('processStart');
+                var serviceurl1 = "<?php echo $transportKeyUrl; ?>";
+                var quote_id = "<?php echo explode('__', $params['data'])[0]; ?>";
+                var amount = "<?php echo $invoiceData['total']; ?>";
+                var taxAmount = 0.00;
+                // alert(serviceurl1);
+                $.ajax({
+                    url: serviceurl1,
+                    type: 'POST',
+                    data: "quote_id="+quote_id+"&amount="+amount+"&tax_amount="+taxAmount,
+                    dataType: 'JSON',
+                    //showLoader: true,
+                    success: function (data) {
+                        $('.page.messages').css('display','block');
+                        console.log('transport key');
+                        console.log(data);
+                        // $('input#transportKey').val(data.success.key.TransportKey);
+                        var iframeUrl = "https://transport.merchantware.net/v4/transportweb.aspx?transportKey="+data.success.key.TransportKey;
+                        $('iframe#cayan-iframe').attr('src', iframeUrl);
+                        /*var $iframe = $('#cayan-iframe');
+                        $iframe.ready(function() {
+                            $iframe.contents().find("body").append(data.html);
+                        });*/
+
+                        setTimeout(function (){
+                            $('body').trigger('processStop');
+                        }, 3000);
+                    }
+                });
+            }
+            
+            setTimeout(function (){
+                calliframe();
+            }, 1000);
+        });
+    });
+</script>
+<?php } elseif ($paymentMethod != '' && $paymentMethod == 'payflowpro') {
+
+    /**
+     * Here need to add Payflow Pro form and its script/functionalities
+     */
+	$authUrl = $block->getUrl('dckapcheckout/payinvoice/payflow');
+	?>
+<style>
+    ul.credit-card-types .item{
+        display: none;
+    }
+</style>
+
+    <form class="form" id="co-payment-form" method="post" action="<?php echo $authUrl; ?>" enctype="multipart/form-data">
+        <span class="total-amount" style="display: block; margin-bottom: 15px; border-bottom: 1px solid;">Total Amount: <b><?php echo $priceHelper->currency($invoiceData['total'], true, false); ?></b></span>
+        <fieldset class="fieldset payment items ccard payflow_acceptjs" id="payment_form_payflow_acceptjs">
+            <div class="field type">
+                <div class="control">
+                    <ul class="credit-card-types">
+                        <li class="item" id="AE">
+                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/ae.png" alt="American Express"   width="46" height="30" >
+                        </li>
+                        <li class="item"  id="VI">
+                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/vi.png" alt="Visa"  width="46" height="30">
+                        </li>
+
+                        <li class="item" id="MC">
+                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/mc.png" alt="MasterCard"    width="46" height="30">
+                        </li>
+
+                        <li class="item" id="DI">
+                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/di.png" alt="Discover"  id="di" width="46" height="30">
+                        </li>
+                        <li class="item"  id="JCB">
+                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/jcb.png" alt="JCB"  width="46" height="30">
+                        </li>
+                        <li class="item" id="DN">
+                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/dn.png" alt="Diners"   width="46" height="30">
+                        </li>
+                    </ul>
+                    <input type="hidden" name="payment[cc_type]" class="input-text" value="" id="payflow_acceptjs_cc_type" data-container="payflow_acceptjs-cc-type" />
+                </div>
+            </div>
+            <div class="field number required">
+                <label class="label" for="payflow_acceptjs_cc_number">
+                    <span><span>Credit Card Number</span></span>
+                </label>
+                <div class="control">
+                    <input type="number" name="payment[cc_number]" class="input-text" value="" id="payflow_acceptjs_cc_number" title="Credit Card Number"  maxlength = "18" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required />
+                </div>
+            </div>
+            <div class="field date required" id="payflow_acceptjs_cc_type_exp_div">
+                <label class="label" for="payflow_acceptjs_expiration">
+                    <span><span>Expiration Date</span></span>
+                </label>
+                <div class="control">
+                    <div class="fields group group-2">
+                        <div class="field no-label month">
+                            <div class="control">
+                                <select name="payment[cc_exp_month]" class="select select-month" id="payflow_acceptjs_expiration" required>
+                                    <option value="">Month</option>
+                                    <option value="01">01 - January</option>
+                                    <option value="02">02 - February</option>
+                                    <option value="03">03 - March</option>
+                                    <option value="04">04 - April</option>
+                                    <option value="05">05 - May</option>
+                                    <option value="06">06 - June</option>
+                                    <option value="07">07 - July</option>
+                                    <option value="08">08 - August</option>
+                                    <option value="09">09 - September</option>
+                                    <option value="10">10 - October</option>
+                                    <option value="11">11 - November</option>
+                                    <option value="12">12 - December</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field no-label year">
+                            <div class="control">
+                                <select name="payment[cc_exp_year]" class="select select-year" id="payflow_acceptjs_expiration_yr" required>
+                                    <option value="">Year</option>
+                                    <option value="21">2021</option>
+                                    <option value="22">2022</option>
+                                    <option value="23">2023</option>
+                                    <option value="24">2024</option>
+                                    <option value="25">2025</option>
+                                    <option value="26">2026</option>
+                                    <option value="27">2027</option>
+                                    <option value="28">2028</option>
+                                    <option value="29">2029</option>
+                                    <option value="30">2030</option>
+                                    <option value="31">2031</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field cvv required" id="payflow_acceptjs_cc_type_cvv_div">
+                <label class="label" for="payflow_acceptjs_cc_cid">
+                    <span><span>Card Verification Number</span></span>
+                </label>
+                <div class="control _with-tooltip">
+                    <input type="number" autocomplete="off" class="input-text cvv" name="payment[cc_cid]" value="" id="payflow_acceptjs_cc_cid" title="Card Verification Number"  maxlength = "4" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required />
+                    <div class="field-tooltip toggle">
+                <span class="field-tooltip-action action-cvv" tabindex="0" title="What is this?" aria-haspopup="true" aria-expanded="false" role="button">
+                    <span><span>What is this?</span></span>
+                </span>
+                        <div class="field-tooltip-content" data-target="dropdown" aria-hidden="true"><img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Checkout/cvv.png" alt="Card Verification Number Visual Reference" title="Card Verification Number Visual Reference"></div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <input type="hidden" name="invoice" value="<?php echo $params['data']; ?>" />
+        <button class="action primary" id="pay-invoice" type="submit" title="Pay">
+            <span>Submit</span>
+        </button>
+    </form>
+    <script>
+        require([
+            'jquery',
+            'mage/url',
+            'Magento_Ui/js/modal/alert'
+        ], function($, urlBuilder, alert){
+            $(document).ready(function () {
+               
+                var cards = <?php echo json_encode($cctypecheck); ?>;
+                $.each( cards, function( i, val ) {
+                    $("#"+val).css("display","block");
+                });
+
+                /*$('#pay-invoice').on('click', function (e) {
+                    // e.preventDefault();
+                    // e.stopPropagation();
+                    // console.log('hello') ;
+                    $("#co-payment-form").submit();
+                });*/
+
+                $('.field-tooltip .field-tooltip-action.action-cvv').on('click', function (e) {
+                    $('.field-tooltip .field-tooltip-content').toggle();
+                });
+            });
+
+            $("#payflow_acceptjs_cc_number").keyup( function() {
+                var ccnum = $(this).val();
+                var carttype = cc_brand_id(ccnum);
+                $("#payflow_acceptjs_cc_type").val(carttype);
+
+                // your code
+            });
+
+
+            function cc_brand_id(cur_val) {
+                // the regular expressions check for possible matches as you type, hence the OR operators based on the number of chars
+                // regexp string length {0} provided for soonest detection of beginning of the card numbers this way it could be used for BIN CODE detection also
+
+                //JCB
+                var jcb_regex = new RegExp('^(?:2131|1800|35)[0-9]{0,}$'); //2131, 1800, 35 (3528-3589)
+                // American Express
+               var  amex_regex = new RegExp('^3[47][0-9]{0,}$'); //34, 37
+                // Diners Club
+                var diners_regex = new RegExp('^3(?:0[0-59]{1}|[689])[0-9]{0,}$'); //300-305, 309, 36, 38-39
+                // Visa
+                var visa_regex = new RegExp('^4[0-9]{0,}$'); //4
+                // MasterCard
+                var mastercard_regex = new RegExp('^(5[1-5]|222[1-9]|22[3-9]|2[3-6]|27[01]|2720)[0-9]{0,}$'); //2221-2720, 51-55
+                var maestro_regex = new RegExp('^(5[06789]|6)[0-9]{0,}$'); //always growing in the range: 60-69, started with / not something else, but starting 5 must be encoded as mastercard anyway
+                //Discover
+                var discover_regex = new RegExp('^(6011|65|64[4-9]|62212[6-9]|6221[3-9]|622[2-8]|6229[01]|62292[0-5])[0-9]{0,}$');
+                ////6011, 622126-622925, 644-649, 65
+
+
+                // get rid of anything but numbers
+                cur_val = cur_val.replace(/\D/g, '');
+
+                // checks per each, as their could be multiple hits
+                //fix: ordering matter in detection, otherwise can give false results in rare cases
+                var sel_brand = "unknown";
+                if (cur_val.match(jcb_regex)) {
+                    sel_brand = "JCB";
+                } else if (cur_val.match(amex_regex)) {
+                    sel_brand = "AE";
+                } else if (cur_val.match(diners_regex)) {
+                    sel_brand = "DN";
+                } else if (cur_val.match(visa_regex)) {
+                    sel_brand = "VI";
+                } else if (cur_val.match(mastercard_regex)) {
+                    sel_brand = "MC";
+                } else if (cur_val.match(discover_regex)) {
+                    sel_brand = "DI";
+                } else if (cur_val.match(maestro_regex)) {
+                    if (cur_val[0] == '5') { //started 5 must be mastercard
+                        sel_brand = "MC";
+                    } else {
+                        sel_brand = "maestro"; //maestro is all 60-69 which is not something else, thats why this condition in the end
+                    }
+                }
+
+                return sel_brand;
+            }
+
+            /*function validate(){
+                var ccnumber = $('#payflow_acceptjs_cc_number').val();
+                if (!$.trim(ccnumber)) {
+                    $('#payflow_acceptjs_cc_number').parents('.field.number').append('')
+                    return false;
+                } else {
+                    return true;
+                }
+            }*/
+        } );
+    </script>
+<?php } ?>

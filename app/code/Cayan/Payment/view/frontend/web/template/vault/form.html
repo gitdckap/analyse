@@ -1,0 +1,57 @@
+<!--
+/**
+ * Cayan Payments
+ *
+ * @package Cayan\Payment
+ * @author Igor Miura
+ * @author Joseph Leedy
+ * @copyright Copyright (c) 2017 Cayan (https://cayan.com/)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+-->
+<div class="payment-method" css="'_active': (getId() === isChecked())">
+    <div class="payment-method-title field choice" style="border-style: none !important;">
+        <div class="label" data-bind="attr: {'for': getId()}">
+            <div style="float: none; margin-left: 8px; margin-bottom: 10px;">
+                <input type="radio"
+                       name="payment[method]"
+                       class="radio"
+                       data-bind="
+                    attr: {'id': getId()},
+                    value: getId(),
+                    click: selectPaymentMethod,
+                    checked: isChecked,
+                    visible: isRadioButtonVisible()"/>
+                <span class="card-text" style="font-weight: bolder;" data-bind="text: getTitle()"></span>
+            </div>
+            <div style="float: left; margin-left: 28px;">
+                <img data-bind="attr: { src: getImage() }" style="width: 50px; height: 32px;" alt="Card Flag" />
+            </div>
+            <div style="float: left; margin-left: 8px;">
+                <p style="margin: 0; font-size: 10px;"><strong data-bind="text: getMaskedCard()"></strong></p>
+                <p style="margin: 0; font-size: 10px;" data-bind="text: getHolderName()"></p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="payment-method-content">
+        <each args="getRegion('messages')" render=""></each>
+        <div class="checkout-agreements-block">
+            <!-- ko foreach: $parent.getRegion('before-place-order') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="action primary checkout"
+                        type="submit"
+                        data-bind="
+                            click: placeOrder,
+                            attr: {title: $t('Place Order')}">
+                    <span translate="'Place Order'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

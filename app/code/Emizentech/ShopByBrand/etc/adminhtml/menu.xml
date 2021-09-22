@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Emizentech. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../app/code/Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Emizentech_ShopByBrand::parent"
+             title="Shopbybrand"
+             module="Emizentech_ShopByBrand"
+             translate="title"
+             sortOrder="10"
+             parent="DCKAP_Extension::parent"
+             resource="Emizentech_ShopByBrand::parent"/>
+        <add id="emizentech::base" title="Shopbybrand" module="Emizentech_ShopByBrand" sortOrder="21" resource="Emizentech_ShopByBrand::sample" parent="Emizentech_ShopByBrand::parent" action="emizentech_shopbybrand/items/"/>
+<!--         <add id="emizentech_shopbybrand::shopbybrand" title="Brands" module="Emizentech_ShopByBrand" sortOrder="10" parent="emizentech::base" action="emizentech_shopbybrand/items/" resource="Emizentech_ShopByBrand::items"/> -->
+    </menu>
+</config>

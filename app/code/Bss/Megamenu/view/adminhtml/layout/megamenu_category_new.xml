@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_MegaMenu
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2016-2017 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Bss\Megamenu\Block\Adminhtml\Category\Edit" name="bss_blog_comment_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Bss\Megamenu\Block\Adminhtml\Category\Edit\Tabs" name="bss_blog_comment_tabs">
+                <block class="Bss\Megamenu\Block\Adminhtml\Category\Edit\Tab\General" name="bss_megamenu_new_tab_general"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">general</argument>
+                    <argument name="block" xsi:type="string">bss_megamenu_new_tab_general</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

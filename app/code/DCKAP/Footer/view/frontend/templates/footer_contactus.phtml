@@ -1,0 +1,15 @@
+<?php
+$name = $block->getConfig('general/store_information/name');
+$address1 = $block->getConfig('general/store_information/street_line1');
+$address2 = $block->getConfig('general/store_information/street_line2');
+$state = $block->getRegionCode($block->getConfig('general/store_information/region_id'));
+$city = $block->getConfig('general/store_information/city');
+$zip = $block->getConfig('general/store_information/postcode');
+$phonenumber = $block->getConfig('general/store_information/phone');
+$email=$block->getConfig('trans_email/ident_general/email');
+?>
+<address><?=$name?></address><br>
+<address><?=$address1.', '.$address2;?></address><br>
+<address><?=$city.', '.$state.' '.$zip;?></address><br><br>
+<address><?=$phonenumber;?></address>
+<p><a href="mailto:<?=$email;?>"><?=$email;?></a></p>

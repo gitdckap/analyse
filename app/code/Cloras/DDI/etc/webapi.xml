@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route method="POST" url="/V1/cloras/shipto/update">
+        <service class="Cloras\DDI\Api\ShiptoInterface" method="updateShipTos"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+    <route method="GET" url="/V1/cloras/customer/list">
+        <service class="Cloras\DDI\Api\ShiptoInterface" method="getAllCustomers"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+    <route method="POST" url="/V1/cloras/shipto/default">
+        <service class="Cloras\DDI\Api\ShiptoInterface" method="setupShipTo"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+</routes>

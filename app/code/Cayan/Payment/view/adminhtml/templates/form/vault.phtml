@@ -1,0 +1,38 @@
+<?php
+/**
+ * Cayan Payments
+ *
+ * @package Cayan\Payment
+ * @author Igor Miura
+ * @author Joseph Leedy
+ * @copyright Copyright (c) 2017 Cayan (https://cayan.com/)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+
+use Magento\Vault\Model\Ui\TokenUiComponentProviderInterface;
+
+/** @var \Cayan\Payment\Block\Vault $block */
+$details = $block->getData(TokenUiComponentProviderInterface::COMPONENT_DETAILS);
+$id = $block->escapeHtml($block->getData('id'));
+?>
+<div data-mage-init='{
+        "Cayan_Payment/js/vault": {
+            "container": "payment_<?php /* @noEscape */ echo $id; ?>",
+            "publicHash": "<?php echo $block->escapeHtml($block->getData(TokenUiComponentProviderInterface::COMPONENT_PUBLIC_HASH)); ?>",
+            "code": "<?php echo $block->escapeHtml($block->getData('code')); ?>",
+            "nonceUrl": "<?php echo $block->escapeUrl($block->getData('nonceUrl')); ?>"
+        }
+    }' id="payment_<?php /* @noEscape */ echo $id;?>" class="admin__field" style="margin-top: 16px;">
+    <div class="admin__field-control control">
+        <div style="float: left; margin-top: 10px;">
+            <input type="radio" id="token_switcher_<?php /* @noEscape */ echo $id; ?>" name="payment[token_switcher]"/>
+        </div>
+        <div style="float: left; margin-left: 8px;">
+            <img src="<?= $block->getFlagImage(intval($details['type'])) ?>" style="width: 50px; height: 32px;" alt="Card Flag" />
+        </div>
+        <div style="float: left; margin-left: 8px;">
+            <p style="margin: 0; font-size: 10px;"><strong><?= $block->escapeHtml($details['maskedCC']); ?></strong></p>
+            <p style="margin: 0; font-size: 10px;"><?= $block->escapeHtml($details['CardHolder']); ?></p>
+        </div>
+    </div>
+</div>

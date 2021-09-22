@@ -1,0 +1,29 @@
+{
+  "name": "DCKAP/DisableAddToCart",
+  "description": "This extension allows you to disable Add to cart button for guest. Useful feature for B2B store.",
+  "keywords": ["magento2", "b2b", "disable Add to cart button"],
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ],
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Vignesh Bala",
+      "email": "vignesvaranb@dckap.com"
+    }
+  ],
+  "require": {
+    "php": "~7.0|~7.1|~7.2"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "DCKAP\\DisableAddToCart\\": ""
+    }
+  },
+  "minimum-stability": "dev"
+}

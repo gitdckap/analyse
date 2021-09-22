@@ -1,0 +1,345 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cayan Payments
+ *
+ * @package Cayan\Payment
+ * @author Igor Miura
+ * @author Joseph Leedy
+ * @copyright Copyright (c) 2017 Cayan (https://cayan.com/)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Begin of Cayan Credit Card Integration -->
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="CayanCcFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Cayan\Payment\Model\Ui\CreditCardConfigProvider::METHOD_CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Cayan\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Cayan\Payment\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">CayanCcValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">CayanCcValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">CayanCcCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <!-- CayanCc Handler Pool. This pool enables you to set payment configuration that is based on certain conditions. -->
+    <virtualType name="CayanCcValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">CayanCcConfigValueHandler</item>
+                <item name="can_void" xsi:type="string">Cayan\Payment\Gateway\Config\Credit\CanVoidHandler</item>
+                <item name="can_cancel" xsi:type="string">Cayan\Payment\Gateway\Config\Credit\CanVoidHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Configuration reader -->
+    <virtualType name="HtmlConverterZendClient" type="Magento\Payment\Gateway\Http\Client\Soap">
+        <arguments>
+            <argument name="converter" xsi:type="object">Magento\Payment\Gateway\Http\Converter\HtmlFormConverter</argument>
+            <argument name="logger" xsi:type="object">cayanLogger</argument>
+        </arguments>
+    </virtualType>
+    <!-- Credit Card Config -->
+    <type name="Cayan\Payment\Gateway\Config\Credit\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Cayan\Payment\Model\Ui\CreditCardConfigProvider::METHOD_CODE</argument>
+        </arguments>
+    </type>
+    <!-- The Config Handler of CayanCc Handler Pool -->
+    <virtualType name="CayanCcConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">Cayan\Payment\Gateway\Config\Credit\Config</argument>
+        </arguments>
+    </virtualType>
+    <!-- Validator Pool for CayanCcFacade. This validator pool validates the payment data -->
+    <virtualType name="CayanCcValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">Cayan\Payment\Gateway\Validator\CountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- The command pool for CayanCcFacade. Here is implemented all integration commands -->
+    <virtualType name="CayanCcCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">CayanCcAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">CayanCcCaptureStrategyCommand</item>
+                <item name="vault_authorize" xsi:type="string">CayanCcVaultAuthorizeCommand</item>
+                <item name="vault_sale" xsi:type="string">CayanCcVaultCaptureCommand</item>
+                <item name="refund" xsi:type="string">CayanCcRefundCommand</item>
+                <item name="void" xsi:type="string">CayanCcVoidCommand</item>
+                <item name="cancel" xsi:type="string">CayanCcVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- CayanCC Commands -->
+    <!-- Void Command -->
+    <virtualType name="CayanCcVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="client" xsi:type="object">Cayan\Payment\Gateway\Credit\Http\Client\TransactionVoid</argument>
+            <argument name="requestBuilder" xsi:type="object">CayanCcVoidRequestBuilder</argument>
+            <argument name="handler" xsi:type="object">Cayan\Payment\Gateway\Credit\Response\VoidHandler</argument>
+            <argument name="validator" xsi:type="object">Cayan\Payment\Gateway\Credit\Validator\ResponseValidator</argument>
+            <argument name="transferFactory" xsi:type="object">Cayan\Payment\Gateway\Credit\Http\TransferFactory</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CayanCcVoidRequestBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="credentials" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\CredentialsDataBuilder</item>
+                <item name="request" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\Void\RequestDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- END Void Command -->
+    <!-- Authorize -->
+    <virtualType name="CayanCcAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">CayanCcAuthorizeRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Cayan\Payment\Gateway\Credit\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Cayan\Payment\Gateway\Credit\Http\Client\TransactionSale</argument>
+            <argument name="handler" xsi:type="object">CayanCcAuthorizationHandler</argument>
+            <argument name="validator" xsi:type="object">Cayan\Payment\Gateway\Credit\Validator\ResponseValidator</argument>
+        </arguments>
+    </virtualType>
+    <!-- Capture -->
+    <virtualType name="CayanCcCaptureStrategyCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">CayanCcCaptureRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Cayan\Payment\Gateway\Credit\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Cayan\Payment\Gateway\Credit\Http\Client\TransactionSale</argument>
+            <argument name="handler" xsi:type="object">CayanCcCaptureHandler</argument>
+            <argument name="validator" xsi:type="object">Cayan\Payment\Gateway\Credit\Validator\ResponseValidator</argument>
+        </arguments>
+    </virtualType>
+    <!-- Refund -->
+    <virtualType name="CayanCcRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="client" xsi:type="object">Cayan\Payment\Gateway\Credit\Http\Client\TransactionRefund</argument>
+            <argument name="requestBuilder" xsi:type="object">CayanCcRefundRequest</argument>
+            <argument name="handler" xsi:type="object">Cayan\Payment\Gateway\Credit\Response\RefundHandler</argument>
+            <argument name="validator" xsi:type="object">Cayan\Payment\Gateway\Credit\Validator\ResponseValidator</argument>
+            <argument name="transferFactory" xsi:type="object">Cayan\Payment\Gateway\Credit\Http\TransferFactory</argument>
+        </arguments>
+    </virtualType>
+    <!-- Cayan Cc Authorize Request (CayanCcAuthorizeCommand) -->
+    <virtualType name="CayanCcAuthorizeRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="credentials" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\CredentialsDataBuilder</item>
+                <item name="payment" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\PaymentDataBuilder</item>
+                <item name="request" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\RequestDataBuilder</item>
+                <item name="vault" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\VaultDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Cayan Cc Capture Request (CayanCcCaptureRequest) -->
+    <virtualType name="CayanCcCaptureRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="credentials" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\CredentialsDataBuilder</item>
+                <item name="payment" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\Capture\PaymentDataBuilder</item>
+                <item name="request" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\Capture\RequestDataBuilder</item>
+                <item name="vault" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\VaultDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Cayan CC Authorization handler (CayanCcAuthorizationHandler) -->
+    <virtualType name="CayanCcAuthorizationHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="payment_details" xsi:type="string">Cayan\Payment\Gateway\Credit\Response\PaymentDetailsHandler</item>
+                <item name="vault_details" xsi:type="string">Cayan\Payment\Gateway\Credit\Response\VaultHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Cayan CC Capture handler (CayanCcCaptureHandler) -->
+    <virtualType name="CayanCcCaptureHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="payment_details" xsi:type="string">Cayan\Payment\Gateway\Credit\Response\PaymentDetailsHandler</item>
+                <item name="transaction" xsi:type="string">Cayan\Payment\Gateway\Credit\Response\TransactionHandler</item>
+                <item name="vault_details" xsi:type="string">Cayan\Payment\Gateway\Credit\Response\VaultHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Refund Request -->
+    <virtualType name="CayanCcRefundRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="credentials" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\CredentialsDataBuilder</item>
+                <item name="payment" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\Refund\PaymentDataBuilder</item>
+                <item name="request" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\Refund\RequestDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- End of Cayan Credit Card Integration -->
+    <!-- Begin of Cayan Vault Integration -->
+    <virtualType name="CayanCcVaultPaymentConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Cayan\Payment\Model\Ui\CreditCardConfigProvider::METHOD_VAULT_CODE</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CayanCcVaultPaymentValueHandler" type="VaultPaymentDefaultValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">CayanCcVaultPaymentConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CayanCcVaultPaymentValueHandlerPool" type="VaultPaymentValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">CayanCcVaultPaymentValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CayanCcVaultFacade" type="Magento\Vault\Model\Method\Vault">
+        <arguments>
+            <argument name="config" xsi:type="object">CayanCcVaultPaymentConfig</argument>
+            <argument name="valueHandlerPool" xsi:type="object">CayanCcVaultPaymentValueHandlerPool</argument>
+            <argument name="vaultProvider" xsi:type="object">CayanCcFacade</argument>
+            <argument name="code" xsi:type="const">Cayan\Payment\Model\Ui\CreditCardConfigProvider::METHOD_VAULT_CODE</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CayanCcVaultAuthorizeRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="credentials" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\CredentialsDataBuilder</item>
+                <item name="payment" xsi:type="string">Cayan\Payment\Gateway\Vault\Request\PaymentDataBuilder</item>
+                <item name="request" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\RequestDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CayanCcVaultAuthorizationHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="payment_details" xsi:type="string">Cayan\Payment\Gateway\Credit\Response\PaymentDetailsHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CayanCcVaultAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">CayanCcVaultAuthorizeRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Cayan\Payment\Gateway\Credit\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Cayan\Payment\Gateway\Vault\Http\Client\TransactionSale</argument>
+            <argument name="handler" xsi:type="object">CayanCcVaultAuthorizationHandler</argument>
+            <argument name="validator" xsi:type="object">Cayan\Payment\Gateway\Credit\Validator\ResponseValidator</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CayanCcVaultCaptureRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="credentials" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\CredentialsDataBuilder</item>
+                <item name="payment" xsi:type="string">Cayan\Payment\Gateway\Vault\Request\Capture\PaymentDataBuilder</item>
+                <item name="request" xsi:type="string">Cayan\Payment\Gateway\Credit\Request\Capture\RequestDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CayanCcVaultCaptureHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="payment_details" xsi:type="string">Cayan\Payment\Gateway\Credit\Response\PaymentDetailsHandler</item>
+                <item name="transaction" xsi:type="string">Cayan\Payment\Gateway\Credit\Response\TransactionHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CayanCcVaultCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">CayanCcVaultCaptureRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Cayan\Payment\Gateway\Credit\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Cayan\Payment\Gateway\Vault\Http\Client\TransactionSale</argument>
+            <argument name="handler" xsi:type="object">CayanCcVaultCaptureHandler</argument>
+            <argument name="validator" xsi:type="object">Cayan\Payment\Gateway\Credit\Validator\ResponseValidator</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CayanCcCommandManager" type="Magento\Payment\Gateway\Command\CommandManager">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">CayanCcCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Payment\Gateway\Command\CommandManagerPool">
+        <arguments>
+            <argument name="executors" xsi:type="array">
+                <item name="cayancc" xsi:type="string">CayanCcCommandManager</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- End of Cayan Vault Integration -->
+    <!--Logging-->
+    <type name="Cayan\Payment\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">cayan</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="1" xsi:type="object">Cayan\Payment\Logger\Handler\ErrorHandler</item>
+                <item name="2" xsi:type="object">Cayan\Payment\Logger\Handler\DebugHandler</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Cayan\Payment\Model\Framework\Context" type="Magento\Framework\Model\Context">
+        <arguments>
+            <argument name="logger" xsi:type="object">Cayan\Payment\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
+    <type name="Cayan\Payment\Controller\Payment\Nonce">
+        <arguments>
+            <argument name="logger" xsi:type="object">Cayan\Payment\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Cayan\Payment\Gateway\Credit\Http\Client\TransactionSale">
+        <arguments>
+            <argument name="logger" xsi:type="object">Cayan\Payment\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Cayan\Payment\Gateway\Credit\Http\Client\TransactionVoid">
+        <arguments>
+            <argument name="logger" xsi:type="object">Cayan\Payment\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Cayan\Payment\Gateway\Credit\Http\Client\TransactionRefund">
+        <arguments>
+            <argument name="logger" xsi:type="object">Cayan\Payment\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Cayan\Payment\Gateway\Vault\Http\Client\TransactionSale">
+        <arguments>
+            <argument name="logger" xsi:type="object">Cayan\Payment\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Cayan\Payment\Model\Vault\Token">
+        <arguments>
+            <argument name="logger" xsi:type="object">Cayan\Payment\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Cayan\Payment\Observer\GiftCard\CancelOrder">
+        <arguments>
+            <argument name="logger" xsi:type="object">Cayan\Payment\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Cayan\Payment\Gateway\Credit\Response\VaultHandler">
+        <arguments>
+            <argument name="logger" xsi:type="object">Cayan\Payment\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Cayan\Payment\Model\Helper\Discount">
+        <arguments>
+            <argument name="context" xsi:type="object">Cayan\Payment\Model\Framework\Context</argument>
+        </arguments>
+    </type>
+    <type name="Cayan\Payment\Model\Api\Card\Api">
+        <arguments>
+            <argument name="context" xsi:type="object">Cayan\Payment\Model\Framework\Context</argument>
+        </arguments>
+    </type>
+    <type name="Cayan\Payment\Model\Api\Credit\Api">
+        <arguments>
+            <argument name="context" xsi:type="object">Cayan\Payment\Model\Framework\Context</argument>
+        </arguments>
+    </type>
+    <!--/Logging-->
+    <!--Plug-ins-->
+    <type name="Magento\Vault\Api\PaymentTokenRepositoryInterface">
+        <plugin name="cayanPaymentTokenRepository" type="Cayan\Payment\Plugin\PaymentTokenRepositoryPlugin"/>
+    </type>
+    <!--/Plug-ins-->
+</config>

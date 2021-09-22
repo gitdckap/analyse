@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <!--<add id="Dckap_CsvConverter::parent" title="CsvConverter" module="Dckap_CsvConverter" sortOrder="50" resource="Dckap_CsvConverter::parent"/>-->
+        <add id="Dckap_CsvConverter::parent"
+             title="CsvConverter"
+             module="Dckap_CsvConverter"
+             translate="title"
+             sortOrder="3"
+             parent="DCKAP_Extension::parent"
+             resource="Dckap_CsvConverter::parent"/>
+        <add id="Dckap_CsvConverter::index" title="Attribute CsvConverter" module="Dckap_CsvConverter" sortOrder="10" action="csvconverter/index" resource="Dckap_CsvConverter::index" parent="Dckap_CsvConverter::parent"/>
+        <add id="Dckap_CsvConverter::product" title="Product CsvConverter" module="Dckap_CsvConverter" sortOrder="10" action="csvconverter/product" resource="Dckap_CsvConverter::product" parent="Dckap_CsvConverter::parent"/>
+        <add id="Dckap_CsvConverter::attachment" title="Attachment CsvConverter" module="Dckap_CsvConverter" sortOrder="10" action="csvconverter/attachment" resource="Dckap_CsvConverter::attachment" parent="Dckap_CsvConverter::parent"/>
+        <add id="Dckap_CsvConverter::video" title="Video CsvConverter" module="Dckap_CsvConverter" sortOrder="10" action="csvconverter/video" resource="Dckap_CsvConverter::video" parent="Dckap_CsvConverter::parent"/>
+    </menu>
+</config>

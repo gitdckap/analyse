@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   DCKAP
+ * @package    DCKAP_Logo
+ * @website    http://www.dckap.com
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="dckap" translate="label" sortOrder="200">
+            <label>DCKAP</label>
+        </tab>
+        <section id="dckapextension" showInDefault="1" showInWebsite="1" showInStore="0">
+            <tab>dckap</tab>
+            <group id="BitExpert_ForceCustomerLogin" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Guest User Settings</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Guest User Restriction</label>
+                    <comment>If Yes, Guest user not able to browse the catalog.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                 <field id="price_display" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Price for Guest</label>
+                    <comment>Configures if the price is enabled for guest users</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="dckapextension/BitExpert_ForceCustomerLogin/enabled">0</field>
+                    </depends>
+                </field>
+                <field id="stock_display" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Stock for Guest</label>
+                    <comment>Configures if the stock is enabled for guest users</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="dckapextension/BitExpert_ForceCustomerLogin/enabled">0</field>
+                    </depends>
+                </field>
+                  <field id="url" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Target URL</label>
+                    <comment>Configures the target for redirecting, if whitelist rules do not match</comment>
+                    <depends>
+                        <field id="dckapextension/BitExpert_ForceCustomerLogin/enabled">1</field>
+                    </depends>
+                </field>
+                <field id="is_b2c" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Guest User Registration During checkout</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="ddi_shitpto_price" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Shipto Based Price</label>
+                <field id="shitpto_price" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Shipto Based Price</label>
+                    <comment>When enabled, the shipto based product price will be displayed.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+             <group id="ddi_akeneo_sync_setting" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Akeneo Sync Configuration</label>
+                <field id="ddi_akeneo_visibility" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Preserve Visibility</label>
+                    <comment> If No, Akeneo will overwrite Magento product Visibility (Not Visible Individually, Catalog, Search, Catalog and Search).</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                 <field id="ddi_akeneo_status" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Preserve Status </label>
+                    <comment>If No, Akeneo will overwrite Magento product Status (Enable/Disable).</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+             <label>DDI ERP Settings</label>
+            <resource>Magento_Config::config</resource>
+            <group id="ddi_branch" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>ERP Branch</label>
+                <field id="branch_code" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Branch Code</label>
+                    <comment>Enter default branch code from ERP, otherwise it use 01 as default.</comment>
+                </field>
+            </group>
+            <group id="ddi_tagline" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Header Settings</label>
+                <field id="default_tagline" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Top bar text</label>
+                </field>
+                <field id="default_callus" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Call us Number</label>
+                </field>
+                <field id="default_callus_text" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Call us Text</label>
+                </field>
+                <field id="working_time" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Working Time</label>
+                    <comment>Text should like, Monday-Friday 8AM - 6PM</comment>
+                </field>
+            </group>
+
+            <group id="dckap_inventory" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product Page Settings</label>
+                <field id="enable_inventory_location" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Product Availability</label>
+                    <comment>Configures the customer can view product availability</comment>
+                    <source_model>DCKAP\Extension\Model\Yesno</source_model>
+                </field>
+                <field id="detail_title" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display title in detail tab</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="display_review" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Reviews</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <group id="dckap_checkout" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Checkout Settings</label>
+                <field id="disable_checkout" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable checkout if $0 item added in cart</label>
+                    <comment>If any product in the cart has $0.00 then checkout button is not shown</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <group id="dckap_delivery" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Expected Delivery Date</label>
+                <field id="enable_deliverydate" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Delivery Date</label>
+                    <comment>Configures if the delivery date is shown in checkout</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <group id="ddi_shipto" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Ship-to Location settings</label>
+                <field id="default_shipto" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Require Ship-To Select for Order Pad</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <group id="ddi_payinvoice" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Pay Invoice Settings</label>
+                <field id="default_payment" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Select default payment method for PayInvoice</label>
+                    <source_model>DCKAP\Extension\Model\Payment</source_model>
+                </field>
+            </group>
+
+            <group id="ddi_log" translate="label" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Enable Logger</label>
+                 <field id="default_logger" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Logger</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <group id="ddi_pickupcustomize" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Pickup Delivery Option</label>
+                <field id="pickup_date" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Pickup Date</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="pickup_required" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Required Field</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="dckapextension/ddi_pickupcustomize/pickup_date">1</field>
+                    </depends>
+                </field>
+                <field id="disable_dates" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Lead Time</label>
+                     <comment>No of days starting from current date</comment>
+                     <depends>
+                        <field id="dckapextension/ddi_pickupcustomize/pickup_date">1</field>
+                    </depends>
+                </field>
+                <field id="enable_saturday" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Saturday</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="dckapextension/ddi_pickupcustomize/pickup_date">1</field>
+                    </depends>
+                </field>
+                <field id="enable_sunday" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Sunday</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="dckapextension/ddi_pickupcustomize/pickup_date">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

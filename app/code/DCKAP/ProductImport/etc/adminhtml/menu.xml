@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!--<add id="Dckap_ProductImport::productimport" title="Product Import" module="Dckap_ProductImport" resource="Dckap_ProductImport::productimport" sortOrder="50"/>-->
+        <add id="Dckap_ProductImport::productimport"
+             title="Product Import"
+             module="Dckap_ProductImport"
+             sortOrder="2"
+             parent="DCKAP_Extension::parent"
+             resource="Dckap_ProductImport::productimport"/>
+        <add id="Dckap_ProductImport::attributeimport" title="Manage AttributeImport" module="Dckap_ProductImport" sortOrder="30" action="productimport/attributeimport"
+             parent="Dckap_ProductImport::productimport" resource="Dckap_ProductImport::productimport"/>
+        <add id="Dckap_ProductImport::videoimport" title="Manage VideoImport" module="Dckap_ProductImport" sortOrder="30" action="productimport/videoimport"
+             parent="Dckap_ProductImport::productimport" resource="Dckap_ProductImport::productimport"/>
+        <!-- <add id="Dckap_ProductImport::settings" title="Settings" module="Dckap_ProductImport" sortOrder="40" action="adminhtml/system_config/edit/section/pwa"
+             parent="Dckap_ProductImport::productimport" resource="Dckap_ProductImport::settings"/> -->
+    </menu>
+</config>

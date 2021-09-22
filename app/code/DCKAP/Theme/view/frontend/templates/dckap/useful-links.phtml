@@ -1,0 +1,23 @@
+<?php
+/** @var Dckap\Theme\Block\UsefulLinks $block */
+$links = $block->getFooterUsefulLinks(); ?>
+<?php if ($links): ?>
+    <div class="footer_links">
+        <div class="block">
+            <h3><?= $block->escapeHtml(__('Useful Links')); ?></h3>
+            <ul class="useful-links">
+                <?php foreach ($links as $link):
+                        $useful_title = $link['useful_link_name'];
+                        $useful_href = $link['useful_link_href'];
+                    ?>
+                    <li>
+ <a href="<?= $block->escapeUrl($block->getUrl($useful_href)); ?>" title="<?= $block->escapeHtml($useful_title); ?>">
+                            <?= $block->escapeHtml(ucwords($link['useful_link_name'])); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+<?php endif; ?>
+

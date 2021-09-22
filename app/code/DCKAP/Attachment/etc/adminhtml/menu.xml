@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <!--<add id="Dckap_Attachment::parent" title="Product Attachments" module="Dckap_Attachment" sortOrder="50" resource="Dckap_Attachment::parent"/>-->
+
+        <add id="Dckap_Attachment::parent"
+             title="Product Attachments"
+             module="Dckap_Attachment"
+             sortOrder="1"
+             parent="DCKAP_Extension::parent"
+             resource="Dckap_Attachment::parent"/>
+
+		<add id="Dckap_Attachment::pdfsection" title="Attachment Section" module="Dckap_Attachment" sortOrder="10" parent="Dckap_Attachment::parent" action="attachment/pdfsection" resource="Dckap_Attachment::pdfsection"/>
+
+<add id="Dckap_Attachment::pdfattachment" title="Product Attachments" module="Dckap_Attachment" sortOrder="20" parent="Dckap_Attachment::parent" action="attachment/pdfattachment" resource="Dckap_Attachment::pdfattachment"/>
+
+        <add id="Dckap_Attachment::index" title="Attachment Import" module="Dckap_Attachment" sortOrder="30" action="attachment/index" resource="Dckap_Attachment::index" parent="Dckap_Attachment::parent"/>
+
+    </menu>
+</config>

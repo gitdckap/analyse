@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © DCKAP Inc. All rights reserved.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.wrapper">
+            <container name="multiaccount.header.container" as="multiaccount_header_container" label="Multiaccount Page Header Container" htmlTag="header" htmlClass="page-header" before="main.content">
+                <container name="multiaccount.header.wrapper" label="Multiaccount Login Page Header" as="multiaccount_header_wrapper" htmlTag="div" htmlClass="header content"/>
+            </container>
+        </referenceContainer>
+        <move element="logo" destination="multiaccount.header.wrapper"/>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="login-as-customer-with-multi-account" template="Mageplaza_LoginAsCustomer::login-as-customer.phtml" />
+        </referenceContainer>
+        <referenceContainer name="header.container" remove="true"/>
+        <referenceBlock name="navigation.sections" remove="true" />
+        <referenceContainer name="footer-container" remove="true"/>
+        <referenceContainer name="copyright" remove="true"/>
+    </body>
+</page>

@@ -1,0 +1,36 @@
+.giftcard-fieldset{
+    padding: 0;
+    border: none;
+}
+.giftcode-error{
+    color: #fa1212;
+    font-weight: bolder;
+}
+.giftcard-fieldset > label{
+    font-weight: bolder;
+}
+.input-giftcode{
+    margin-top: 8px;
+    width: 154px;
+}
+.submit-giftcard, .check-available-amount{
+    border-radius: 0;
+    border: 1px solid;
+    padding: 10px;
+    margin-top: 10px;
+    color: #000000;
+    background: #ffffff;
+    font-weight: bolder;
+}
+.giftcard-totals .value, .giftcard-totals .title, .giftcard-totals .remove {
+    font-weight: bolder !important;
+}
+.available-amount {
+    display: block;
+    font-weight: normal;
+    font-size: 12px;
+    padding: 4px 0 0 0;
+}
+.loading-image{
+    text-align: center;
+}

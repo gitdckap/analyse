@@ -1,0 +1,526 @@
+<?php
+/**
+ * @author     DCKAP <extensions@dckap.com>
+ * @package    DCKAP_Shoppinglist
+ * @copyright  Copyright (c) 2016 DCKAP Inc (http://www.dckap.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<div data-role="pannel">
+<form class="form form-login" action="<?php echo $block->getUrl('shoppinglist/index/addlist');?>" method="post" id="shoppinglist-form">
+  <fieldset class="fieldset add-shopping-list-form">
+    <?php echo $block->getBlockHtml('formkey'); ?>
+    <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Add New Shopping List');?></span></legend>
+
+    <div class="field required">
+      <label class="label" for="shopping_list_name"><span><?php /* @escapeNotVerified */ echo __('Create New Shopping List:');?></span></label>
+      <div class="control">
+        <input name="shopping_list_name" value="" id="shopping_list_name" type="text" class="input-text" title="<?php /* @escapeNotVerified */ echo __('Shopping List Name') ?>" data-validate="{required:true}" placeholder="Enter a Name For Your List" />
+      </div>
+    </div>
+
+    <div class="actions-toolbar">
+      <div class="primary">
+        <button type="submit" class="action login primary" name="send" id="send2"><span><?php /* @escapeNotVerified */ echo __('Add To List');?></span></button>    
+      </div>
+    </div>
+  </fieldset>
+</form>
+
+<?php $collection = $block->getShoppinglist(); ?>
+<?php if (!empty($collection)) { ?>
+    <form name="shoppinglist-groupname" id="shoppinglist-groupname" method="post" action="<?php echo $block->getUrl('shoppinglist/index/index');?>">
+    <fieldset class="fieldset shopping-list-form">
+
+      <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Shopping List');?></span></legend>
+
+      <div class="field required">
+        <label class="label" for="shopping_list_id"><span><?php /* @escapeNotVerified */ echo __('Customer shopping list:');?></span></label>
+
+        <div class="control">
+
+          <select name="shopping_list_id" id="shopping_list_id" title="<?php echo __('Shopping List'); ?>" data-validate="{required:true}">
+            <?php
+              $shopping_list_id = $block->getShoppinglistId();
+            for ($i=0; $i<count($collection); $i++) {
+                if (!$shopping_list_id) {
+                    $shopping_list_id = $collection[$i]['list_id'];
+                }
+                ?>
+                <option value="<?php echo $collection[$i]['list_id'];?>" <?php if ($collection[$i]['list_id']==$shopping_list_id) {
+                    echo "selected";
+                               } ?>><?php echo $collection[$i]['list_name'];?></option>
+                <?php
+            }
+            ?>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions-toolbar">
+        <div class="primary">
+          <button type="submit" class="action login primary" name="send" id="send2"><span><?php /* @escapeNotVerified */ echo __('Submit');?></span></button>
+        </div>
+      </div>
+    </fieldset>
+    </form>
+<?php } ?>
+
+<?php if (!empty($collection)): ?>
+  <form class="form form-login" action="<?php echo $block->getUrl('shoppinglist/index/addproducttocart');?>" method="post" id="shoppinglist-form-add" >
+    <?php echo $block->getBlockHtml('formkey'); ?>
+
+    <div class="table-wrapper">
+      <table id="shopping_item_table" class="product_list_table data table">
+        <thead>
+          <tr class="prouct-tabel">
+            <th scope="col" class="col image"><?php echo __('Image');?></th>            
+            <th scope="col" class="col name"><?php echo __('Name');?></th>
+            <th scope="col" class="col sku"><?php echo __('SKU');?></th>
+            <th scope="col" class="col qty"><?php echo __('Quantity');?></th>
+            <th scope="col" class="col add-to-cart"><?php echo __('Add to Cart');?></th>
+            <th scope="col" class="col remove-btn"><?php echo __('Remove');?></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <?php $productCollection = $block->getShoppinglistProduct($shopping_list_id);?>
+          <?php if (!empty($productCollection)): ?>
+                <?php foreach ($productCollection as $key => $product): ?>
+                    <?php $prodctInfo = $block->getProductInfo($product['product_id']); ?>
+                    <?php if ($prodctInfo == null) {
+                        continue;
+                    } ?>
+              <tr>
+                <td data-th="<?php echo __('Image');?>" class="col image">
+                  <img src="<?php echo $block->getProductImage($prodctInfo);?>" />
+                </td>
+
+                <td data-th="<?php echo __('Name');?>" class="col name">
+
+                  <div class="product-item-details">
+                    <strong class="product-item-name">
+                      <a href="<?php echo $prodctInfo->getUrlModel()->getUrl($prodctInfo).'?slid='.$product['shopping_list_item_id']; ?>"><?php echo $prodctInfo->getName(); ?></a>
+                    </strong>
+                  </div>
+
+                    <?php if ($product['value']): ?>
+                        <?php if ($product['product_type'] == 'configurable'): ?>
+                            <?php if ($_options = $block->getConfigurableOptionList($product['product_id'])):?>
+                        <dl class="item-options">
+                                <?php $values = unserialize($product['value']); ?>
+                                <?php foreach ($values['super_attribute'] as $key => $value): ?>
+                                    <?php if (array_key_exists($key, $_options)): ?>
+                              <dt><?php echo $_options[$key]['label'];?></dt>
+                                        <?php if (array_key_exists($value, $_options[$key]['data'])): ?>
+                                <dd><?php echo $_options[$key]['data'][$value];?></dd>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                        </dl>
+                            <?php endif; ?>
+
+                        <?php elseif ($product['product_type'] == 'grouped'): ?>
+                            <?php if ($_options = $block->getGroupedOptionList($product)):?>
+                        <dl class="item-options">
+                                <?php foreach ($_options as $options): ?>
+                            <dd><?php echo $options['product_name'];?></dd>
+                                <?php endforeach; ?>
+                        </dl>
+                            <?php endif; ?>
+
+                        <?php elseif ($product['product_type'] == 'bundle'): ?>
+                            <?php if ($_options = $block->getBundleOptionList($product)):?>                        
+                        <dl class="item-options bundle">
+                                <?php foreach ($_options as $options): ?>
+                            <dt><?php echo $options['option_title'];?></dt>
+                            <dd><?php echo $options['selection_qty'] . ' X ' . $options['selection_product_name'] . ' ' . $this->helper('Magento\Framework\Pricing\Helper\Data')->currency($options['selection_product_price'], true, false); ?></dd>
+                                <?php endforeach; ?>
+                        </dl>
+                            <?php endif; ?>
+
+                        <?php endif; ?>
+
+                    <?php elseif ($product['product_type'] != 'simple' && $product['product_type'] != 'virtual' && $product['product_type'] != 'downloadable'): ?>
+                    <a href="<?php echo $prodctInfo->getUrlModel()->getUrl($prodctInfo).'?slid='.$product['shopping_list_item_id'];?>"><?php echo __('Choose Option');?></a>
+
+                    <?php endif; ?>
+                  <!-- disable add to cart for out of stock products. -->
+                    <?php
+                    $addtocart = 0;
+                    if ($product['product_type'] == 'simple' || $product['product_type'] == 'virtual' || $product['product_type'] == 'downloadable') {
+                        $chkstock = $block->getProductInfo($product['product_id']);
+                        $stockstatus = $chkstock->isAvailable();
+                        if (!$stockstatus) {
+                            $addtocart = 1; ?>
+                      <span style="color: red;">Out of Stock</span>
+                        <?php }
+                    } ?>
+                </td>
+
+                <td data-th="<?php echo __('SKU');?>" class="col sku"><?php echo $prodctInfo->getSku(); ?></td>
+
+                <td data-th="<?php echo __('Quantity');?>" class="col qty">
+                    <input type="text" name="qty[<?php echo $product['shopping_list_item_id'];?>]" class="qty input-qty" value="<?php echo $product['qty']; ?>" />
+                    <input type="hidden" name="s_list_item_id" id="s_list_item_id" value="<?php echo $product['shopping_list_item_id'];?>" />
+                    <?php
+                    $uom ="EA";
+                    $dckapCatalogHelper = $this->helper('DCKAP\Catalog\Helper\Data');
+                    $erpProductData = $dckapCatalogHelper->getSessionProductData($prodctInfo->getSku());
+                    if (isset($erpProductData['lineItem']['uom']['uomCode'])) {
+                        $uom = $erpProductData['lineItem']['uom']['uomCode'];
+                    }?>
+                    <input type="hidden" name="custom_uom" class="custom_uom" value=<?php echo $uom;?> />
+                </td>
+
+                <td data-th="<?php echo __('Add to Cart');?>" class="col add-to-cart">
+                  <input type="checkbox" name="bulk[]" <?php if (!$product['value'] && $product['product_type'] != 'simple' && $product['product_type'] != 'virtual' && $product['product_type'] != 'downloadable') {
+                        ?> disabled="disabled" <?php
+                                                       } elseif ($addtocart) {
+                                                            ?> disabled="disabled" <?php
+                                                       } else {
+                                                            ?> checked="checked" <?php
+                                                       } ?> value="<?php echo $product['shopping_list_item_id'];?>" />
+                </td>
+
+                <td data-th="<?php echo __('Remove');?>" class="col remove-btn"><a href="javascript:void(0);" class="delete-ico"><span><?php echo __('Remove');?></span></a><input type="hidden" value="<?php echo $product['shopping_list_item_id'];?>" ></td>
+              </tr>
+                <?php endforeach;?>
+          <?php else: ?>
+            <tr id="error" class="empty-table"><td colspan="7"><?php echo __('There is no item for the list.');?></td></tr>
+          <?php endif;?>
+        </tbody>
+      </table>
+    </div>
+      <?php if ($pager = $block->getPagerHtml()): ?>
+          <?php echo $block->getPagerHtml(); ?>
+      <?php endif; ?>
+    <fieldset class="fieldset shopping-list-submit-form">
+      <div class="actions-toolbar">
+        <input type="hidden" name="removed_item" id="removed_item"/>
+        <input type="hidden" name="shoppinglist_id" id="shoppinglist_id" value="<?php echo $shopping_list_id;?>" />
+        <div class="primary">
+          <button type="submit" class="action login primary" name="send" id="deletelist"><span><?php echo __('Delete List');?></span></button>
+        </div>
+        <div class="primary">
+            <?php $validateUserData = $block->getValidateUserData();
+            if (isset($validateUserData['orderPadOnly']) && $validateUserData['orderPadOnly'] == 'yes') { ?>
+                <button type="button" class="action login primary" name="send" id="addtocart"><span><?php echo __('Add List to Cart');?></span></button>
+            <?php } else { ?>
+          <button type="submit" class="action login primary" name="send" id="addtocart"><span><?php echo __('Add List to Cart');?></span></button>
+            <?php } ?>
+        </div>
+          <p style="text-align: center;color:#ff0000;float: left;margin-top: 10px;" class="shopping-list-msg">(Note: Please add list to cart before leaving each page.)</p>
+      </div>
+    </fieldset>
+  </form>
+
+  <fieldset class="fieldset shopping-list-search-form">
+      <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Add Product to Shopping List');?></span></legend>
+
+      <div class="field required">
+        <label class="label" for="product_name"><span><?php /* @escapeNotVerified */ echo __('Search product by name / SKU:');?></span></label>
+        <div class="control search_field_div" id='newitem'>
+          <input name='product_name' value='' id='product_name'  type='text' class='input-text' title=''/>
+          <input type='hidden' name='product_id' id='product_id' />
+          <img src="<?php echo $block->getViewFileUrl('DCKAP_Shoppinglist::images/ring.gif');?>" class="item_loader" />
+        </div>
+      </div>
+
+      <div class="actions-toolbar">
+        <div class="primary">
+          <button type="button" class="action login primary" name="send" id="addproducttolist" disabled="disabled"><span><?php echo __('Add New Item to List');?></span></button>
+        </div>
+      </div>
+    </fieldset>
+
+<?php endif; ?>
+</div>
+
+<script type="text/javascript">
+    require(['jquery', 'Magento_Ui/js/modal/confirm', 'mage/mage'], function($, confirmation) {
+
+      var dataForm = $('#shoppinglist-form');
+      var ignore = null;
+      dataForm.mage('validation', {});
+
+      function enableAutocompletel() {
+          var cache = {};
+          var ac_min_chars = 3;
+          jQuery('.shopping-list-search-form').find('input[name="product_name"]').autocomplete({
+              minLength: ac_min_chars,
+              delay: 500,
+              html: true,
+              source: function(request, response) {
+                  var searchKeyword = request.term;
+                  if (jQuery.trim(searchKeyword) != '') {
+                      if (searchKeyword in cache) {
+                          response(cache[searchKeyword]);
+                          return;
+                      }
+                      var ac_item = this.element;
+                      ac_item.siblings('.item_loader').show(function() {
+                          $('#addproducttolist').prop('disabled', true);
+                          jQuery.ajax({
+                              cache: true,
+                              dataType: 'json',
+                              method: 'POST',
+                              url: '<?php echo $block->getUrl('shoppinglist/index/getproduct');?>',
+                              data: {
+                                  query: searchKeyword
+                              },
+                              crossDomain: false,
+                              success: function(datasuggestions) {
+                                  console.log(datasuggestions);
+                                  cache[searchKeyword] = datasuggestions;
+                                  response(datasuggestions);
+                                  ac_item.siblings('.item_loader').hide();                                  
+                              }
+                          });
+                      });
+
+                  }
+              },
+              focus: function(event, ui) {
+                  if (jQuery.trim(ui.item.value) != 'no-matches') {
+                      var itemTitle = jQuery('<textarea />').html(ui.item.label).text();
+                      jQuery(this).val(itemTitle);
+                  }
+                  return false;
+              },
+              select: function(event, ui) {
+                  if (ui.item.value == 'no-matches') {
+                      return false;
+                  }
+
+                  var ac_element = jQuery(this);          
+                  var elmParent = jQuery(this).parents('tr');
+                  var parentTd = jQuery(this).parents('td');
+                  var prodId = ui.item.value;
+                  var itemTitle = jQuery('<textarea />').html(ui.item.label).text();
+                  jQuery(this).val(itemTitle);
+                  jQuery(this).siblings('input:hidden').val(ui.item.productid);
+                  $('#addproducttolist').prop('disabled', false);
+                  return false;
+              }
+
+          }).click(function() {
+              jQuery(this).autocomplete('search');
+          });
+
+          return false;
+      }
+
+      $(document).ready(function() {
+          enableAutocompletel();
+
+          $('#shopping_list_name').on('keyup', function() {
+            if ( $(this).val().length > 30 ){
+              if($('#shopping_list_name-error').length) {
+                $('#shopping_list_name-error').html('<?php echo __('Maximum 30 charactes only.');?>');
+              } else {
+                $(this).parent().append('<div for="shopping_list_name" generated="true" class="mage-error" id="shopping_list_name-error"><?php echo __('Maximum 30 charactes only.');?></div>');
+              }
+              $(this).val(function() {
+                return $(this).val().substr(0, 30);
+              });
+            } else {
+              $("#shopping_list_name-error").remove();
+            }
+          });
+
+          /* added script to hide the page title <h1> tag */
+          $('.page-title-wrapper').hide();
+      });
+
+      $("#addproducttolist").click(function() {
+
+          if ($('#product_name').val().trim() == '') {
+
+              alert("<?php echo __('Please add any one item to add in the list');?>");
+              return false;
+
+          }
+
+          if($('#product_id').val().trim() == '') {
+            return false;
+          }
+
+          var btn = $(this);
+          btn.html('<?php echo __('Loading...');?>');
+          btn.prop('disabled', true);
+
+          $('.search_field_div .item_loader').show(function() {
+
+              jQuery.ajax({
+                  dataType: 'text',
+                  type: 'post',
+                  contentType: 'application/x-www-form-urlencoded',
+                  data: {
+                      'product_id': $('#product_id').val(),
+                      'shopping_list_id': $('#shoppinglist_id').val()
+                  },
+                  url: '<?php echo $block->getUrl('shoppinglist/index/addproducttolist');?>',
+                  crossDomain: false,
+                  success: function(data, textStatus, jQxhr) {
+
+                      var obj = jQuery.parseJSON(data);
+                      if (obj.status == 'success') {
+
+                          var html =
+                          '<tr>' +
+                            '<td data-th="<?php echo __('Image');?>" class="col image"><img src="' + obj.image + '" /></td>';
+                          
+                          html += '<td data-th="<?php echo __('Name');?>" class="col name">' +
+                              '<div class="product-item-details"><strong class="product-item-name"><a href="' + obj.product_url + '?slid=' + obj.shopping_list_item_id + '">' + obj.name + '</a></strong></div>';
+
+                          if(obj.type != 'simple' && obj.type != 'virtual' && obj.type != 'downloadable') {
+                          
+                            html += '<a href="' + obj.product_url + '?slid=' + obj.shopping_list_item_id + '"><?php echo __('Choose Option');?></a>';
+                          }
+
+                          if(obj.qtystatus){
+                            html += '<span style="color: red;">Out of Stock</span>';
+                          }
+
+                          html += '</td>' +
+                            '<td data-th="<?php echo __('SKU');?>" class="col sku">' + obj.sku + '</td>' +
+                            '<td data-th="<?php echo __('Quantity');?>" class="col qty">' +
+                              '<input type="text" name="qty[' + obj.shopping_list_item_id + ']" class="qty input-qty" value="1" />' +
+                              '<input type="hidden" name="s_list_item_id" id="s_list_item_id" value="' + obj.shopping_list_item_id + '" />' +
+                            '</td>';
+
+                          if(obj.type != 'simple' && obj.type != 'virtual' && obj.type != 'downloadable') {
+
+                            html += '<td data-th="<?php echo __('Add to Cart');?>" class="col add-to-cart">' +
+                              '<input type="checkbox" name="bulk[]" disabled="disabled" value="' + obj.shopping_list_item_id + '" />' +
+                            '</td>';
+                          
+                          } else if(obj.qtystatus){
+                            html += '<td data-th="<?php echo __('Add to Cart');?>" class="col add-to-cart">' +
+                              '<input type="checkbox" name="bulk[]" disabled="disabled" value="' + obj.shopping_list_item_id + '" />' +
+                            '</td>';
+                          } else {
+                          
+                            html += '<td data-th="<?php echo __('Add to Cart');?>" class="col add-to-cart">' +
+                              '<input type="checkbox" name="bulk[]" checked="checked" value="' + obj.shopping_list_item_id + '" />' +
+                            '</td>';
+                          
+                          }
+
+                          html += '<td data-th="<?php echo __('Remove');?>" class="col remove-btn">' +
+                              '<a href="javascript:void(0);" class="delete-ico"><span><?php echo __('Remove');?></span></a><input type="hidden" value="' + obj.shopping_list_item_id + '" >' +
+                            '</td>' +
+                          '</tr>';
+
+                          if($('#error').html() != undefined) {
+                            $("#error").remove();
+                            $('#shopping_item_table tbody').html(html);
+                          } else {
+                            $('#shopping_item_table tr:last').after(html);
+                          }
+                          $('#product_name').val('');
+                          $('#product_id').val('');
+                          btn.prop('disabled', true);
+
+                      } else if (obj.status == 'fail') {
+
+                          alert(obj.message);
+                          $('#product_name').val('');
+                          $('#product_id').val('');
+                          btn.prop('disabled', false);
+
+                      } else {
+                          $('#product_name').val('');
+                          $('#product_id').val('');
+                          btn.prop('disabled', false);
+                      }
+                      $('.search_field_div .item_loader').hide();
+                      btn.html('<?php echo __('Add New Item to List');?>');                      
+                  }
+              });
+          });
+
+      });
+
+        $('body').on('click', '.delete-ico', function() {
+
+            $(this).parent().parent().remove();
+            delid = $(this).next().val();
+
+            var rowCount = $('#shopping_item_table tr').length;
+            if(rowCount <= 1) {
+                $('#shopping_item_table tbody').html('<tr id="error" class="empty-table"><td colspan="7"><?php echo __('There is no item for the list.');?></td></tr>');
+            }
+
+            jQuery.ajax({
+                dataType: 'text',
+                type: 'post',
+                contentType: 'application/x-www-form-urlencoded',
+                data: {
+                    'shoppinglist_item_id': delid
+                },
+                url: '<?php echo $block->getUrl('shoppinglist/index/deleteitemfromlist');?>',
+                crossDomain: false,
+                showLoader: true,
+                context: $('[data-role="pannel"]'),
+                success: function(data, textStatus, jQxhr) {}
+            });
+        });
+
+     /* $('body').on("change", ".input-qty", function() {*/
+
+        $(".input-qty").on("input", function(){
+
+          jQuery.ajax({
+              dataType: 'text',
+              type: 'post',
+              contentType: 'application/x-www-form-urlencoded',
+              data: {
+                  'shoppinglist_item_id': $(this).next().val(),
+                  'qty': $(this).val()
+              },
+              url: '<?php echo $block->getUrl('shoppinglist/index/updateqty');?>',
+              crossDomain: false,
+              showLoader: true,
+              context: $('[data-role="pannel"]'),
+              success: function(data, textStatus, jQxhr) {}
+          });
+      });
+
+      $("#addtocart").click(function() {
+
+          if($('#shopping_item_table .empty-table').length == 1) {
+              alert('<?php echo __('There is no items in your list');?>');
+              return false;
+          }
+
+          if ($('input[name="bulk[]"]:checked').length == 0) {
+              alert('<?php echo __('Please choose any one of the items from list');?>');
+              return false;
+          }
+
+          $("#shoppinglist-form-add").attr("action", "<?php echo $block->getUrl('shoppinglist/index/addproducttocart');?>");
+
+      });
+
+      $("#deletelist").click(function(event) {
+
+          event.preventDefault();
+
+            confirmation({
+                title: 'Confirmation Popup',
+                content: 'Are you sure you want to delete shoppinglist?',
+                actions: {
+                    confirm: function(){
+                        $("#shoppinglist-form-add").attr("action", "<?php echo $block->getUrl('shoppinglist/index/deletelistitem');?>").submit();
+                    },
+                    cancel: function(){}
+                }
+            });
+
+      });
+
+  });
+ 
+</script>

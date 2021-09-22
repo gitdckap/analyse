@@ -1,0 +1,50 @@
+<?php
+/**
+ * get quote submission url from block (May be sets from configuration)
+ */
+?>
+<?php $ecommUserPermission = $block->isDisplayed();
+$ecommUserLogin = $block->isLogIn();
+if ($ecommUserPermission) { ?>
+	<button type="button" title="<?= __('Request a Quote') ?>" class="action secondary"
+	        data-mage-init='{"Dckap_QuickRFQ/js/proceed-to-quote":{"quoteUrl":"<?= $block->getUrl('checkout') ?>"}}'>
+	    <span><?= __('Request a Quote') ?></span>
+	</button>
+<?php } else { ?>
+	<button type="button" title="<?= __('Request a Quote') ?>" class="request_a_quote">
+	    <span><?= __('Request a Quote') ?></span>
+	</button>
+    <script type="text/javascript">
+        require([ 'jquery', 'Magento_Ui/js/modal/alert'], function($, alert){
+            $(".request_a_quote").click(function(){
+                <?php if ($ecommUserLogin) { ?>
+                alert({
+                    title: "Quote Request Unavailable",
+                    content: "We're sorry, your account is not configured to accept quote requests",
+                    autoOpen: true,
+                    clickableOverlay: false,
+                    focus: "",
+                    actions: {
+                        always: function(){
+                            console.log("modal closed");
+                        }
+                    }
+                });
+                <?php } else { ?>
+                alert({
+                    title: "Quote Request Unavailable",
+                    content: "Please Login to request a quote",
+                    autoOpen: true,
+                    clickableOverlay: false,
+                    focus: "",
+                    actions: {
+                        always: function(){
+                            console.log("modal closed");
+                        }
+                    }
+                });
+                <?php } ?>
+            });
+        });
+    </script>
+<?php }?>

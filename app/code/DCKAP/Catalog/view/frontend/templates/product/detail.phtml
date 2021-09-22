@@ -1,0 +1,38 @@
+<?php
+    $_product = $block->getProduct();
+    $customHelper = $this->helper('DCKAP\Catalog\Helper\View');
+    $themeHelper = $this->helper('Dckap\Theme\Helper\Data');
+    $groups = $customHelper->getAttributeGroups($_product->getAttributeSetId());
+    $_helperoption = $this->helper('DCKAP\Extension\Helper\Data');
+    $detailTabTitle = $_helperoption->getDetailTabTitle();
+    $checkMode = $themeHelper->getWebsiteMode();
+?>
+<?php if ($groups && !empty($groups) && isset($groups['productdetail'])) {
+    $group = $groups['productdetail'];
+    $attrs = $customHelper->getGroupAttributes($_product, $group['attribute_group_id'], $_product->getAttributes());
+    if ($attrs && !empty($attrs)) { ?>
+        <div class="additional-attributes-wrapper table-wrapper">
+            <table class="data table additional-attributes" id="product-attribute-specs-table">
+                <caption class="table-caption"><?= $block->escapeHtml(__('More Information')) ?></caption>
+                <tbody>
+                <tr>
+                    <?php
+	                    asort($attrs);
+                    foreach ($attrs as $_data): ?>
+                            <td class="col data" data-th="<?= $_data->getFrontendLabel(); ?>">
+                                <?php if (($detailTabTitle && $checkMode=="b2b") || $checkMode=="b2c") { ?>
+                                    <h4><?= $_data->getFrontendLabel(); ?></h4>
+                                <?php } ?>
+                                <?= $_data->getFrontend()->getValue($_product); ?>
+                            </td>
+                    <?php endforeach; ?>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    <?php } else {
+        echo "<div class='additional-attributes-wrapper table-wrapper'><p>No details available</p></div>";
+    }
+} else {
+    echo "<div class='additional-attributes-wrapper table-wrapper'><p>No details available</p></div>";
+} ?>

@@ -1,0 +1,57 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_CheckoutCustomField
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+// @codingStandardsIgnoreFile
+?>
+<?php /** @var $block \Magento\Sales\Block\Order\View */
+$order = $block->getOrder();
+$helper = $block->returnHelper();
+$jsonHelper = $block->returnJsonHelper();
+?>
+    <!-- start add custom field -->
+<?php if($order->getBssCustomfield() && $helper->moduleEnabled()):?>
+    <?php if($helper->hasDataCustomFieldOrder($order->getBssCustomfield())): ?>
+        <?php $bssCustomfield = $jsonHelper->jsonDecode($order->getBssCustomfield()); ?>
+        <div class="block block-order-details-view">
+            <div class="block-title">
+                <span class="title"><?php echo $helper->getTitle($order->getStore()->getId()) ?></span>
+            </div>
+            <div class="box-content custom-field">
+                <div class="box">
+                    <?php foreach($bssCustomfield as $key => $field): ?>
+                        <?php if($field['show_in_order'] == '1'): ?>
+                            <?php if((is_array($field['value']) && !empty($field['value'])) || $field['value'] != ""): ?>
+                                <div id=<?php echo $block->escapeHtml($key)?>>
+                                    <div>
+                                        <strong><?php echo $block->escapeHtml($field['frontend_label']) . ": "?></strong>
+                                        <?php if(is_array($field['value'])): ?>
+                                            <?php foreach($field['value'] as $value): ?>
+                                                <span><?php echo $block->escapeHtml($value) ?></span>,
+                                            <?php endforeach;?>
+                                        <?php else :?>
+                                            <span><?php echo $block->escapeHtml($field['value']) ?></span>
+                                        <?php endif;?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endif;?>

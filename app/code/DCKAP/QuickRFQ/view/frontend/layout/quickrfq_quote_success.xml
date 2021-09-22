@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!--<referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Order Pad</argument>
+            </action>
+        </referenceBlock>-->
+        <referenceContainer name="content">
+            <block class="Dckap\QuickRFQ\Block\Quote\Success" name="price_quote_success" template="Dckap_QuickRFQ::price_quote_success.phtml">
+            </block>
+        </referenceContainer>
+    </body>
+</page>

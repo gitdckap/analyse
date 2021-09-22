@@ -1,0 +1,382 @@
+<?php $order = $block->getDdiQuote();
+if ($order && !empty($order) && $order['isValid'] == 'yes'): ?>
+    <div class="page-title-wrapper">
+        <div class="box left">
+            <address>
+                <?php $name = $block->getConfigData('general/store_information/name');
+                $address1 = $block->getConfigData('general/store_information/street_line1');
+                $address2 = $block->getConfigData('general/store_information/street_line2');
+                $state = $block->getRegionCode($block->getConfigData('general/store_information/region_id'));
+                $city = $block->getConfigData('general/store_information/city');
+                $country = $block->getCountryName($block->getConfigData('general/store_information/country_id'));
+                $zip = $block->getConfigData('general/store_information/postcode');
+                $phonenumber = $block->getConfigData('general/store_information/phone');
+                echo $name.'<br />';
+                echo $address1.'<br />';
+                if ($address2 && $address2 != '') {
+                    echo $address2 . '<br />';
+                }
+                echo $city.', '.$state.'<br />';
+                echo $country.' '.$zip.'<br />';
+                echo $phonenumber.'<br />';
+                ?>
+            </address>
+        </div>
+        <div class="box right">
+            <h1 class="page-title">
+                <span class="base" data-ui-id="page-title-wrapper">Quote # <?php echo $order['orderNumber']; ?></span>
+            </h1>
+            <span class="order-status"><?php echo $order['orderDetails']['orderStatus']; ?></span>
+            <div class="order-date">
+                <strong class="box-title"><span>Quote Date:</span></strong>
+                <date><?php echo $order['orderDetails']['orderDate']; ?></date>
+            </div>
+            <?php if (isset($order['orderDetails']['poNum']) && $order['orderDetails']['poNum'] != '') { ?>
+                <p>
+                    <strong class="box-title"><span>PO Number: </span></strong>
+                    <?= $order['orderDetails']['poNum'] ?>
+                </p>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="box-order-address-custom">
+        <div class="box box-order-shipping-address">
+            <strong class="box-title"><span>Shipping Address</span></strong>
+            <div class="box-content">
+                <address><?php echo $order['shipAddress']['shipCompanyName']; ?><br>
+                    <?php echo $order['shipAddress']['shipAddress1']; ?><br>
+                    <?php echo $order['shipAddress']['shipCity'];
+                    if (isset($order['shipAddress']['shipState']) && $order['shipAddress']['shipState'] != '') {
+                        echo ', ' . $order['shipAddress']['shipState'];
+                    }
+                    if (isset($order['shipAddress']['shipPostCode']) && $order['shipAddress']['shipPostCode'] != '') {
+                        echo ', ' . $order['shipAddress']['shipPostCode'];
+                    } ?>
+                    <?php if (isset($order['shipAddress']['shipPhone'])) { ?><br>
+                    T: <a href="tel:<?php echo $order['shipAddress']['shipPhone']; ?>"><?php echo $order['shipAddress']['shipPhone']; ?></a>
+                    <?php } ?>
+                </address>
+            </div>
+        </div>
+        <div class="box box-order-billing-address">
+            <strong class="box-title">
+                <span>Billing Address</span>
+            </strong>
+            <div class="box-content">
+                <address><?php echo $order['billAddress']['billCompanyName']; ?><br>
+                    <?php echo $order['billAddress']['billAddress1']; ?><br>
+                    <?php echo $order['billAddress']['billCity'];
+                    if (isset($order['billAddress']['billState']) && $order['billAddress']['billState'] != '') {
+                        echo ', ' . $order['billAddress']['billState'];
+                    }
+                    if (isset($order['billAddress']['billPostCode']) && $order['billAddress']['billPostCode'] != '') {
+                        echo ', ' . $order['billAddress']['billPostCode'];
+                    } ?>
+                    <?php if (isset($order['billAddress']['billPhone'])) { ?><br>
+                    T: <a href="tel:<?php echo $order['billAddress']['billPhone']; ?>"><?php echo $order['billAddress']['billPhone']; ?></a>
+                    <?php } ?>
+                </address>
+            </div>
+        </div>
+    </div>
+    <ul class="items order-links" style="display: none;">
+        <li class="nav item current"><strong>Items Quoted</strong></li>
+    </ul>
+    <div class="order-details-items ordered">
+        <div class="order-title">
+            <strong>Items Quoted</strong>
+        </div>
+        <div class="table-wrapper order-items">
+            <table class="data table table-order-items" id="my-orders-table" summary="Items Ordered" style="table-layout: fixed;">
+                <caption class="table-caption">Items Quoted</caption>
+                <thead>
+                <tr>
+                    <th class="col name" width="60%">Product Name</th>
+                    <th class="col sku">SKU</th>
+                    <th class="col price">Price</th>
+                    <th class="col qty">Qty</th>
+                    <th class="col subtotal">Subtotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if (isset($order['lineItems']['lineData']) && !empty($order['lineItems']['lineData'])) {
+                    foreach ($order['lineItems']['lineData'] as $item) {
+                        ?>
+                        <tr id="order-item-row-32">
+                            <td class="col name" data-th="Product Name">
+                                <strong class="product name product-item-name"><?php echo $item['description']; ?></strong>
+                            </td>
+                            <td class="col sku" data-th="SKU"><?php echo $item['stockNum']; ?></td>
+                            <td class="col price" data-th="Price">
+                                <span class="price-excluding-tax" data-label="Excl. Tax">
+                                    <span class="cart-price">
+                                        <span class="price"><?php echo $item['netPrice']; ?></span>
+                                    </span>
+                                </span>
+                            </td>
+                            <td class="col qty" data-th="Qty">
+                                <span class="content"><?php echo $item['qty']; ?></span>
+                            </td>
+                            <td class="col subtotal" data-th="Subtotal">
+                                <span class="price-excluding-tax" data-label="Excl. Tax">
+                                    <span class="cart-price">
+                                        <span class="price"><?php echo $item['extendedPrice']; ?></span>
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                    <?php }
+                } ?>
+                </tbody>
+                <tfoot>
+                <tr class="subtotal">
+                    <th colspan="4" class="mark" scope="row">Subtotal</th>
+                    <td class="amount" data-th="Subtotal"><span class="price"><?php if (isset($order['orderDetails']['merchandiseTotal']) && $order['orderDetails']['merchandiseTotal'] != '') {
+                                echo $order['orderDetails']['merchandiseTotal'];
+                            } else {
+                                echo '$0.00';
+                            } ?></span></td>
+                </tr>
+                <tr class="misctotal">
+                    <th colspan="4" class="mark" scope="row">Miscellaneous Total</th>
+                    <td class="amount" data-th="Miscellaneous Total"><span class="price"><?php if (isset($order['orderDetails']['miscellaneousTotal']) && $order['orderDetails']['miscellaneousTotal'] != '') {
+                                echo $order['orderDetails']['miscellaneousTotal'];
+                            } else {
+                                echo '$0.00';
+                            } ?></span></td>
+                </tr>
+                <tr class="shipping">
+                    <th colspan="4" class="mark" scope="row">Shipping & Handling</th>
+                    <td class="amount" data-th="Shipping & Handling">
+                        <span class="price"><?php if (isset($order['orderDetails']['freightTotal']) && $order['orderDetails']['freightTotal'] != '') {
+                                echo $order['orderDetails']['freightTotal'];
+                            } else {
+                                echo '$0.00';
+                            } ?></span></td>
+                </tr>
+                <tr class="tax">
+                    <th colspan="4" class="mark" scope="row">Tax</th>
+                    <td class="amount" data-th="Tax">
+                        <span class="price"><?php if (isset($order['orderDetails']['taxTotal']) && $order['orderDetails']['taxTotal'] != '') {
+                                echo $order['orderDetails']['taxTotal'];
+                            } else {
+                                echo '$0.00';
+                            } ?></span></td>
+                </tr>
+                <tr class="grand_total">
+                    <th colspan="4" class="mark" scope="row">
+                        <strong>Grand Total</strong>
+                    </th>
+                    <td class="amount" data-th="Grand Total">
+                        <strong><span class="price"><?php echo $order['orderDetails']['orderTotal']; ?></span></strong>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="block block-order-details-view">
+          <!--   <div class="block-title">
+                <strong>Order Information</strong>
+            </div> -->
+            <div class="block-content">
+                <div class="box box-order-shipping-method">
+                    <strong class="box-title">
+                        <span>Shipping Method</span>
+                    </strong>
+                    <div class="box-content">
+                        <?php echo $order['orderDetails']['shipMethod']['shipVia']; ?>
+                        - <?php echo $order['orderDetails']['shipMethod']['shipViaDescription']; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions-toolbar">
+            <div class="secondary">
+                <a class="action back" href="">
+                    <span>Back to My Orders</span>
+                </a>
+            </div>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="message info empty"><span><?= __('Quote detail not found.') ?></span></div>
+<?php endif ?>
+
+<style>
+    .box-order-address-custom {
+        display: flex;
+        padding: 25px 0px;
+    }
+    .box-order-address-custom .box.box-order-shipping-address {
+        width: 50%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        margin-right: 30px;
+    }
+    .box-order-address-custom .box.box-order-billing-address{
+        width: 50%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+    }
+    .order-details-items.ordered {
+        padding: 0px;
+        border:none;
+    }
+    table#my-orders-table thead{
+        border: 1px solid #ccc;
+    }
+    table#my-orders-table tbody{
+        border: 1px solid #ccc;
+    }
+    .data.table.table-order-items {
+        position: relative;
+    }
+    .order-details-items tfoot td {
+        background: transparent;
+    }
+    tfoot th {
+        border: none !important;
+    }
+    tfoot td {
+        border: none !important;
+    }
+    .page-title-wrapper h1.page-title {
+        display: inline-block;
+    }
+    .page-title-wrapper .block-content {
+        float: right;
+    }
+    .page-title-wrapper .order-status {
+        display: flex;
+        width: max-content; 
+    }
+    .block.block-order-details-view {
+        display: inline-block;
+    }
+    .box.box-order-billing-method {
+        position: relative;
+        top: -30px;
+        left: -34%;
+        display: inline-block;
+        margin: auto;
+        text-align: center;
+        float: right;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-top: 30px;
+        width: 367px;
+        height: 187px;
+        padding: 10px 0px;
+    }
+    .table tfoot {
+        background: #FFF;
+        border: 1px solid #ccc;
+        position: absolute;
+        right: 0;
+        border-radius: 5px;
+        margin-top: 30px;
+        text-align: center;
+        width: 333px;
+    }
+    .block.block-order-details-view {
+        display: inline-block;
+        width: 366px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        height: 187px;
+        text-align: center;
+        padding: 10px 0;
+    }
+@media print {
+    .page-print .logo img{
+        height: 100% !important;
+        max-height: none;
+    }
+    .box.box-order-billing-method {
+        top: -30px;
+        left: -28%;
+        display: inline-block;
+        margin: auto;
+        text-align: center;
+        float: right;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-top: 30px;
+        width: 260px;
+        height: 187px;
+        padding: 10px 0px;
+    }
+    .block.block-order-details-view {
+        display: inline-block;
+        width: 240px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        height: 187px;
+        text-align: center;
+        padding: 10px 0;
+    }
+    .table tfoot {
+        background: #FFF;
+        border: 1px solid #ccc;
+        position: absolute;
+        right: 0;
+        border-radius: 5px;
+        margin-top: 30px;
+        width: auto;
+    }
+    .box-order-address-custom {
+        display: flex;
+        padding: 25px 0px;
+    }
+    .box-order-address-custom .box.box-order-shipping-address {
+        width: 50%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        margin-right: 30px;
+    }
+    .box-order-address-custom .box.box-order-billing-address{
+        width: 50%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+    }
+    .order-details-items.ordered {
+        padding: 0px;
+        border:none;
+    }
+    table#my-orders-table thead{
+        border: 1px solid #ccc;
+    }
+    table#my-orders-table tbody{
+        border: 1px solid #ccc;
+    }
+    .data.table.table-order-items {
+        position: relative;
+    }
+    .order-details-items tfoot td {
+        background: transparent;
+    }
+    tfoot th {
+        border: none !important;
+    }
+    tfoot td {
+        border: none !important;
+    }
+    .page-title-wrapper h1.page-title {
+        display: inline-block;
+    }
+    .page-title-wrapper .block-content {
+        float: right;
+    }
+    .page-title-wrapper .order-status {
+        display: flex;
+        width: max-content; 
+    }
+    .block.block-order-details-view {
+        display: inline-block;
+    }
+}
+</style>

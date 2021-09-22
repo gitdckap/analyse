@@ -1,0 +1,174 @@
+<input type="hidden" value="0" name="flagformsg" id="flagformsg">
+<?php
+$checkouthelper = $this->helper('DCKAP\CheckoutCustomisation\Helper\Data');
+$customerData =$checkouthelper->getManualShipTo();
+$shipto="";
+if (!empty($customerData)) {
+    $shipto = $customerData['allowManualShipto'];
+}
+$orderApprovalHelper = $this->helper('DCKAP\OrderApproval\Helper\Data');
+$isEditOrder = $orderApprovalHelper->isEditOrder();
+if ($isEditOrder) {
+    $shippingMethod = $orderApprovalHelper->getExistingShipMethod();
+    $checkoutCustomFields = $orderApprovalHelper->getCheckoutCustomFields();
+}
+?>
+<script type="text/javascript">
+    require(['jquery', 'jquery/ui'], function ($) {
+        $(document).ready(function () {
+
+            if(<?php if ($shipto=="no") {
+                echo 1;
+               } else {
+                   echo 0;
+               }?>){
+                $('.shipping-addclick-address').remove();
+
+            }
+            $('.shipping-editclick-address').css("display", "block");
+
+            /* added scripts to disable elements if edit order */
+            <?php if ($isEditOrder) { ?>
+                var loaderImg = "<?= $block->getViewFileUrl('images/loader-1.gif') ?>";
+                var loaderHtml = '<div data-role="loader" class="loading-mask" ><div class="loader" style="position: relative;top: 50%;left: 50%;"><img style="position: relative;" src="'+loaderImg+'" alt="loading" width="30px"></div>';
+                $('#checkout').before(loaderHtml);
+                $('#checkout').trigger('show.loader');
+                $("body").trigger('processStart');
+                setTimeout(function(){
+                    $('.customize-shipping').prop("disabled", true);
+                    <?php if ($shippingMethod == 'ddistorepickup_ddistorepickup') { ?>
+                        $('.customize-pickup').trigger('click');
+                    <?php } ?>
+                    $('.customize-pickup').prop("disabled", true);
+                    $('.shipping-addclick-address').prop("disabled", true);
+                    $('.shipping-editclick-address').prop("disabled", true);
+                    $('#warehouselist').prop("disabled", true);
+                    $('#ddi-store-pickup').prop("disabled", true);
+                    $('#ddi-contact-no').prop("disabled", true);
+                    $('.table-checkout-shipping-method tr input.radio').each(function (val) {
+                         var shippingMethod = $(this).attr('value');
+                         if (shippingMethod === "<?php echo $shippingMethod; ?>") {
+                             $(this).trigger('click');
+                         }
+                    });
+                    $('.table-checkout-shipping-method input.radio').prop("disabled", true);
+                    $('.table-checkout-shipping-method tr').off('click');
+
+                    <?php if ($checkoutCustomFields && !empty($checkoutCustomFields)) { ?>
+                        <?php if (isset($checkoutCustomFields['purchase_order_number']) && $checkoutCustomFields['purchase_order_number'] != '') { ?>
+                            $('input[name="bss_custom_field[purchase_order_number]"]').val("<?php echo $checkoutCustomFields['purchase_order_number']; ?>");
+                            $('input[name="bss_custom_field[purchase_order_number]"]').trigger('keyup');
+                        <?php } ?>
+                        <?php if (isset($checkoutCustomFields['expected_delivery_date']) && $checkoutCustomFields['expected_delivery_date'] != '') { ?>
+                            $('input[name="bss_custom_field[expected_delivery_date]"]').val("<?php echo $checkoutCustomFields['expected_delivery_date']; ?>");
+                        <?php } ?>
+                        <?php if (isset($checkoutCustomFields['special_instructions']) && $checkoutCustomFields['special_instructions'] != '') { ?>
+                            $('textarea[name="bss_custom_field[special_instructions]"]').val("<?php echo $checkoutCustomFields['special_instructions']; ?>");
+                        <?php } ?>
+
+                        <?php if (isset($checkoutCustomFields['delivery_contact_email']) && $checkoutCustomFields['delivery_contact_email'] != '') { ?>
+                            $('input[name="ddi_store_pickup[ddi_delivery_contact_email]"]').val("<?php echo $checkoutCustomFields['delivery_contact_email']; ?>");
+                        <?php } ?>
+                        <?php if (isset($checkoutCustomFields['delivery_contact_no']) && $checkoutCustomFields['delivery_contact_no'] != '') { ?>
+                            $('input[name="ddi_store_pickup[ddi_delivery_contact_no]"]').val("<?php echo $checkoutCustomFields['delivery_contact_no']; ?>");
+                        <?php } ?>
+                        <?php if (isset($checkoutCustomFields['pickup_date']) && $checkoutCustomFields['pickup_date'] != '') { ?>
+                            $('input[name="ddi_store_pickup[ddi_pickup_date]"]').val("<?php echo $checkoutCustomFields['pickup_date']; ?>");
+                        <?php } ?>
+                        <?php if (isset($checkoutCustomFields['store_pickup_branch']) && $checkoutCustomFields['store_pickup_branch'] != '') { ?>
+                            $('select[name="ddi_store_pickup[ddi_pref_warehouse]"]').val("<?php echo $checkoutCustomFields['store_pickup_branch']; ?>");
+                        <?php } ?>
+                    <?php } ?>
+                    $("#maincontent .loading-mask").css("display","none");
+                    $("body").trigger('processStop');
+                }, 5000);
+            <?php } ?>
+
+            var refreshIntervaltime = setInterval(contentOnloadtime, 1000);
+
+            function contentOnloadtime() {
+                if (jQuery(':radio:first').val() && jQuery(':radio:first').val() != "ddistorepickup_ddistorepickup") {
+                    $('.checkout-index-index .opc-wrapper ol#checkoutSteps .checkout-shipping-method .table-checkout-shipping-method tbody tr:first-child').css("display", "table-row");
+                    $('.customize-pickup').css('display', 'none');
+                }
+            }
+
+            $(document.body).on("click", ".shipping-editclick-address", function (e) {
+                if ($("select[name=shipping_address_id] option:last").html() == "New Address") {
+                    $("select[name=shipping_address_id] option:last").remove();
+                }
+                $('.search-shipping-address').css("display", "block");
+                $('#hide-show-search-address').css("min-height", "300px");
+                $('#hide-show-search-address').css("display", "block");
+                $('.shipping-addclick-address').css("display", "none");
+                $('.shipping-editclick-address').css("display", "none");
+                $('.textarea-for-shipping-address').css("display", "none");
+            });
+
+            $(document.body).on("change", "#search-shiping-address", function (e) {
+                if ($("select[name=shipping_address_id] option:last").html() == "New Address") {
+                    $("select[name=shipping_address_id] option:last").remove();
+                }
+                $('.search-shipping-address').css("display", "none");
+                $('#hide-show-search-address').css("display", "none");
+                $('.textarea-for-shipping-address').css("display", "block");
+                //$('.select2-container').css("width","45%");
+                $('.shipping-addclick-address').css("display", "block");
+                $('.shipping-editclick-address').css("display", "block");
+
+            });
+
+            $(document.body).on("click", ".customize-pickup", function (e) {
+                $('#flagformsg').val('1');
+                $('.customize-pickup').addClass("active");
+                $('.customize-shipping').removeClass("active");
+                $('.textarea-for-shipping-address').css("display", "none");
+                $('.table-checkout-shipping-method').css("display", "none");
+                $('#hide-show-search-address').css("display", "none");
+                $('.customize-storepickup-fields').css("display", "block");
+                $('.customshipmethod-title').css("display", "none");
+                $('.shipping-addclick-address').css("display", "none");
+                $('.shipping-editclick-address').css("display", "none");
+                $('input[value="ddistorepickup_ddistorepickup"]').prop("checked", true).trigger("click");
+                //$('table.table-checkout-shipping-method > tbody > tr:first').css("display","none");
+            });
+
+            $(document.body).on("click", ".customize-shipping", function (e) {
+                $('#flagformsg').val('0');
+                $('.customize-pickup').removeClass("active");
+                $('.customize-shipping').addClass("active");
+                $('.search-shipping-address').css("display", "none");
+                //$('#hide-show-search-address').removeStyle("min-height");
+                $('#hide-show-search-address').css("display", "none");
+                $('.textarea-for-shipping-address').css("display", "block");
+                $('.table-checkout-shipping-method').css("display", "inline-table");
+                /* if($('#flagformsg').val()==1){
+                 }*/
+                if ($('.table-checkout-shipping-method >tbody >tr').length == 1 && jQuery(':radio:first').val() == "ddistorepickup_ddistorepickup") {
+                    $('.no-shippment-block').css("display", "block");
+                } else {
+                    $('.no-shippment-block').css("display", "none");
+                    $('#flagformsg').val('1');
+                }
+                $('.customize-storepickup-fields').css("display", "none");
+                $('.customshipmethod-title').css("display", "block");
+                $('.shipping-addclick-address').css("display", "block");
+                $('.shipping-editclick-address').css("display", "block");
+            });
+
+            $(document.body).on("click", ".back-to-shipping", function (e) {
+                $('.customize-pickup').removeClass("active");
+                $('.customize-shipping').addClass("active");
+                $('.search-shipping-address').css("display", "none");
+                //$('#hide-show-search-address').removeStyle("min-height");
+                $('#hide-show-search-address').css("display", "none");
+                $('.textarea-for-shipping-address').css("display", "block");
+                $('.table-checkout-shipping-method').css("display", "inline-table");
+                $('.customize-storepickup-fields').css("display", "none");
+                $('.customshipmethod-title').css("display", "block");
+                $('.shipping-addclick-address').css("display", "block");
+                $('.shipping-editclick-address').css("display", "block");
+            });
+        });
+    });
+</script>

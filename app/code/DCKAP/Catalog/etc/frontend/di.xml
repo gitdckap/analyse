@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Model\ResourceModel\Product\Collection">
+        <plugin name="dckap-catalog-plugin-collection-elastic-bug" type="DCKAP\Catalog\Plugin\Collection"  sortOrder="1"/>
+    </type>
+    <preference for="Magento\Catalog\Block\Category\View" type="DCKAP\Catalog\Block\Category\View" />
+    <preference for="Magento\Catalog\Block\Product\ListProduct" type="DCKAP\Catalog\Block\Product\ListProduct" />
+    <preference for="Magento\Catalog\Controller\Category\View" type="DCKAP\Catalog\Controller\Category\View" />
+    <preference for="Magento\GroupedProduct\Model\Product\Type\Grouped" type="DCKAP\Catalog\Model\Product\Type\Grouped" />
+    <preference for="Magento\Catalog\Model\Product\Configuration\Item\ItemResolverInterface" type="DCKAP\Catalog\Model\Product\Configuration\Item\ItemProductResolver" />
+
+</config>

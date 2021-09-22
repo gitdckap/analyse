@@ -1,0 +1,106 @@
+<?php $order = $this->getData('order');
+$arrOrderStatus =['declined','customer_cancelled','approved','edited_by_approver','pending_approval'];
+$strOrderStatus = $order->getStatus();
+if ($block->isOrderApprovalEnabled()) {
+    if ($order && $order->getId()) { ?>
+        <div style="float:right">
+            <?php if( $order->getStatus() == 'declined' || $order->getStatus() == 'customer_cancelled' ) { ?>
+                <button  title="<?= $block->escapeHtml(__('Back To Pending Approval')) ?>" type="button" class="action-default scalable primary" id="btn-pending-to-approval" data-pending_approval_url="<?php echo $block->getBackToPendingApprovalUrl($order->getId()); ?>" >
+                    <span><?= $block->escapeHtml(__('Back To Pending Approval')) ?></span>
+                </button>
+            <?php } ?>
+
+            <?php if($order->getStatus() == 'pending_approval') { ?>
+                <button  title="<?= $block->escapeHtml(__('Approve Order')) ?>" type="button" class="action-default scalable primary" id="btn-to-approve" data-approve_url="<?php echo $block->getApprovalUrl($order->getId()); ?>" >
+                    <span><?= $block->escapeHtml(__('Approve Order')) ?></span>
+                </button>
+            <?php } ?>
+            <?php if($order->getStatus() == 'edited_by_approver') { ?>
+                <button  title="<?= $block->escapeHtml(__('Edited New Order')) ?>" type="button" class="action-default scalable primary" id="btn-new-order" data-new-Order-url=<?php echo $block->escapeUrl( $block->getNewOrderUrl($order->getId()) ); ?>>
+                    <span><?= $block->escapeHtml(__('Edited New Order')) ?></span>
+                </button>
+            <?php } ?>
+            <?php if($order->getStatus() == 'approved' && $order->getExistingOrderId() && $order->getExistingOrderDetails()) { ?>
+                <button title="<?php $block->escapeHtml(__('Edited By')); ?>" type="button" class="action-default scalable primary" id="view-edited-details" data-original-order-id="<?php echo $order->getExistingOrderId(); ?>">
+                    <span><?= $block->escapeHtml(__('Edited By')) ?></span>
+                </button>
+                <div class="order-editor-details">
+                    <?php
+                    $arrOrderDetails = $block->getUnserilizeOrderDetail($order->getExistingOrderDetails());
+                    $strOriginalOrderUrl = $block->getOriginalOrderUrl($order->getExistingOrderId());
+                    ?>
+                    <div class="alert-modal-content" data-original-orderurl="<?php echo $strOriginalOrderUrl ?>">
+                        <?php if(is_array($arrOrderDetails)) { ?>
+                            <p><b>First Name:</b> <?= $arrOrderDetails['firstName'];?></p>
+                            <p><b>Last Name:</b> <?= $arrOrderDetails['lastName'];?></p>
+                            <p><b>Email Id:</b> <?= $arrOrderDetails['email'];?></p>
+                            <p><b>Company:</b> <?= $arrOrderDetails['billCompanyName'];?></p>
+                            <p><b>Account Number:</b> <?= $arrOrderDetails['accountNumber'];?></p>
+                            <p><b>Original Reference ID:</b> <?= $order->getExistingOrderId() ?></p>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+    <?php }
+} ?>
+<style>
+    .order-editor-details{
+        display:none;
+    }
+
+</style>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'mage/mage',
+        'Magento_Ui/js/modal/alert'
+    ], function ($, mage, alert) {
+
+        <?php if( ( $order->getStatus() == 'approved' && $order->getExistingOrderId() && $order->getExistingOrderDetails() ) || in_array( $strOrderStatus, $arrOrderStatus) ) { ?>
+                $(document).ready(function(){
+                    $("#order_edit").css("display", "none");;
+                });
+        <?php } ?>
+
+        $(document).on("click", "#view-edited-details", function (e) {
+            var originOrderUrl = $('.alert-modal-content').data("original-orderurl");
+            alert({
+                title: 'This Order Edited By Approver',
+                content: $('.alert-modal-content'),
+                autoOpen: true,
+                clickableOverlay: false,
+                focus: "",
+                actions: {
+                    always: function () {
+                        console.log("modal closed");
+                    }
+                },
+                buttons: [{
+                    text: $.mage.__('View Original Order'),
+                    class: 'action-primary action-accept',
+                    click: function () {
+                        window.location.href = originOrderUrl;
+                    }
+                },
+                    {
+                        text: $.mage.__('Cancel'),
+                        class: 'action-primary action-accept',
+                        click: function () {
+                            window.location.reload();
+                        }
+                    }]
+            });
+        });
+
+        $(document).on('click',".action-close", function(){
+            window.location.reload();
+        });
+
+        $(document).on('click',"#btn-new-order", function(){
+            var NewOrderUrl = $('#btn-new-order').data("new-order-url");
+            window.location.replace(NewOrderUrl);
+        });
+    });
+</script>
+

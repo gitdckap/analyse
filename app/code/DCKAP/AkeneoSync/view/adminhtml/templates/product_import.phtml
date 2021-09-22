@@ -1,0 +1,138 @@
+<div class="akeneo-connector-uploader">
+    <div class="akeneo-connector-step">
+        <h2><?php echo __('Import:') ?></h2>
+    </div>
+    <div class="akeneo-connector-step step-last import">
+        <button type="button" class="primary">
+            <span class="ui-button-text">
+                <span><?php echo __('Parent Product Import') ?></span>
+            </span>
+        </button>
+    </div>
+</div>
+
+<ul class="akeneo-connector-console">
+    <li class="selected"><?php echo __('Waiting for import...') ?></li>
+</ul>
+
+
+<script>
+    require(["jquery"], function ($) {
+        <?php if($block->getItemCount() && is_numeric($block->getItemCount())) : ?>
+        var ajaxRequest;
+        var ajaxUrl = '<?= $block->getUrl('akeneosync/parentproduct/import')?>';
+        var saveUrl = ajaxUrl + '?isAjax=true';
+
+        var limit = <?php echo $block->getPAginationValue(); ?>;
+        var totalCount = <?php echo $block->getItemCount(); ?>;
+        var quotientVal = totalCount / limit;
+        var no_of_pages = Math.ceil(quotientVal);
+        var lastPageCountVal = (((no_of_pages - 1) * limit) - totalCount);
+
+        var lastPageCount = Math.abs(lastPageCountVal);
+        var identifier = "";
+        var messages = [];
+        var log_id = "";
+
+        <?php endif; ?>
+        function ajaxCall(pageNo, limit, identifier, log_id, messages) {
+
+            $('.akeneo-connector-uploader').find('button').prop("disabled", "enable");
+            if (pageNo == 1) {
+                var today = new Date();
+
+                var time = "[" + today.getUTCHours() + ":" + today.getUTCMinutes() + ":" + today.getUTCSeconds() + "]";
+                $("ul.akeneo-connector-console").html('<li class="selected">' + time + ' Start import' + '</li>');
+                $("ul.akeneo-connector-console").append('<li class= "selected">' + time + ' Total count : ' + '<?php echo $block->getItemCount(); ?>' + ' product(s)</li>');
+
+                var proCount = (limit >= totalCount) ? totalCount : limit;
+                $("ul.akeneo-connector-console").append('<li class= "waiting">' + time + ' Processing ' + proCount + ' product(s)</li>');
+
+                $('ul.akeneo-connector-console li').each(function () {
+                    console.log($(this).html());
+                    messages.push($(this).html());
+                });
+                console.log(messages);
+            }
+
+            ajaxRequest = $.ajax({
+                url: saveUrl,
+                data: {
+                    form_key: window.FORM_KEY,
+                    pageNo: pageNo,
+                    limit: limit,
+                    messages: messages,
+                    identifier: identifier,
+                    log_id: log_id
+                },
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                }
+
+            });
+            ajaxRequest.done(function (response, textStatus, jqXHR) {
+
+                $('.akeneo-connector-uploader').find('button').removeAttr("disabled");
+                $("ul.akeneo-connector-console").find('li').removeClass('waiting');
+                if (response.error && response.error != 0) {
+                    $("ul.akeneo-connector-console").append('<li class= "error">' + response.error_message + '</li>');
+                }
+                if (response.exception_message) {
+                    $.each(response.exception_message, function (i, msg) {
+
+                        $("ul.akeneo-connector-console").append('<li class= "error">' + msg + '</li>');
+                    });
+                }
+                if (response.success && response.success != 0) {
+                    $("ul.akeneo-connector-console").append('<li class= "selected">' + response.success_message + '</li>');
+                }
+                if (response.complete == "no") {
+                    if (pageNo < no_of_pages) {
+                        var page = pageNo + 1;
+                        var count = ((page == no_of_pages) ? lastPageCount : limit);
+                        var today = new Date();
+                        var time = "[" + today.getUTCHours() + ":" + today.getUTCMinutes() + ":" + today.getUTCSeconds() + "]";
+                        $("ul.akeneo-connector-console").append('<li class= "waiting">' + time + ' Processing ' + count + ' products</li>');
+                        identifier = response.identifier;
+                        log_id = response.log_id;
+                        var msg = time + ' Processing ' + count + ' product(s)';
+                        ajaxCall(pageNo + 1, limit, identifier, log_id, msg);
+                    } else {
+                        var today = new Date();
+                        var time = "[" + today.getUTCHours() + ":" + today.getUTCMinutes() + ":" + today.getUTCSeconds() + "]";
+                        var success_msg = time + ' Import complete';
+                        var pNo = 0;
+                        $("ul.akeneo-connector-console").append('<li class="selected">' + time + ' Import complete' + '</li>');
+                        ajaxCall(pNo, limit, response.identifier, response.log_id, success_msg);
+                    }
+                }
+            });
+            ajaxRequest.fail(function () {
+                var pNo = 0, msg = 'Oops, An error occured, please try again later!';
+                $("ul.akeneo-connector-console").append('<li class="error ajax-error">' + msg + '</li>');
+                $('.akeneo-connector-uploader').find('button').removeAttr("disabled");
+                if ( $("li.error").hasClass("ajax-error") ) {
+
+                }else{
+                    ajaxCall(pNo, limit, identifier, log_id, msg);
+                    }
+            });
+        }
+
+        $('.akeneo-connector-step.step-last.import').click(function () {
+            var pageNo = 1;
+            <?php if($block->getItemCount() && is_numeric($block->getItemCount())) : ?>
+            ajaxCall(pageNo, limit, identifier, log_id, messages);
+            <?php else : ?>
+            
+            var today = new Date();
+            var time = "[" + today.getUTCHours() + ":" + today.getUTCMinutes() + ":" + today.getUTCSeconds() + "]";
+            $("ul.akeneo-connector-console").html('<li class="error">' + time + ' No Data found for the selected Date ' + '</li>');
+            <?php if($block->getItemCount()) : ?>
+            $("ul.akeneo-connector-console").html('<li class="error">' + time + '<?= $block->getItemCount() ?> ' + '</li>');
+            <?php endif; ?>
+        <?php endif; ?>
+        });
+    });
+</script>

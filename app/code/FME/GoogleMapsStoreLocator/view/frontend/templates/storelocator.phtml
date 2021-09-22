@@ -1,0 +1,211 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+?>
+
+<?php $helper = $this->googleMapsStoreHelper; ?> 
+
+<?php if ($helper->getGMapPageTitle()): ?>
+  <meta name="keywords" content="<?php /* @escapeNotVerified */ echo $helper->getGMapPageTitle() ?>"/>
+<?php endif; ?>
+
+<?php
+if($helper->isEnabledInFrontend()):
+  $Stores = $this->getAllStores();
+  if($Stores){
+    foreach($Stores as $key => $value){
+      $Storesdescription = $helper->getGMapMetadescription();          
+    }
+  }      
+  $standard_lat = $helper->getGMapStandardLatitude();
+  $standard_long = $helper->getGMapStandardLongitude();
+  $standard_zoom = $helper->getGMapZoom();?>
+  <script>     
+   function initMap(sel) {
+    var div = document.getElementById("store");        
+    var myData = div.value;           
+    var locations, i,j;
+    var locations = <?php echo json_encode($Stores->getData()) ?>; 
+
+    for(j=0; j< locations.length; j++){
+      var gid = locations[j]['gmaps_id'];  
+      var lat = locations[j]['latitude'];
+      var lng = locations[j]['longitude'];
+      var title = locations[j]['store_name'];         
+      var description = locations[j]['store_description'];
+      var mmzoomlevel = locations[j]['zoom_level'];
+      if(gid==myData){
+        break;
+      }            
+    }
+    if (!(myData)){
+      var lat = <?php echo $standard_lat ?>;
+      var lng = <?php echo $standard_long ?>;
+      var mmzoomlevel = <?php echo  $standard_zoom ?>;
+    }                
+    var uluru = {lat: eval(lat),lng: eval(lng) };
+    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+      zoom: eval(mmzoomlevel),
+      center: uluru                
+    });
+    var locations, i;
+    var locations = <?php echo json_encode($Stores->getData()) ?>;
+    var contentString = new Array("");      
+
+    var infowindow = new google.maps.InfoWindow();
+    for (i = 0; i < locations.length; i++) {
+
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i]['latitude'], locations[i]['longitude']),
+        map: map,              
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
+      contentString[i] = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h3 id="firstHeading" class="firstHeading">'+locations[i]['store_name']+'</h3>'+
+      '<div id="bodyContent">'+locations[i]['store_description']+'</div>'+
+      '</div>';       
+      google.maps.event.addListener(marker, 'click', (function(marker,i) {  
+       return function() {  
+         var content = contentString;
+
+         infowindow.setContent(contentString[i]);  
+         infowindow.open(map, marker);  
+       }  
+     })(marker,i));
+    }
+  }
+
+  function storeList(sel){ 
+
+    var locations, i,j;
+    var locations = <?php echo json_encode($Stores->getData()) ?>;
+    var div = document.getElementById(sel);
+    var myData = div.value;              
+
+    for(j=0; j< locations.length; j++){
+      var gid = locations[j]['gmaps_id'];  
+      var lat = locations[j]['latitude'];
+      var lng = locations[j]['longitude'];
+      var title = locations[j]['store_name'];         
+      var description = locations[j]['store_description'];
+      var mmzoomlevel = locations[j]['zoom_level'];
+      if(gid==myData){
+        break;
+      }
+
+    }
+
+    var uluru = {lat: eval(lat),lng: eval(lng) };
+    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+      zoom:  eval(mmzoomlevel),
+      center: uluru
+    });
+    var marker = new google.maps.Marker({
+      position: uluru,
+      map: map
+    });            
+    var contentString = new Array("");      
+    var infowindow = new google.maps.InfoWindow();
+    for (i = 0; i < locations.length; i++) {
+
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i]['latitude'], locations[i]['longitude']),
+        map: map,              
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
+      contentString[i] = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h3 id="firstHeading" class="firstHeading">'+locations[i]['store_name']+'</h3>'+
+      '<div id="bodyContent">'+locations[i]['store_description']+'</div>'+
+      '</div>';
+
+      google.maps.event.addListener(marker, 'click', (function(marker,i) {  
+       return function() {  
+         var content = contentString;
+
+         infowindow.setContent(contentString[i]);  
+         infowindow.open(map, marker);  
+       }  
+     })(marker,i));
+
+    }            
+  }
+
+</script>
+<div class="top_title" style="display: none;">
+  <h1><?php echo $helper->getGMapPageHeading(); ?></h1>
+  <p class="head-content"><?php echo $helper->getGMapPageSubheading(); ?></p>
+</div>
+<div id="main">
+  <div class="form" style="display: none;">
+    <p style="float: left;padding-left: 10px;margin-top:8px"><?php echo __('Store(s):&nbsp;&nbsp'); ?></p>
+    <div class="jump_menu1">
+
+      <select class="" id="store" onchange="initMap(this.options[this.selectedIndex].value)">
+        <option value=""><?php echo __('CHOOSE A STORE'); ?></option>
+        <?php  
+        $i=0;$j=-1;
+        foreach($Stores as $Store):             
+
+          if($i++%25 == 0){
+            $j++;
+          }
+          ?>
+
+          <option value="<?php echo $Store->getGmapsId()?>"><?php echo $Store->getStoreName(); ?></option>
+
+        <?php endforeach;?>
+
+      </select>	
+
+    </div>				
+    <div class="total_maps" id="total_maps">
+      <?php echo ($i).'&nbsp;'.__('STORES'); ?> 
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="stores" >     
+    <div id="scrollbar1">        
+      <div class="viewport">
+       <div class="overview"> 
+        <div class="content" id="gmap-store-list" style="overflow:auto;overflow-x:hidden" >
+          <?php $i=0; foreach($Stores as $s_value): ?>
+          <div class="store" id="stores">          
+            <?php  $xval= $s_value->getGmapsId()?>
+            <input type="hidden" name="values" 
+            id="<?php echo $i ?>"       
+            value="<?php echo $xval;?>">
+            <a href="javascript:void(0)" 
+            onclick="storeList(<?php echo $i ?>)"value ="<?php $xval?>"><?php echo $s_value->getStoreName(); ?></a>
+            <p>
+              <?php echo $s_value->getAddress(); ?>
+              <br><a class="phone_no" href="tel:<?php echo $s_value->getPhoneNo(); ?>"><strong>Phone: </strong><?php echo $s_value->getPhoneNo(); ?></a>
+              <br><a class="direction" href="<?php echo $s_value->getStoreDirection(); ?>" target="_blank">Get Direction</a>
+            </p>
+          </div>
+          <?php $i++; endforeach; ?>          
+        </div>
+      </div>
+    </div>         
+  </div>
+  <!-- </div> -->
+</div> 
+<div class="map" >         
+  <div id="map_canvas" style="height:550px;" ></div>
+</div>  
+
+<div id="control"></div>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=<?php echo $helper->getGMapAPIKey(); ?>&callback=initMap">
+</script>
+<?php endif; ?>
+
+
+
+

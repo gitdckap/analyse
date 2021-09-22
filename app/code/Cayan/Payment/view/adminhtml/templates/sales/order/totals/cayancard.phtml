@@ -1,0 +1,23 @@
+<?php
+/**
+ * Cayan Payments
+ *
+ * @package Cayan\Payment
+ * @author Igor Miura
+ * @author Joseph Leedy
+ * @copyright Copyright (c) 2017 Cayan (https://cayan.com/)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+/**
+ * @var $block \Cayan\Payment\Block\Adminhtml\Order\Item\Discount
+ */
+?>
+<?php $_source  = $block->getSource() ?>
+<?php $block->setPriceDataObject($_source) ?>
+
+<?php if (!is_null($block->getGiftCardAmount()) && $block->getGiftCardAmount() > 0): ?>
+    <tr>
+        <td class="label"><?= __('Gift Card %1', $block->getCodesLabel()) ?></td>
+        <td><?= $block->getGiftCardAmountFormatted() ?></td>
+    </tr>
+<?php endif; ?>

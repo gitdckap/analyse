@@ -1,0 +1,57 @@
+<?php
+$submitUrl = $block->getUrl('csvconverter/index/convert');
+?>
+<div class="import-attributes">
+    <form id="import-form" action="<?php echo $submitUrl; ?>" method="post" enctype="multipart/form-data">
+        <div class="page-main-actions">
+            <div class="page-actions-placeholder" style=""></div>
+            <div class="page-actions" data-ui-id="page-actions-toolbar-content-header">
+                <div class="page-actions-inner" data-title="Import">
+                    <div class="page-actions-buttons">
+                        <button id="upload_button" title="Check Data" type="submit"
+                                class="action-default scalable save primary">
+                            <span>Import Attributes</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div><input name="form_key" type="hidden" value="<?php echo $block->getFormKey() ?>"/></div>
+        <fieldset class="fieldset admin__fieldset" style="display: block;">
+            <legend class="admin__legend legend">
+                <span>Convertion</span>
+            </legend>
+            <br>
+            <div class="messages">
+            </div>
+            <div class="admin__field field field-attribute_csv  required _required">
+                <label class="label admin__field-label" for="attribute_csv">
+                    <span>Direct Attribute</span>
+                </label>
+                <div class="admin__field-control control">
+                    <input id="attribute_csv" name="attribute_csv" value="" title="Select File to Import" class="attachment required-entry _required" type="file" aria-required="true" />
+                </div>
+            </div>
+            <div class="admin__field field field-attribute_csv  required _required">
+                <label class="label admin__field-label" for="attribute_csv">
+                    <span>In-Direct Attribute</span>
+                </label>
+                <div class="admin__field-control control">
+                    <input id="attribute_csv1" name="attribute_csv1" value="" title="Select File to Import" class="attachment required-entry _required" type="file" aria-required="true" />
+                </div>
+            </div>
+            <div class="admin__field field field-attribute_csv  required _required">
+                <label class="label admin__field-label" for="attribute_csv">
+                    <span>Output File</span>
+                </label>
+                <div class="admin__field-control control">
+                    <select id="type" name="type" title="Select Type" class="type required-entry _required select admin__control-select" aria-required="true">
+                        <option value="">-- Please Select --</option>
+                        <option value="1">Attribute Import</option>
+                        <option value="2">Attribute Value import</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

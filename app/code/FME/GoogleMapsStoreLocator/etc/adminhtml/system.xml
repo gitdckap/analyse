@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>        
+        <tab id="fmeextensions" translate="label" sortOrder="1">
+            <label>FME Extensions</label>
+        </tab>
+        <section id="googlemapsstorelocator" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Google Map Stores Locator</label>
+            <tab>fmeextensions</tab>
+            <resource>FME_GoogleMapsStoreLocator::configuration</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Settings</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Module Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>                
+                <field id="page_title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Page Title</label>
+                    <comment>This text will display on the frontend.</comment>
+                </field>
+                <field id="meta_keywords" translate="label" type="textarea" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>META Keywords</label>
+                    <comment></comment>
+                </field>
+                <field id="meta_description" translate="label" type="textarea" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>META Description</label>
+                    <comment></comment>
+                </field>
+                <field id="page_heading" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Page Heading</label>
+                    <comment>Main heading of the GMap store locator page.</comment>
+                </field>
+                <field id="page_subheading" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Page Sub Heading</label>
+                    <comment>Sub heading of the GMap store locator page.</comment>
+                </field>
+                <field id="std_latitude" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Standard Latitude</label>                      
+                    <comment></comment>
+                </field>
+                <field id="std_longitude" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Standard Longitude</label>                      
+                    <comment></comment>
+                </field>                
+                <field id="api_key" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API Key</label>
+                    <comment>Google Maps API Key (v3)</comment>
+                </field>
+                <field id="map_zoom" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Map Zoom</label>
+                    <comment>Google Maps Zoom Level</comment>
+                </field>
+            </group>
+            <group id="manage_links" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Manage Links</label>
+                
+                <field id="footer_link_enable" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Footer Link</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="label_footer" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Footer Link Label</label>
+                    <comment>Label/Title for footer link</comment>
+                </field>
+            </group>
+            <group id="seo_suffix" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Search Engine Optimization</label>
+                <field id="gmap_identifier" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Store Identifier</label>
+                    <comment>Gmap Store Identifier</comment>
+                </field>
+                <field id="url_suffix" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>URL Suffix</label>                      
+                    <comment>(eg: .html)</comment>
+                </field>
+            </group>    
+        </section>
+    </system>
+</config>
+
+

@@ -1,0 +1,5 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="controller_action_predispatch_customer_account_logout">
+        <observer name="Dckap_MultiAccount" instance="Dckap\MultiAccount\Observer\Logout" />
+    </event>
+</config>

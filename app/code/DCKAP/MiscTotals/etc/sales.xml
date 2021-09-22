@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author     DCKAP
+ * @package    DCKAP_MiscTotals
+ * @copyright  Copyright (c) 2020 DCKAP Inc (http://www.dckap.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/sales.xsd">
+    <section name="quote">
+        <group name="totals">
+            <item name="adult_signature_fee" instance="DCKAP\MiscTotals\Model\Quote\Total\AdultSignatureFee" sort_order="150"/>
+        </group>
+    </section>
+
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="adult_signature_fee" instance="DCKAP\MiscTotals\Model\Invoice\Total\AdultSignatureFee" sort_order="160"/>
+        </group>
+    </section>
+
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="adult_signature_fee" instance="DCKAP\MiscTotals\Model\Creditmemo\Total\AdultSignatureFee" sort_order="160"/>
+        </group>
+    </section>
+</config>

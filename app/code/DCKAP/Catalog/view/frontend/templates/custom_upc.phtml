@@ -1,0 +1,11 @@
+<?php $product = $block->getProduct();
+$upc = $product->getData('upc');
+if ($upc && $upc != '') {
+    ?>
+<div class="custom-upc">
+    <div class="upc">
+        <span class="label">UPC:</span>
+        <div class="value" itemprop="upc"><?= $block->escapeHtml($upc); ?></div>
+    </div>
+</div>
+<?php } ?>

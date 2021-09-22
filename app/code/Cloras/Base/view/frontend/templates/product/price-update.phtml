@@ -1,0 +1,70 @@
+<?php
+
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');//get current product
+
+
+$requestInterface = $objectManager->get('Magento\Framework\App\RequestInterface');
+$actionName     = $requestInterface->getFullActionName();
+if ($actionName == "catalog_product_view") {
+    if ($product->getId()) {?>
+
+<style type="text/css">
+.product-info-price .price-wrapper .price{
+    display: none;
+}
+</style>
+<script type="text/javascript">
+    require(["jquery","mage/loader"],function($) {
+        $(document).ready(function() {
+
+            var customurl = "<?php echo $this->getUrl() . 'cloras/index/price'?>";
+            var productId = "<?php echo $product->getId(); ?>";
+            var loaderImg = "<?= $block->getViewFileUrl('images/loader-1.gif') ?>";
+            var loaderHtml = '<div id="price-panel-'+productId+'"  data-role="pannel" class="price-panel" style="position: absolute;"><div data-role="loader" class="loading-mask" style="position: relative;"><div class="loader"><img style="position: relative;" src="'+loaderImg+'" alt="loading" width="30px"></div></div>';
+
+            $('[data-role=priceBox]').hide();
+            $('#product-price-'+productId+' .price').hide();
+            $('[data-product-id='+productId+']').before(loaderHtml);
+            $("#price-panel-"+productId+ " .loader").show();
+            
+            $.ajax({
+                url: customurl,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    productId: productId,
+                },
+            complete: function(response) {
+                                                  
+                    product_id = response.responseJSON.productId;
+                    price = response.responseJSON.price;
+
+                    if(product_id){
+                        $('[data-role=priceBox]').show(); 
+                        loaderClass = "div.price-panel-"+product_id;
+                        $("#price-panel-"+product_id).hide();   
+
+
+                        $('#product-price-'+product_id+' .price').show();
+
+                        if(price != 0){
+                            $('#product-price-'+product_id+' .price').html(price);      
+                        }
+                        console.log(price);    
+                    }                        
+                       
+                },
+                error: function (xhr, status, errorThrown) {
+                    console.log('Error happens. Try again.');
+                }
+            });
+        });
+    });
+</script>
+    
+        <?php
+    }
+} ?>
+

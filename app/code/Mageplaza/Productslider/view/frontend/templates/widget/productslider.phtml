@@ -1,0 +1,189 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_Productslider
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+use Magento\Framework\App\Action\Action;
+use Mageplaza\Productslider\Block\AbstractSlider;
+
+/** @var AbstractSlider $block */
+$extensionHelper = $this->helper('DCKAP\Extension\Helper\Data');
+$stockConfig = $extensionHelper->getViewInventoryByLocation();
+$dckapCatalogHelper = $this->helper('DCKAP\Catalog\Helper\Data');
+$guestStockConfig = $extensionHelper->getGuestStockDisplay();
+$mode = 'grid';
+$title = $block->getTitle();
+$product_type=$block->getProductType();
+$checkIfBestSeller=0;
+if($block->getProductCollection()!=""){
+    foreach ($block->getProductCollection()as $_item){
+        if(count($_item->getData()))
+      $checkIfBestSeller=1;
+    }
+}if($checkIfBestSeller==0 && $product_type="best-seller"){
+    return false;
+}
+$id = $block->getData('page_var_name') . uniqid('', false);
+$defaultUom="EA";
+if ($items = $block->getProductCollection()) : ?>
+    <div class="mp-product-slider-block widget block-products-list test">
+        <h2 class="mp-product-slider-title"><?= $block->escapeHtml($block->getTitle()) ?></h2>
+        <p class="mp-ps-info"><?= $block->escapeHtml($block->getDescription()) ?></p>
+    </div>
+    <div class="block-content mp-product-slider-content testing">
+        <div class="products-grid grid">
+            <ol class="product-items widget-viewed-grid">
+                <?php $iterator = 1; ?>
+                <div id="mp-list-items-<?= /** @noEscape */ $id ?>"
+                     class="owl-carousel owl-theme">
+                    <?php foreach ($items as $_item) :
+                        $erpItem = $dckapCatalogHelper->getSessionProductData($_item->getSku());
+                        ?>
+                        <?= ($iterator++ == 1) ? '<li class="product-item product-slider"">' : '</li><li class="product-item product-slider"">' ?>
+                        <div class="slider-product-item-info" id="product-id-<?php echo $_item->getId(); ?>">
+                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                               class="product photo slider-product-item-photo">
+                                <?=  $block->getImage($_item, 'recently_viewed_products_grid_content_widget')->toHtml(); ?>
+                            </a>
+                            <div class="product details slider-product-item-details">
+                                <strong class="product name product-item-name">
+                                    <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                                       href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>">
+                                        <?= $block->escapeHtml($_item->getName()) ?>
+                                    </a>
+                                </strong>
+                                <?php if ($_item->isSaleable()): ?>
+                                <div class="price-outer-container" style="visibility: hidden">
+                                    <?php if ($_item->getTypeId() != 'configurable' && $_item->getTypeId() != 'grouped') { ?>
+                                        <?php echo $block->getProductPrice($_item); ?>
+                                    <?php } ?>
+                                </div>
+                                <?php endif; ?>
+                                    <div class="product actions slider-product-item-actions product-item-actions">
+                                        <?php if ($block->canShowAddToCart()) : ?>
+                                            <div class="actions-primary">
+                                                <?php if ($stockConfig != 0 && $_item->getTypeId() != 'configurable' && $_item->getTypeId() != 'grouped') {
+                                                    $stock = 0;
+                                                    if (isset($erpItem['lineItem'])) {
+                                                        $stock = (int)$erpItem['lineItem']['totalAvailable'];
+                                                    } ?>
+                                                    <?php if ($stock > 0): ?>
+                                                        <div class="stock available" title="<?= __('Availability') ?>">
+                                                            <span><?= ('Available In stock') ?></span>
+                                                        </div>
+                                                    <?php else: ?>
+                                                        <div class="stock unavailable" title="<?= __('Availability') ?>">
+                                                            <span><?= __('Out of stock') ?></span>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                <?php } ?>
+                                                <?php if ($_item->isSaleable()) :
+                                                $cartHelper = $this->helper('Magento\Checkout\Helper\Cart');
+                                                    $themeHelper = $this->helper('Dckap\Theme\Helper\Data');
+                                                	?>
+                                                    <?php $postParams = $block->getAddToCartPostParams($_item); ?>
+                                                    <?php $uom = $_item->hasData('uom')?$_item->getData('uom'): $defaultUom;
+                                                    if ($_item->getTypeId() == 'configurable' || $_item->getTypeId() == 'grouped') { ?>
+                                                    <a href="<?php echo $block->getProductUrl($_item) ?>" class="button action"><?= __('Choose an Option') ?></a>
+                                                <?php } else { ?>
+
+                                                    <form action="<?php echo $cartHelper->getAddUrl($_item);?>" method="post" data-role="tocart-form">
+                                                        <?php echo $block->getBlockHtml('formkey')?>
+                                                        <input type="number" name="qty" minlength="1" maxlength="3" value="1" title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty form-control" />
+                                                        <?php
+                                                        $customOptions = $themeHelper->getOption()->getProductOptionCollection($_item);
+                                                        $optStr = "";
+                                                        foreach($customOptions as $optionKey => $optionVal):
+                                                            $optStr .= "<div class='custom-options'><label style='display:none;'>".$optionVal->getTitle()." </label>";
+                                                            $optStr .= "<select id='select_option' name='options[".$optionVal->getId()."]'>";
+                                                            foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
+                                                                $optStr .= "<option data-value='".number_format($valuesVal->getPrice(),2)."' value='".$valuesVal->getId()."'>".$valuesVal->getTitle()."</option>";
+                                                            }
+
+                                                            $optStr .= "</select></div>";
+                                                            echo $optStr;
+                                                        endforeach;
+
+                                                        ?>
+                                                         <input type="hidden" name="custom_uom" class="custom_uom" value="<?= $uom ?>" />
+                                                        <button type="submit" class="submit action tocart primary" title="<?php echo __('Add to Cart') ?>">
+                                                            <span><?php echo __('Add to Cart') ?></span>
+                                                        </button>
+                                                    </form>
+                                                <?php } ?>
+                                            <?php endif; ?>
+                                            </div>
+                                            <div class="secondary-addto-links actions-secondary"
+                                                 data-role="add-to-links">
+                                                <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
+                                                    <a href="#"
+                                                       data-post='<?= /** @noEscape */ $block->getAddToWishlistParams($_item); ?>'
+                                                       class="action towishlist" data-action="add-to-wishlist"
+                                                       title="<?= /** @noEscape */ __('Add to Wish List') ?>">
+                                                        <span><?= /** @noEscape */ __('Add to Wish List') ?></span>
+                                                    </a>
+                                                <?php endif; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?= ($iterator === count($items) + 1) ? '</li>' : '' ?>
+                    <?php endforeach ?>
+                    </div>
+                </ol>
+            </div>
+            <?= $block->getPagerHtml() ?>
+        </div>
+    <script>
+        require(['jquery', 'mageplaza/core/owl.carousel'], function ($) {
+
+            if( jQuery('.new-best-seller-product .block-products-list').length==1){
+                 jQuery('.new-best-seller-product .mp-product-slider-content').css('width','100%');
+                 jQuery('.new-best-seller-product .block-products-list').css('width','100%');
+            }
+        
+            if(('<?php echo $product_type?>'=="new"||'<?php echo $product_type?>'=="best-seller" )&& jQuery('.new-best-seller-product .block-products-list').length==2 ){
+                 $('#mp-list-items-<?= /** @noEscape */ $id ?>').owlCarousel(
+                    {
+                        loop:true,
+                        margin:10,
+                        nav:false,
+                        responsive:{
+                            0:{
+                                items:1,
+                                dots: false,
+                            },
+                            600:{
+                                items:1,
+                                dots: false,
+                            },
+                            991:{
+                                items:2,
+                                dots: false,
+                            }
+                        }
+                    }
+                );
+                        }else{
+                 $('#mp-list-items-<?= /** @noEscape */ $id ?>').owlCarousel(<?= /** @noEscape */ $block->getAllOptions() ?>);
+            }
+            });
+    </script>
+<?php endif; ?>

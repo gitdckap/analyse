@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * @author    Agence Dn'D <contact@dnd.fr>
+ * @copyright 2019 Agence Dn'D
+ * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @link      https://www.dnd.fr/
+ */
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Akeneo Connector Log</title>
+        <css src="DCKAP_AkeneoSync::css/style.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="DCKAP\AkeneoSync\Block\Adminhtml\Log\View" name="adminhtml.dckap_akeneosync.log.view" template="DCKAP_AkeneoSync::view.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

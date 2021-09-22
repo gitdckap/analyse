@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_CheckoutCustomField
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="sales_order_save_after">
+		<observer name="save_order_after_custom_field" instance="Bss\CheckoutCustomField\Model\Observer\SaveOrder" />
+	</event>
+
+    <event name="paypal_express_place_order_success">
+        <observer name="paypal_express_place_order_success__custom_field" instance="Bss\CheckoutCustomField\Model\Observer\SaveOrder" />
+    </event>    
+	
+    <event name="email_order_set_template_vars_before">
+        <observer name="bss-add-custom-field-data-order" instance="Bss\CheckoutCustomField\Model\Observer\Order\EmailTemplateVars"/>
+    </event>
+
+    <event name="sales_order_load_after">
+        <observer name="sales_order_load_tip_and_trick_attribute" instance="Bss\CheckoutCustomField\Model\Observer\Sales\OrderLoadAfter" />
+    </event>
+</config>

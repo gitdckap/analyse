@@ -1,0 +1,8 @@
+<!--@subject A new customer registered  @-->
+{{template config_path="design/email/header_template"}} <!-- path of template header-->
+A new customer registered in CYM,
+
+<p>{{var firstname|raw}} {{var lastname|raw}} has recently created an account ({{var email|raw}}) in CYM,need to be verified by team.</p>
+
+<p>Sales - CYM.</p>
+{{template config_path="design/email/footer_template"}} <!--footer of template-->

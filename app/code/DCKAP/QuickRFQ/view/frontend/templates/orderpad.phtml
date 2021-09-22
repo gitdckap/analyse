@@ -1,0 +1,650 @@
+<?php $permission = $block->isDisplayed();
+$dckapHelper = $this->helper('DCKAP\Extension\Helper\Data');
+$QuickRFQHelper = $this->helper('Dckap\QuickRFQ\Helper\Data');
+$callUs = $dckapHelper->getCallUs();
+// $permission = false;
+
+$themeHelper = $this->helper('Dckap\Theme\Helper\Data');
+if ($permission) {
+    $orderPadItems = $block->getOrderpadItems();
+    $orderHandle = $block->getHandle();
+    $shiptoItems = $block->getShiptoItems();
+    $strRetainShipTo = $block->RetainShipTo();
+    $shiptoConfig = $block->getShiptoConfig();
+    if (!isset($orderHandle['shipto']) && $strRetainShipTo) {
+        $orderHandle = [
+            'shipto' => $strRetainShipTo,
+            'retain_shipto' => $strRetainShipTo
+        ];
+    }
+    
+    $sortArray = [
+        'description' => 'Description',
+        'stockNum' => 'SKU',
+        'price' => 'Price',
+        'lastDate' => 'Last Order Date',
+        'lastQty' => 'Last QTY'
+    ];
+    ?>
+    <div class="col-md-12 col-sm-12">
+        <?php if ($shiptoItems && !empty($shiptoItems)) { ?>
+            <label for="ship_to">Select Ship-to</label>
+            <select class="order-pad-selection" name="ship_to" id="order-pad-ship-to-location" style="width:300px;">
+                <!-- Dropdown List Option -->
+            </select>
+        <?php } ?>
+        <?php if (!$shiptoConfig) { ?>
+            <?php if ($orderHandle && !empty($orderHandle)) { ?>
+                <div class="description-filter">
+                    <label for="ship_to">Product Desc</label>
+                    <input type="text" class="desc_filter_text" name="desc_filter_text"
+                           value="<?php (isset($orderHandle['fdesc'])) ? $orderHandle['fdesc'] : ""; ?>"/>
+                    <a class="btn btn-default" href="#" title="Filter by description">Search</a>
+                </div>
+                <div class="toolbar-sorter sorter">
+                    <label class="sorter-label" for="sorter">Sort By</label>
+                    <select id="sorter" data-role="sorter" class="sorter-options">
+                        <option value="">select</option>
+                        <?php foreach ($sortArray as $key => $val) { ?>
+                            <option value="<?php echo $key; ?>" <?php if (isset($orderHandle['current_sfield']) && $key == $orderHandle['current_sfield']) {
+                                echo 'selected="selected"';
+                            } ?>><?php echo $val; ?></option>
+                        <?php } ?>
+                    </select>
+                    <?php if (isset($orderHandle['current_sorder']) && $orderHandle['current_sorder'] == 1) { ?>
+                        <a title="Set Descending Direction" href="#" class="action sorter-action sort-asc"
+                           data-role="direction-switcher" data-value="desc" style="display: block;">
+                            <span>Set Descending Direction</span>
+                        </a>
+                    <?php } else { ?>
+                        <a title="Set Ascending Direction" href="#" class="action sorter-action sort-desc"
+                           data-role="direction-switcher" data-value="asc" style="display: block;">
+                            <span>Set Ascending Direction</span>
+                        </a>
+                    <?php } ?>
+                </div>
+            <?php } ?>
+        <?php } ?>
+    </div>
+    <?php
+    if (!empty($orderPadItems)):
+
+        ?>
+        <div id="message-error" style="display: none;"></div>
+
+        <div class="row toolbar order-pad-actions top">
+            <div class="col-md-2 col-sm-2">
+                <div class="order-pad-cart">
+                    <button class="add-icon btn btn-success" title="Add All From Page">Add All From Page</button>
+                </div>
+            </div>
+            <div class="pager">
+                <p class="toolbar-amount">
+                    <span class="toolbar-number">Items <?php echo isset($orderHandle['start']) ? $orderHandle['start'] : '1' ?> to <?php echo isset($orderHandle['end']) ? $orderHandle['end'] : '25' ?> of <?php echo isset($orderHandle['records_count']) ? $orderHandle['records_count'] : '' ?> total</span>
+                </p>
+            </div>
+        </div>
+        <div class="table-wrapper orders-history">
+            <table class="data table table-order-pad order-pad-table" id="my-orders-table">
+                <caption class="table-caption"><?= __('Order Pad') ?></caption>
+                <thead>
+                <tr>
+                    <th scope="col" class="col"></th>
+                    <th scope="col" class="col sku"><?= __('Description / SKU') ?></th>
+                    <th scope="col" class="col last-upm"><?= __('UOM') ?></th>
+                    <th scope="col" class="col price"><?= __('Unit Price') ?></th>
+                    <th scope="col" class="col category"><?= __('Category') ?></th>
+                    <th scope="col" class="col last-date"><?= __('Last Order Date') ?></th>
+                    <th scope="col" class="col last-qty"><?= __('Last QTY') ?></th>
+                    <th scope="col" class="col part-number"><?= __('Part #') ?></th>
+                    <th scope="col" class="col qty"><?= __('QTY') ?></th>
+                    <th scope="col" class="col action"><?= __('Action') ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($orderPadItems as $item):
+                    $productType = 'history';
+                    $productUrl = $block->getProductUrl(str_replace('!', '', $item['stockNum']));
+                    ?>
+                    <tr class="content <?php echo $productType; ?>">
+                        <td data-th="Image">
+                            <img src="<?php echo $block->getProductImageUrl(str_replace('!', '', $item['stockNum'])); ?>"
+                                 alt="<?php echo $item['description']; ?>" width="135" height="135"/>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Description / SKU')) ?>" class="col sku">
+                            <?php if ($productType == 'quote') { ?>
+                                <span class="icon quote">Quote</span>
+                            <?php } else { ?>
+                                <span class="icon history">History</span>
+                            <?php } ?>
+                            <span class="product-title"><a target="_blank"
+                                                           href="<?php echo $productUrl; ?>"><?php echo $item['description']; ?></a></span>
+                            <span class="sku">Product #: <a target="_blank"
+                                                            href="<?php echo $productUrl; ?>"><?php echo $item['stockNum']; ?></a></span>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('UOM')) ?>" class="col last-uom">
+                            <?php if (isset($item['uom'])) {
+                                echo strtoupper($item['uom']);
+                            } ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Unit Price')) ?>" class="col price">
+                            <?php echo $this->helper('Magento\Framework\Pricing\Helper\Data')->currency($item['price'], true, false); ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Product Category')) ?>" class="col category">
+                            <?php echo $item['webCategoryDesc'] ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Last Date')) ?>" class="col last-date">
+                            <?php if (isset($item['lastDate'])) {
+                                echo $item['lastDate'];
+                            } ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Last Qty')) ?>" class="col last-qty">
+                            <?php if (isset($item['lastQty'])) {
+                                echo (int)$item['lastQty'];
+                            } ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Part Number')) ?>" class="col part-number">
+                            <?php echo $item['custPartNum']; ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Qty')) ?>" class="col qty">
+                            <?php $name = "qty_" . str_replace('!', '', $item['stockNum'] . "&&" . strtoupper($item['uom']));
+                            echo '<input class="order-pad-qty" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" data-sku="' . str_replace(' ', '-', str_replace('!', '', $item['stockNum'])) . '" name="' . $name . '" value="" />';
+                            ?>
+                            <div class="message-error-<?php echo str_replace(' ', '-', str_replace('!', '', $item['stockNum'])); ?>"
+                                 style="display: none;"></div>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Action')) ?>" class="col action">
+                            <?php $addsku = "qty_" . str_replace('!', '', $item['stockNum'] . "&&" . strtoupper($item['uom']));
+                            echo '<button class="add_orderpad_item add-icon btn btn-success"   name="' . $addsku . '"  sku="' . str_replace(' ', '-', str_replace('!', '', $item['stockNum'])) . '" >Add to cart</button>';
+                            ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="row toolbar order-pad-actions bottom">
+            <div class="col-md-2 col-sm-2">
+                <div class="order-pad-cart">
+                    <button class="add-icon btn btn-success" title="Add All From Page">Add All From Page</button>
+                </div>
+            </div>
+        </div>
+        <div class="order-products-toolbar toolbar top">
+            <div class="pager">
+                <div class="pages">
+                    <strong class="label pages-label" id="paging-label">Page</strong>
+                    <ul class="items pages-items" aria-labelledby="paging-label">
+                        <li class="item pages-item-previous">
+                            <?php $href = '#';
+                            if (isset($orderHandle['shipto']) && isset($orderHandle['prev_page'])) {
+                                $href = '?shipto=' . $orderHandle['shipto'] . '&page=' . $orderHandle['prev_page'];
+                            } elseif (!(isset($orderHandle['shipto'])) && isset($orderHandle['prev_page'])) {
+                                $href = '?page=' . $orderHandle['prev_page'];
+                            } elseif (isset($orderHandle['shipto']) && !(isset($orderHandle['prev_page']))) {
+                                $href = '?shipto=' . $orderHandle['shipto'];
+                            } ?>
+                            <a class="action  previous orderpad_prev_page" href="<?php echo $href; ?>" title="Previous">
+                                <span class="label">Page</span>
+                                <span>Previous</span>
+                            </a>
+                        </li>
+                        <li class="item pages-item-next">
+                            <?php $href = '#';
+                            if (isset($orderHandle['shipto']) && isset($orderHandle['next_page'])) {
+                                $href = '?shipto=' . $orderHandle['shipto'] . '&page=' . $orderHandle['next_page'];
+                            } elseif (!(isset($orderHandle['shipto'])) && isset($orderHandle['next_page'])) {
+                                $href = '?page=' . $orderHandle['next_page'];
+                            } elseif (isset($orderHandle['shipto']) && !(isset($orderHandle['next_page']))) {
+                                $href = '?shipto=' . $orderHandle['shipto'];
+                            } ?>
+                            <a class="action  next orderpad_next_page" href="<?php echo $href; ?>" title="Next">
+                                <span class="label">Page</span>
+                                <span>Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <?php else: ?>
+        <?php if ($shiptoConfig == 1) { ?>
+            <div class="message info empty"><span><?= __('Please select a ship-to location to continue.') ?></span>
+            </div>
+        <?php } else { ?>
+            <div class="message info empty"><span><?= __('You have no orderpad items.') ?></span></div>
+        <?php } ?>
+    <?php endif ?>
+    <script>
+        require([
+            "jquery",
+            'Magento_Customer/js/customer-data',
+            'Magento_Checkout/js/select2',
+            'Magento_Ui/js/modal/alert',
+            'Magento_Ui/js/modal/confirm'
+        ], function ($, customerData, select2, alert, confirmation) {
+            $(document).ready(function () {
+                /* sort-by selection */
+                var arrmixShipToLocation = [
+                    <?php if (true == is_array($shiptoItems) && 0 < count($shiptoItems)) { ?>
+                    {
+                        id: "",
+                        text: "All ShipTo’s"
+                    },
+                    <?php foreach ($shiptoItems as $shiptoItem) { ?>
+                    {
+                        id: "<?php echo $shiptoItem['value']; ?>",
+                        text: "<?php echo $shiptoItem['label']; ?>"
+                    },
+                    <?php }
+                    } else { ?>
+                    {
+                        text: "There is no ship to record found."
+                    },
+                    <?php } ?>
+                ];
+                $("#order-pad-ship-to-location").select2({
+                    data: arrmixShipToLocation
+                });
+
+                <?php
+                $boolIsShipToAvailable = TRUE;
+
+                if (false == empty($orderHandle) && true == array_key_exists('shipto', $orderHandle) && false == empty($orderHandle['shipto']) && true == is_array($shiptoItems)) {
+                    $boolIsShipToAvailable = (bool)array_key_exists($orderHandle['shipto'], array_column($shiptoItems, 'label', 'value'));
+                }
+
+                if( false == empty($orderHandle) && true == array_key_exists('shipto', $orderHandle) && false == empty($orderHandle['shipto']) && true == $boolIsShipToAvailable ) { ?>
+
+                $('#order-pad-ship-to-location').val('<?php echo $orderHandle['shipto']; ?>');
+                $('#order-pad-ship-to-location').select2().trigger('change');
+
+                <?php } else if( false == $boolIsShipToAvailable) {  ?>
+                alert({
+                    title: 'Shipto Number not found',
+                    content: 'The Shipto number that you have entered does not exist. Please enter a valid Shipto number.',
+                    autoOpen: true,
+                    clickableOverlay: false,
+                    focus: "",
+                    actions: {
+                        always: function () {
+                            console.log("modal closed");
+                        }
+                    },
+                    buttons: [{
+                        text: $.mage.__('OK'),
+                        class: 'action-primary action-accept'
+                    }]
+                });
+                <?php } ?>
+
+                $(document).on("change", "#sorter", function (e) {
+                    var val = $(this).val();
+                    var url = '<?php echo $block->getUrl("quickrfq/customer/index/"); ?>';
+                    var shipto = '';
+                    if ($(".order-pad-selection").val() != '') {
+                        shipto = $(".order-pad-selection").val();
+                    }
+                    if (shipto != '') {
+                        url += '?shipto=' + shipto + '&sfield=' + val;
+                    } else {
+                        url += '?sfield=' + val;
+                    }
+                    if ($(".description-filter input.desc_filter_text").val() != '') {
+                        url += '&fdesc=' + $(".description-filter input.desc_filter_text").val();
+                    }
+                    var page_count = getUrlVars()["page"];
+
+                    function getUrlVars() {
+                        var vars = [], hash;
+                        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                        console.log(hashes + "hashes");
+                        for (var i = 0; i < hashes.length; i++) {
+                            hash = hashes[i].split('=');
+                            console.log(hash[0] + "hashes[0]");
+                            vars.push(hash[0]);
+                            vars[hash[0]] = hash[1];
+                            console.log(vars + "vars");
+                        }
+                        return vars;
+                    }
+
+                    if (page_count != undefined) {
+                        url += '&page=' + page_count;
+                    }
+                    window.location.href = url;
+                });
+                $(document).on("click", ".sort-desc", function (e) {
+                    e.preventDefault();
+                    var url = '<?php echo $block->getUrl("quickrfq/customer/index/"); ?>';
+                    var shipto = '';
+                    var sfield = '';
+                    if ($("#sorter").val() != '') {
+                        sfield = $("#sorter").val();
+                    } else {
+                        return false;
+                    }
+                    if ($(".order-pad-selection").val() != '') {
+                        shipto = $(".order-pad-selection").val();
+                    }
+                    if (shipto != '') {
+                        url += '?shipto=' + shipto + '&sfield=' + sfield + '&sorder=1';
+                    } else {
+                        url += '?sfield=' + sfield + '&sorder=1';
+                    }
+                    if ($(".description-filter input.desc_filter_text").val() != '') {
+                        url += '&fdesc=' + $(".description-filter input.desc_filter_text").val();
+                    }
+                    window.location.href = url;
+                });
+
+                $(document).on("click", ".orderpad_prev_page", function (e) {
+                    e.preventDefault();
+                    var href = $(this).attr('href');
+                    var url = '<?php echo $block->getUrl("quickrfq/customer/index/"); ?>';
+                    url = url + href;
+                    if ($(".description-filter input.desc_filter_text").val() != '') {
+                        url += '&fdesc=' + $(".description-filter input.desc_filter_text").val();
+                    }
+                    var fdesc = getUrlVars()["fdesc"];
+                    if (fdesc != undefined) {
+                        url += '&fdesc=' + fdesc;
+                    }
+                    var sfield = getUrlVars()["sfield"];
+                    if (sfield != undefined) {
+                        url += '&sfield=' + sfield;
+                    }
+                    console.log(url);
+                    window.location.href = url;
+
+                    function getUrlVars() {
+                        var vars = [], hash;
+                        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                        console.log(hashes + "hashes");
+                        for (var i = 0; i < hashes.length; i++) {
+                            hash = hashes[i].split('=');
+                            console.log(hash[0] + "hashes[0]");
+                            vars.push(hash[0]);
+                            vars[hash[0]] = hash[1];
+                            console.log(vars + "vars");
+                        }
+                        return vars;
+                    }
+
+                });
+
+                $(document).on("click", ".sort-asc", function (e) {
+                    e.preventDefault();
+                    var url = '<?php echo $block->getUrl("quickrfq/customer/index/"); ?>';
+                    var shipto = '';
+                    var sfield = '';
+                    if ($("#sorter").val() != '') {
+                        sfield = $("#sorter").val();
+                    } else {
+                        return false;
+                    }
+                    if ($(".order-pad-selection").val() != '') {
+                        shipto = $(".order-pad-selection").val();
+                    }
+                    if (shipto != '') {
+                        url += '?shipto=' + shipto + '&sfield=' + sfield + '&sorder=0';
+                    } else {
+                        url += '?sfield=' + sfield + '&sorder=0';
+                    }
+                    if ($(".description-filter input.desc_filter_text").val() != '') {
+                        url += '&fdesc=' + $(".description-filter input.desc_filter_text").val();
+                    }
+                    window.location.href = url;
+                });
+
+                /* Filter-by description */
+                $(document).on("click", ".description-filter a", function (e) {
+                    e.preventDefault();
+                    var url = '<?php echo $block->getUrl("quickrfq/customer/index/"); ?>';
+                    var shipto = '';
+                    var fdesc = '';
+                    if ($(".description-filter input.desc_filter_text").val() != '') {
+                        fdesc = $(".description-filter input.desc_filter_text").val();
+                    }
+                    if ($(".order-pad-selection").val() != '') {
+                        shipto = $(".order-pad-selection").val();
+                    }
+                    if (shipto != '') {
+                        url += '?shipto=' + shipto + '&fdesc=' + fdesc;
+                    } else {
+                        url += '?fdesc=' + fdesc;
+                    }
+                    if ($("#sorter").val() != '') {
+                        url += '&sfield=' + $("#sorter").val();
+                    }
+                    window.location.href = url;
+                });
+                <?php if(isset($orderHandle['retain_shipto'])){ ?>
+                var url = '<?php echo $block->getUrl("quickrfq/customer/index/"); ?>';
+                url += '?shipto=' + '<?php echo $orderHandle['retain_shipto']; ?>';
+                window.location.href = url;
+                <?php } ?>
+                /* product type selection */
+                $(document).on("change", ".order-pad-selection", function (e) {
+                    var val = $(this).val();
+                    if (val == '') {
+                        var url = '<?php echo $block->getUrl("quickrfq/customer/index/");
+                            ?>';
+                        url += '?shipto=' + val;
+                        window.location.href = url;
+                    } else {
+                        var url = '<?php echo $block->getUrl("quickrfq/customer/index/"); ?>';
+                        url += '?shipto=' + val;
+                        window.location.href = url;
+                    }
+                });
+
+                /* ajax add to cart */
+                $(document).on("click", ".order-pad-cart button", function () {
+                    var $inputs = $('.table-order-pad tbody tr .order-pad-qty');
+                    var values = {};
+                    var nValues = {};
+                    var i = 0, j = 0;
+                    $inputs.each(function () {
+                        if ($(this).val() !== '') {
+                            if ($(this).val() != '0' && $(this).val() > 0) {
+                                // var qty = $(this).val();
+                                // if (qty !== undefined || qty !== '' || qty > 0) {
+                                values[this.name] = $(this).val();
+                                i++;
+                            } else {
+                                var sku = $(this).attr('data-sku');
+                                console.log(sku);
+                                var qtyErrorMessage = $(this).parents('.col.qty').find('.message-error-' + sku);
+                                qtyErrorMessage.show();
+                                qtyErrorMessage.append('<div class="custom-errormsg" style="color: #ff0000;text-align: center;">Please enter valid qty.</div>');
+
+                                setTimeout(function () {
+                                    qtyErrorMessage.fadeOut('fast');
+                                }, 15000);
+                                j++;
+                            }
+                        }
+                    });
+                    console.log(i);
+                    if (j > 0) {
+                        $('.custom-errormsg').remove();
+                        $('#message-error').show();
+                        $('#message-error').append('<div class="custom-errormsg">Please enter valid qty for the products.</div>');
+                        $("html, body").animate({scrollTop: 0}, 300);
+                        setTimeout(function () {
+                            $('#message-error').fadeOut('fast');
+                            $('.custom-errormsg').remove();
+                        }, 15000);
+                        return false;
+                    }
+                    if (i == 0) {
+                        $('.custom-errormsg').remove();
+                        $('#message-error').show();
+                        $('#message-error').append('<div class="custom-errormsg">Please enter valid qty atleast one product.</div>');
+                        $("html, body").animate({scrollTop: 0}, 300);
+                        setTimeout(function () {
+                            $('#message-error').fadeOut('fast');
+                            $('.custom-errormsg').remove();
+                        }, 15000);
+                        return false;
+                    }
+                    var params = {
+                        'newvalues': values
+                    };
+                    $('body').trigger('processStart');
+                    $.ajax({
+                        method: 'post',
+                        url: '<?php echo $this->getUrl('quickrfq/customer/addtocart/');?>',
+                        data: params,
+                        success: function (response) {
+                            $('body').trigger('processStop');
+                            console.log(response);
+                            if (response === '') {
+                                var link = '<?php echo $this->getCustomerLoginUrl();?>';
+                                window.location.assign(link);
+                                return false;
+                            }
+                            var sections = ['cart'];
+                            customerData.invalidate(sections);
+                            customerData.reload(sections, true);
+                            // window.location = '<?php //echo $this->getCustomerLoginUrl();?>' ;
+                        }
+                    });
+                });
+
+                /* ajax add to cart for single item */
+                $(document).on("click", ".add_orderpad_item", function () {
+                    var name = $(this).attr("name");
+                    // var qty = $(this).attr("qty");
+                    var qty = $(this).parents("tr.content").find('td .order-pad-qty').val();
+                    console.log(name);
+                    console.log(qty);
+                    var sku = $(this).attr("sku");
+                    console.log(sku);
+                    $(".add_orderpad_item").attr("qty", "");
+                    $('.order-pad-qty').val("");
+                    if (qty === undefined || qty == '' || qty <= 0) {
+                        console.log('hello');
+                        $('.custom-errormsg').remove();
+                        $('.message-error-' + sku).show();
+                        $('.message-error-' + sku).append('<div class="custom-errormsg" style="color: red;text-align: center;">Please enter valid qty.</div>');
+
+                        setTimeout(function () {
+                            $('#message-error-' + sku).fadeOut('fast');
+                            $('.custom-errormsg').remove();
+                        }, 15000);
+                        return false;
+                    }
+                    var values = {};
+                    values[name] = qty;
+                    var params = {
+                        'newvalues': values
+                    };
+                    console.log(params);
+                    $('body').trigger('processStart');
+                    $.ajax({
+                        method: 'post',
+                        url: '<?php echo $this->getUrl('quickrfq/customer/addtocart/');?>',
+                        data: params,
+                        success: function (response) {
+                            console.log("response");
+                            console.log(response);
+                            if (response.status === 'Success') {
+                                $('body').trigger('processStop');
+                                console.log(response);
+                                console.log(sku);
+                                var sections = ['cart'];
+                                customerData.invalidate(sections);
+                                customerData.reload(sections, true);
+                                // $(document).find('[data-role="dropdownDialog"]').dropdownDialog("open");
+                            } else {
+                                console.log("else");
+                                console.log(sku);
+                                $('body').trigger('processStop');
+                                $('.custom-errormsg').remove();
+                                $('.message-error-' + sku).show();
+                                $('.message-error-' + sku).append('<div class="custom-errormsg" style="color: red;text-align: center;">' + response.msg + '</div>');
+
+                                setTimeout(function () {
+                                    $('#message-error-' + sku).fadeOut('fast');
+                                    $('.custom-errormsg').remove();
+                                }, 15000);
+                            }
+                            //window.location = '<?php //echo $this->getBaseUrl();?>//' + response.backurl;
+                        }
+                    });
+                });
+
+                /* display popup when click next page */
+                $(document).on("click", ".orderpad_next_page", function (e) {
+                    e.preventDefault();
+                    var href = $(this).attr('href');
+                    var url = '<?php echo $block->getUrl("quickrfq/customer/index/"); ?>';
+
+                    url = url + href;
+                    if ($(".description-filter input.desc_filter_text").val() != '') {
+                        url += '&fdesc=' + $(".description-filter input.desc_filter_text").val();
+                    }
+                    var fdesc = getUrlVars()["fdesc"];
+                    if (fdesc != undefined) {
+                        url += '&fdesc=' + fdesc;
+                    }
+                    var sfield = getUrlVars()["sfield"];
+                    if (sfield != undefined) {
+                        url += '&sfield=' + sfield;
+                    }
+
+                    var page_count = getUrlVars()["page"];
+                    if (page_count === undefined) {
+                        confirmation({
+                            content: '<?php echo __('Note: The items you selected will be lost if you go to next page.');?>',
+                            clickableOverlay: false,
+                            buttons: [{
+                                text: 'Cancel',
+                                class: 'action-secondary action-dismiss',
+                                click: function (event) {
+                                    this.closeModal(event);
+                                }
+                            }, {
+                                text: 'Continue',
+                                class: 'action-primary action-accept',
+                                click: function (event) {
+                                    this.closeModal(event, true);
+                                }
+                            }],
+                            actions: {
+                                confirm: function () {
+                                    console.log(url);
+                                    window.location.href = url;
+                                }
+                            }
+                        });
+                    } else {
+                        console.log(url);
+                        window.location.href = url;
+                    }
+                    console.log(page_count + "pacount");
+
+                    function getUrlVars() {
+                        var vars = [], hash;
+                        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                        console.log(hashes + "hashes");
+                        for (var i = 0; i < hashes.length; i++) {
+                            hash = hashes[i].split('=');
+                            console.log(hash[0] + "hashes[0]");
+                            vars.push(hash[0]);
+                            vars[hash[0]] = hash[1];
+                            console.log(vars + "vars");
+                        }
+                        return vars;
+                    }
+                });
+            });
+        });
+    </script>
+<?php } else { ?>
+    <div class="message info">
+        <span><?= __("You currently do not have access to Order Pad. Please contact us at " . $callUs . " for assistance."); ?></span>
+    </div>
+<?php } ?>

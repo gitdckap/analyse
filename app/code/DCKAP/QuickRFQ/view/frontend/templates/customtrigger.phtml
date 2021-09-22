@@ -1,0 +1,28 @@
+<?php 
+$previous_url="";
+$previous_url1="";
+if(isset($_SERVER['HTTP_REFERER'])){
+	$arr=explode('/', $_SERVER['HTTP_REFERER']);
+	$previous_url=$arr[count($arr)-2];
+	$previous_url1=$arr[count($arr)-4];
+	//print_r($arr);
+}
+	?>
+<script type="text/javascript">
+	    require([
+        'jquery',
+        'mage/mage'
+        
+    ], function($){
+$(document).ready(function() {
+	
+   var customrefresh='<?php echo $previous_url;?>';
+   var customrefresh1='<?php echo $previous_url1;?>';
+  
+	if(customrefresh=="quote" || customrefresh1=="quote"){
+	$('.form-cart .update').click();
+	}
+});
+});
+
+</script>

@@ -1,0 +1,73 @@
+<?php
+ 
+/**
+* Copyright Â© DCKAP INC, Inc. All rights reserved.
+* See COPYING.txt for license details.
+*/
+?>
+<?php
+/**
+* Category widget
+*
+* @var $block \DCKAP\Categorywidget\Block\Widget\Showcategories
+*/
+?>
+<?php
+$title = $block->getTitle() ? __($block->getTitle()) : 'Featured Categories';
+?>
+<div class="block-title">
+    <strong role="heading" aria-level="2"><h3><?php /* @escapeNotVerified */
+            echo $title; ?></h3></strong>
+</div>
+<?php $parentCategories = $block->getCategoryCollection();
+?>
+
+<div class="block pad-main-product">
+    <div class="block widget block-products-list grid">
+        <div class="block-content">
+            <div class="products-grid grid">
+                <ol class="product-items widget-product-grid">
+                    <?php 
+                    $sizeCount=0;
+                    foreach($parentCategories as $parentCategory){
+                        $image_url = $this->getCategoryImageUrl($parentCategory->getId());
+                        $parentCategoryUrl = $parentCategory->getUrl();
+                      
+                        ?>
+                         <li class="product-item">
+                            <div class="product-item-info">
+                                <div class="product-item-details">
+                                    <ul class="productsub-categories">
+                                       <a href="<?php echo $parentCategoryUrl; ?>" class="product-item-name-link">
+                                            <strong class="product name product-item-name"><?php echo $parentCategory->getName(); ?></strong>
+                                        </a>
+                                    </ul>
+                                     <?php if($sizeCount==0|| $sizeCount==5){?>
+                                        <div class="category-desc"><?php echo $parentCategory->getDescription();?></div>
+                                        <div class="category-shop-now"><a href="<?php echo $parentCategoryUrl; ?>">Shop Now</a></div>
+                                     <?php }?>
+                                </div>
+                                <div class="product-img-block">
+                                    <a href="<?php echo $parentCategoryUrl; ?>" class="product-item-photo">
+                                        <span class="product-image-container">
+                                            <span class="product-image-wrapper">
+                                                <img class="product-image-photo" src="<?php echo $image_url; ?>" width="155" alt="<?php echo $parentCategory->getName();?>">
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <div class="pro-overlay"></div>
+                                </div>
+                            </div>
+                        </li>
+                    <?php 
+                        $sizeCount++;
+                        }  
+                    ?>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var category_page = 'static_block';
+</script>

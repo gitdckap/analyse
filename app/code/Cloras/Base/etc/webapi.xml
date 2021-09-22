@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route method="GET" url="/V1/cloras/customers/info">
+        <service class="Cloras\Base\Api\CustomerInterface" method="getCustomers"/>
+        <resources>
+            <resource ref="Cloras_Base::base" />
+        </resources>
+    </route>
+    <route method="POST" url="/V1/cloras/customers/update">
+        <service class="Cloras\Base\Api\CustomerInterface" method="updateCustomers"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>   
+
+    <route method="POST" url="/V1/cloras/customers/address/update">
+        <service class="Cloras\Base\Api\CustomerInterface" method="updateBillingAddress"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>   
+
+    <route method="GET" url="/V1/cloras/attributeMetadata/customer">
+        <service class="Cloras\Base\Api\CustomerInterface" method="getCustomerMetaData"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route method="GET" url="/V1/cloras/attributeMetadata/customerAddress">
+        <service class="Cloras\Base\Api\CustomerInterface" method="getCustomerAddressMetaData"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route method="GET" url="/V1/cloras/products/fields">
+        <service class="Cloras\Base\Api\ProductFieldsInterface" method="getFields"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route method="GET" url="/V1/cloras/repo/index">
+        <service class="Cloras\Base\Api\RepoResultsInterface" method="getSearchResults"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route method="GET" url="/V1/cloras/customers/fields">
+        <service class="Cloras\Base\Api\CustomerFieldsInterface" method="getFields"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route method="GET" url="/V1/cloras/orders/fields">
+        <service class="Cloras\Base\Api\OrderFieldsInterface" method="getFields"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route url="/V1/cloras/shipping/methods" method="GET">
+        <service class="Cloras\Base\Api\ShippingMethodInterface" method="getShippingMethods"/>
+        <resources>
+            <resource ref="Cloras_Base::base" />
+        </resources>
+    </route>
+
+    <route method="GET" url="/V1/cloras/integration/test">
+        <service class="Cloras\Base\Api\IntegrationInterface" method="testCredentials"/>
+        <resources>
+            <resource ref="Cloras_Base::base" />
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/cloras/integration/create">
+        <service class="Cloras\Base\Api\IntegrationInterface" method="createNewIntegration"/>
+        <resources>
+            <resource ref="Cloras_Base::base" />
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/cloras/batch/create">
+        <service class="Cloras\Base\Api\IntegrationInterface" method="createIntegration"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+
+    <route method="GET" url="/V1/cloras/products/info">
+        <service class="Cloras\Base\Api\ProductResultsInterface" method="getProducts"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/cloras/inventory/update">
+        <service class="Cloras\Base\Api\ProductResultsInterface" method="updateProductsInventory"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/cloras/products/create">
+        <service class="Cloras\Base\Api\ProductResultsInterface" method="createProducts"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route method="GET" url="/V1/cloras/products/inventory">
+        <service class="Cloras\Base\Api\ProductResultsInterface" method="getDynamicInventory"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/cloras/products/price">
+        <service class="Cloras\Base\Api\ProductResultsInterface" method="updateProductPrice"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <!--Orders -->
+    <route method="GET" url="/V1/cloras/orders/info">
+        <service class="Cloras\Base\Api\OrderResultsInterface" method="getOrders"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/cloras/orders/update">
+        <service class="Cloras\Base\Api\OrderResultsInterface" method="updateOrders"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+    
+    
+    <route method="GET" url="/V1/cloras/orders/status">
+        <service class="Cloras\Base\Api\OrderResultsInterface" method="getListOrders"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+    <!-- create order  -->
+    <route method="POST" url="/V1/cloras/orders/create">
+        <service class="Cloras\Base\Api\OrderResultsInterface" method="prepareOrders"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+
+
+    <route method="GET" url="/V1/cloras/orders/ids">
+        <service class="Cloras\Base\Api\OrderResultsInterface" method="getOrderIds"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/cloras/inventory/bulkupdate">
+        <service class="Cloras\Base\Api\ProductResultsInterface" method="updateBulkInventory"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+
+    <route url="/V1/cloras/payment/methods" method="GET">
+        <service class="Cloras\Base\Api\PaymentMethodInterface" method="getPaymentMethods"/>
+        <resources>
+            <resource ref="Cloras_Base::base" />
+        </resources>
+    </route>
+
+
+    <route method="GET" url="/V1/cloras/products/new">
+        <service class="Cloras\Base\Api\ProductResultsInterface" method="getNewProducts"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/cloras/products/update">
+        <service class="Cloras\Base\Api\ProductResultsInterface" method="updateNewProducts"/>
+        <resources>
+            <resource ref="Cloras_Base::base"/>
+        </resources>
+    </route>
+    
+</routes>

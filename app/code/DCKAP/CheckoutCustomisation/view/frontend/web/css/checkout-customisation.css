@@ -1,0 +1,20 @@
+#co-payment-form .fieldset
+{
+	letter-spacing: initial; 
+}
+.section.upload_po_number, .payment-custom-fields
+{
+	margin: 15px 0;
+}
+
+.payment-custom-fields .po_number label{
+	padding: 4px 0;
+    display: inline-block;
+}
+
+.payment-custom-fields .mage-error{
+	padding: 5px 0;
+    display: inline-block;
+    color: #ec2f2f;
+    font-size: 12px;
+}

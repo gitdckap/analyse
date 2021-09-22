@@ -1,0 +1,32 @@
+<?php
+/**
+ * Cayan Payments
+ *
+ * @package Cayan\Payment
+ * @author Igor Miura
+ * @author Joseph Leedy
+ * @copyright Copyright (c) 2017 Cayan (https://cayan.com/)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+/**
+ * @var $block \Cayan\Payment\Block\Adminhtml\Order\Creditmemo\GiftCard
+ */
+?>
+<?php if ($block->getGiftCardAmount() > 0): ?>
+    <div class="admin__field admin__field-option field-refund-store-credit" style="background: #f1f1f1;
+    padding: 4px 0 0;
+    height: 40px;">
+        <label for="creditmemo_cayancard_return_enable" class="admin__field-label" style="margin-left: 11px;
+    position: absolute;
+    margin-top: 6px;">
+            <span><?php /* @escapeNotVerified */ echo __('Adjustment Gift Card') ?></span>
+        </label>
+        <input type="number"
+               name="creditmemo[refund_cayancard_return]"
+               value="0"
+               id="creditmemo_cayancard_return"
+               max="<?= $this->getGiftCardAmount() ?>"
+               class="input-text admin__control-text not-negative-amount"
+               style="float: right; width: 64px;"/>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="cloras" translate="label" sortOrder="10">
+            <label>Cloras</label>
+        </tab>
+        <section id="clorasbase" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Integration</label>
+            <tab>cloras</tab>
+            <resource>Cloras_Base::clorasbase_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Module</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="baseurl" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cloras BaseUrl</label>
+                </field>
+                <field id="authorization" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Authorization Token</label>
+                    <comment>Get authorization code from Cloras</comment>
+                </field>
+            </group>
+
+            <group id="dynamic_pricing" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Dynamic Pricing Configuration</label>
+                
+                <field id="api_path" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API PATH</label>
+                    <comment></comment>
+                </field>
+            </group>
+           
+
+        </section>
+    </system>
+</config>

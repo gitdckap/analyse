@@ -1,0 +1,25 @@
+<!--
+/**
+ * Cayan Payments
+ *
+ * @package Cayan\Payment
+ * @author Igor Miura
+ * @author Joseph Leedy
+ * @copyright Copyright (c) 2017 Cayan (https://cayan.com/)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+-->
+<tr class="totals sub giftcard-totals" data-bind="if: isVisible()">
+    <th class="mark title" data-bind="i18n: title"></th>
+</tr>
+<!--ko foreach: getCodes()-->
+<tr class="totals sub giftcard-totals">
+    <th class="mark"><strong>Code: </strong><!--ko text: masked_code--><!--/ko--></th>
+    <th class="mark value"><!--ko text: value--><!--/ko--></th>
+    <th class="mark"><a href="#remove-gift-code" class="remove" id="remove-gift-code" data-bind="event: {click : function(){ $parent.removeGiftCode(code); } }">Remove</a></th>
+</tr>
+<!--/ko-->
+<tr class="totals sub giftcard-totals" data-bind="if: isVisible()">
+    <th class="mark title">Gift Card Total:</th>
+    <th class="mark" data-bind="text: getGiftTotal()"></th>
+</tr>

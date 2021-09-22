@@ -1,0 +1,326 @@
+& when (@media-common = true) {	
+	/* Cart */
+	html .checkout-cart-index {
+		.page-main {
+			.columns {
+				.column.main {	
+    				padding-bottom: 30px;
+					.cart-container {
+						.form-cart {
+						    background: #fff;
+						    border: 1px solid #ececec;
+						    border-radius: 5px;
+						    padding: 25px;
+    						width: calc(~"100% - 340px");
+    						.cart.table-wrapper {
+    							.cart {
+    								thead tr th.col {
+									    border-bottom: 1px solid #ececec;
+									    padding-bottom: 15px;
+									    padding-top: 0;
+									}
+								}
+							}
+						}
+						.cart-summary {
+						    background: #fff;
+						    border: 1px solid #ececec;
+						    border-radius: 5px;
+						    padding: 25px;
+    						width: 320px;
+   							top: 0;
+    						> .title {
+							    font-size: 20px;
+							    font-weight: bold;
+							    margin: 0 0 15px;
+							}
+							.block {
+								form:not(:last-of-type) {
+									.fieldset {
+									    margin: 0 0 5px;
+									}
+								}
+								.fieldset:last-child {
+								    margin-bottom: 0;
+								}
+							}
+							.checkout-methods-items {
+    							margin: 5px 0 0;
+								li {
+									.action.secondary {
+    									background: #0063a5;
+    									color: #fff;
+									}
+									.action.primary.checkout {
+									    color: #fff;
+									}
+								}
+								.item:last-child {
+								    margin-bottom: 0;
+								}
+							}
+						}
+						.cart-totals, 
+						.cart-totals .grand .amount, 
+						.opc-block-summary .table-totals,
+						.opc-block-summary .table-totals .grand .amount {
+							border-color: #ececec;
+						}
+						.order-details-items .product-item-name, 
+						.cart-price {
+						    font-size: 14px;
+						}
+					}
+				}
+			}
+		}
+	}
+	/* Checkout */
+	.checkout-index-index {
+		.page-main {
+			.columns {
+				.column.main {	
+					#checkout {
+						.opc-progress-bar {
+						    text-align: center;
+						    background: #fff;
+						    border: 1px solid #ececec;
+						    border-radius: 5px;
+						    padding: 15px;
+						    margin: 30px 0;
+						}
+						.opc-estimated-wrapper {
+							@media (max-width: 768px) {
+							    background: #fff;
+							    border-bottom: none;
+							    border-top: none;
+							    margin: 0;
+							    padding: 20px;
+							    border: 1px solid #ececec;
+							    margin: 15px 0;
+							}
+						}
+						.opc-wrapper {
+    						margin: 0;
+							#checkoutSteps {
+							    padding: 25px;
+							    margin: 0;
+							    background: #fff;
+							    border: 1px solid #ececec;
+							    border-radius: 5px;
+							    @media (max-width: 768px) {
+							    	padding: 20px;
+							    }
+							    .checkout-shipping-method {
+									.step-content {
+										margin: 0;
+									}
+							    }
+							}
+							.step-title {
+						    	border-bottom: 1px solid #ececec;
+							    font-size: 20px;
+							    font-weight: bold;
+						    }
+							.step-content {
+							    margin: 0 0 30px;
+							}
+							html body .actions-toolbar {
+								> .primary {
+								    text-align: right;
+								    .action.continue.primary {
+									    float: none; 
+									    margin: 0;
+									}
+								}
+							}
+							.opc-block-summary {
+							    background: #fff;
+							    margin: 0;
+							    padding: 0;
+							    .title {
+								    text-align: left;
+								}
+							}
+						}
+						.opc-sidebar {
+					    	margin: 0;
+					    	.opc-block-summary {
+							    background: #fff;
+							    border: 1px solid #ececec;
+							    border-radius: 5px;
+							    padding: 25px;
+							    @media (max-width: 768px) {
+								    border: none;
+								    padding: 20px;
+								}
+							    .items-in-cart > .title {
+							    	border-bottom: 1px solid #ececec;
+							    }
+							    .minicart-items .product-item:not(:first-child) {
+								    border-top: 1px solid #ececec;
+								}
+								.minicart-items .product-item:last-child {
+							    	padding-bottom: 0;
+								}
+							}
+							.opc-block-shipping-information {
+							    background: #fff;
+							    border: 1px solid #ececec;
+							    border-radius: 5px;
+							    padding: 0 25px;
+							    @media (max-width: 768px) {
+								    border: none;
+								    padding: 0 20px;
+								}
+								.ship-to, 
+								.ship-via {
+								    margin: 25px 0;
+								}
+							}
+					    }
+					    .opc-wrapper .step-title, 
+					    .opc-block-shipping-information .shipping-information-title, 
+					    .opc-block-summary > .title, 
+					    .checkout-agreements-items .checkout-agreements-item-title {
+						    padding-bottom: 15px;
+						    font-weight: bold;
+						    font-size: 20px;
+						}
+					}
+				}
+			}
+		}
+		.page-wrapper .copyright {
+		    text-align: center;
+		    position: relative;
+		    bottom: 0;
+		    width: 100%;
+		    padding: 20px 0;
+		}
+	}
+	@media (max-width: 767px) {
+		.checkout-payment-method .payment-method._active .payment-method-content > iframe#iframe_transaction {
+		    width: calc(~"100% + 30px") !important;
+		    position: relative;
+		    left: -20px;
+		    right: 0;
+		}
+	}
+	.cart.table-wrapper {
+		.actions-toolbar {
+			margin-bottom: 20px;
+		}
+	}
+	@media (max-width:768px) {
+		.checkout-cart-index {
+			.page-main {
+				.columns {
+					.column.main {
+						.cart-container {
+							.form-cart {
+								width: 100%;
+							}
+							.cart-summary {
+								width: 100%;
+							}
+						}
+					}
+				}
+			}
+		}
+		.cart.table-wrapper {
+			.cart {
+				>.item {
+					tr {
+						width: 100%;
+						overflow-x: scroll;
+					}
+				}
+			}
+			.item {
+				.col.item {
+					display: block;
+					clear: both;
+				}
+			}
+			.product-item-photo {
+				top: 0px;
+			}
+		}
+		.gift-options-cart-item {
+			&+.towishlist {
+				right: 58px;
+				left: unset;
+			}
+		}
+		.checkout-payment-method .ccard .captcha .input-text, 
+		.checkout-payment-method .ccard .number .input-text {
+		    width: 100%;
+		}
+		.checkout-payment-method .ccard .date,
+		.checkout-payment-method .ccard .cvv {
+			display: inline-block;
+			vertical-align: top;
+		}
+		.checkout-payment-method .ccard .cvv {
+	    	margin-left: 15px;
+	    }
+	}
+	@media (max-width:639px){
+	   body {
+			&:not(.page-print) {
+				.cart.table-wrapper {
+					.item {
+						.col.item {
+							display: block !important;
+							width: auto !important; 
+						}
+					}
+					.product-item-details{
+					   margin-top:20px;
+					}
+				}
+			}
+		}
+	}
+	@media (min-width:769px) and (max-width:991px) {
+		.cart.table-wrapper {
+			.cart {
+				tbody {
+					td {
+						min-width: 100px;
+					}
+				}
+			}
+			.item {
+				.col.item {
+					min-width: 248px;
+				}
+			}
+		}
+	}
+	@media (max-width:991px) {
+		.cart.table-wrapper {
+			width: 100%;
+			overflow: scroll;
+			max-width: 100%;
+		}
+	}
+	@media (max-width: 540px) {
+		.checkout-payment-method .ccard .date,
+		.checkout-payment-method .ccard .cvv {
+			display: block;
+		}
+		.checkout-payment-method .ccard .cvv {
+	    	margin-left: 0;
+	    }
+	}
+}	
+.select2-container--default {
+	.select2-results {
+		>.select2-results__options {
+			max-height: 136px !important;
+		}
+	}
+}

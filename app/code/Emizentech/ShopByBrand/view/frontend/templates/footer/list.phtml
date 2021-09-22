@@ -1,0 +1,11 @@
+<?php 
+$brands = $this->getFooterBrands();
+if ($brands && $brands->getSize()) {
+?>
+    <ul>
+        <?php foreach ($brands as $brand) {
+            $url = $this->getUrl('shop-by-category.html').'?manufacturer='.$brand->getAttributeId(); ?>
+        <li><a href="<?php echo $url; ?>"><?php echo $brand->getName();?></a></li>
+        <?php } ?>
+    </ul>
+<?php } ?>

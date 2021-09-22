@@ -1,0 +1,59 @@
+<?php 
+$brands = $this->getBrands();
+$featured = $this->getFeaturedBrands();
+$media = $this->getImageMediaPath();
+?>
+<?php if ($featured && $featured->getSize()) { ?>
+<h3>Featured Brands</h3>
+<div class="featured-brands">
+<?php foreach($featured as $_fbrand):?>
+	<span>
+        <a href="<?php echo $this->getUrl('shop-by-category.html').'?manufacturer='.$_fbrand->getAttributeId(); ?>">
+        <?php if($_fbrand->getLogo()):?>
+            <img class="f-barnd-img" src="<?php echo $this->helper('\Magento\Cms\Helper\Wysiwyg\Images')->getBaseUrl().$_fbrand->getLogo() ?>" title="<?php echo $_fbrand->getName();?>" alt="<?php echo $_fbrand->getName();?>" style="height:100px"/>
+        <?php else:?>
+        <span class="brand-title">
+            <?php echo $_fbrand->getName();?>
+        </span>
+        <?php endif;?>
+		</a>
+	</span>
+<?php endforeach;?>
+</div>
+<?php } ?>
+<h3>ALL Brands</h3>
+<div class="brand-container">
+<?php  if ($brands && count($brands) > 0) {
+foreach (range('0', '9') as $char) :?>
+	<?php if(isset($brands[$char])):?>
+		<div class="brand-char">
+			<strong><?php echo $char;?></strong>
+			<ul>
+			<?php foreach($brands[$char] as $_brand): ?>
+				<li>
+                    <a href="<?php echo $this->getUrl('shop-by-category.html').'?manufacturer='.$_brand['attribute_id']; ?>"><?php echo $_brand['name'];?></a>
+				</li>
+			<?php endforeach;?>
+			</ul>
+		</div>
+	<?php endif;?>
+<?php endforeach;?>
+<?php  
+foreach (range('A', 'Z') as $char) :?>
+	<?php if(isset($brands[$char])):?>
+		<div class="brand-char">
+			<strong><?php echo $char;?></strong>
+			<ul>
+			<?php foreach($brands[$char] as $_brand):?>
+				<li>
+                    <a href="<?php echo $this->getUrl('shop-by-category.html').'?manufacturer='.$_brand['attribute_id']; ?>"><?php echo $_brand['name'];?></a>
+				</li>
+			<?php endforeach;?>
+			</ul>
+		</div>
+	<?php endif;?>
+<?php endforeach;?>
+<?php } else { ?>
+    <div class="message info empty"><span><?= __('You have no brands.') ?></span></div>
+<?php } ?>
+</div>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="OrderApproval_section_general_ddi_waiting_for_order_approval" label="Waiting for Order Approval Email" file="waiting_for_order_approval.html" type="html" module="Dckap_Checkout" area="frontend"/>
+    <template id="OrderApproval_section_general_ddi_approve_customer_order" label="Pending approval order" file="approve_customer_order.html" type="html" module="Dckap_Checkout" area="frontend"/>
+    <template id="OrderApproval_section_general_ddi_update_order_email" label="Update Order Email " file="update_order_email.html" type="html" module="Dckap_Checkout" area="frontend"/>
+</config>

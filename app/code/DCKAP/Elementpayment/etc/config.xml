@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+* @copyright Copyright (c) 2017 DCKAP, Inc. (http://www.dckap.com)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <elementpayment>
+                <active>1</active>
+                <title>Elementpayment</title>
+                <order_status>pending</order_status>
+                <instructions>Instruction.</instructions>
+                <payment_action>true</payment_action>
+                <model>Dckap\Elementpayment\Model\Elementpayment</model>
+                <group>offline</group>
+            </elementpayment>
+        </payment>
+    </default>
+</config>

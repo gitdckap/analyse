@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="customer_activation_email" label="Activation Email" file="activation.html" type="html" module="Dckap_AccountCreation" area="frontend"/>
+    <template id="new_activation_email_notification" label="New customer notification Email" file="new-customer-notification.html" type="html" module="Dckap_AccountCreation" area="frontend"/>
+</config>

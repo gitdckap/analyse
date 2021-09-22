@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+      
+    <!--Dynamic Pricing-->
+    <!-- <type name="Magento\Catalog\Model\Product">
+        <plugin name="cloras_ddi_productplugin" type="\Cloras\DDI\Plugin\ProductPlugin" sortOrder="2"/>
+    </type>
+ -->
+    <!--<type name="Magento\Catalog\Block\Product\ListProduct">
+    	<plugin name="cloras_get_product_collection" type="\Cloras\DDI\Plugin\CategoryPlugin" sortOrder="1"/>
+    </type>-->
+    <preference for="Cloras\DDI\Api\ShiptoInterface" type="Cloras\DDI\Model\Shipto"/>
+</config>

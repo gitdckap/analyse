@@ -1,0 +1,62 @@
+<?php
+
+
+
+$includedPages = [
+    'catalogsearch_result_index',
+    'catalog_category_view',
+    'wishlist_index_index',
+    'cms_index_index',
+    'catalog_product_view'
+];
+?>
+
+
+<style type="text/css">
+.show-prices-handler .price-box .price {
+    display: block;
+}
+.price-box .price{
+  display: none;
+}
+</style>
+
+<?php
+    $category = $block->getCurrentCategory();
+
+    $productBlock = $block->getLayout()->createBlock('\Magento\Catalog\Block\Product\ListProduct');
+    $page = ($productBlock->getRequest()->getParam('p') ? $productBlock->getRequest()->getParam('p') : 1);
+    $limit = ($productBlock->getRequest()->getParam('product_list_limit') ? $productBlock->getRequest()->getParam('product_list_limit') : 24);
+?>
+
+
+<div id="clorasPrice"></div>
+<div id="clorasInventory"></div>
+<script type="text/x-magento-init">
+    {
+        "#clorasPrice": {
+            "Cloras_Base/price":{ "priceUrl" : "<?php echo $this->getBasePriceUrl(); ?>", 
+            "page": "<?php echo $page; ?>", "limit": "<?php echo $limit; ?>", "loaderImg" : "<?php echo $productBlock->getViewFileUrl('images/loader-1.gif') ?>"}
+
+        },
+        "#clorasInventory": {
+            "Cloras_Base/inventory":{ "inventoryUrl" : "<?php echo $this->getBaseInventoryUrl(); ?>","page": "<?php echo $page; ?>", "limit": "<?php echo $limit; ?>", "loaderImg" : "<?php echo $productBlock->getViewFileUrl('images/loader-1.gif') ?>"}
+
+        }
+    }        
+</script>
+
+
+<script type="text/javascript">
+
+    
+    require(["jquery"],function($) {
+        $('.pages-items li.item a.page, .toolbar #limiter').click(function() {
+                $('body').addClass('show-prices-handler');
+            });
+    });
+
+</script>
+
+
+

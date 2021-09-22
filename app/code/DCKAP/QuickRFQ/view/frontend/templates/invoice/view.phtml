@@ -1,0 +1,211 @@
+<?php $invoice = $block->getDdiInvoice();
+if (is_string($invoice)) { ?>
+    <div class="message info empty"><span><?= __($invoice) ?></span></div>
+<?php } elseif (isset($invoice['isValid']) && $invoice['isValid'] == 'no') { ?>
+    <div class="message info empty"><span><?= __($invoice['errorMessage']) ?></span></div>
+<?php } elseif (isset($invoice['data']['isValid']) && $invoice['data']['isValid'] == 'no') { ?>
+    <div class="message info empty"><span><?= __($invoice['data']['errorMessage']) ?></span></div>
+<?php } elseif ($invoice && count($invoice) && $invoice['isValid'] == 'yes') { ?>
+    <div class="page-title-wrapper">
+        <h1 class="page-title">
+            <span class="base" data-ui-id="page-title-wrapper">Invoice # <?php echo $invoice['invoiceNumber']; ?></span></h1>
+        <span class="order-status"><?php echo $invoice['invoiceDetails']['invoiceStatus']; ?></span>
+        <div class="order-date">
+            <span class="label">Invoice Date:</span>
+            <date><?php echo $invoice['invoiceDetails']['invoiceDate']; ?></date>
+        </div>
+        <div class="actions-toolbar order-actions-toolbar">
+            <div class="actions">
+                <a class="action print" href="<?php echo $block->getUrl('quickrfq/invoice/printview/').'id/'.$invoice['invoiceNumber']; ?>"
+                   onclick="this.target='_blank';">
+                    <span>Print Invoice</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <ul class="items order-links">
+        <li class="nav item current"><strong>Items Ordered</strong></li>
+    </ul>
+    <div class="order-details-items ordered">
+        <div class="order-title">
+            <strong>Items Ordered</strong>
+        </div>
+        <div class="table-wrapper order-items">
+            <table class="data table table-order-items" id="my-orders-table" summary="Items Ordered">
+                <caption class="table-caption">Items Ordered</caption>
+                <thead>
+                <tr>
+                    <th class="col name">Product Name</th>
+                    <th class="col sku">SKU</th>
+                    <th class="col price">Price</th>
+                    <th class="col qty" width="80px">Ordered Qty</th>
+                    <th class="col qty" width="80px">Shipped Qty</th>
+                    <th class="col subtotal">Subtotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if (isset($invoice['lineItems']['lineData']) && !empty($invoice['lineItems']['lineData'])) {
+                    foreach ($invoice['lineItems']['lineData'] as $item) {
+                        ?>
+                        <tr id="order-item-row-32">
+                            <td class="col name" data-th="Product Name">
+                                <strong class="product name product-item-name"><?php echo $item['description']; ?></strong>
+                                <?php if (isset($item['serialNumbers']) && $item['serialNumbers'] != '') { ?>
+                                    <span>Serial Numbers: <b><?php echo $item['serialNumbers']; ?></b></span>
+                                <?php } ?>
+                            </td>
+                            <td class="col sku" data-th="SKU"><?php echo $item['stockNum']; ?></td>
+                            <td class="col price" data-th="Price">
+                                <span class="price-excluding-tax" data-label="Excl. Tax">
+                                    <span class="cart-price">
+                                        <span class="price"><?php echo $item['netPrice']; ?></span>
+                                    </span>
+                                </span>
+                            </td>
+                            <td class="col qty" data-th="Ordered Qty">
+                                <span class="content"><?php echo $item['qty']; ?></span>
+                            </td>
+                            <td class="col qty" data-th="Shipped Qty">
+                                <span class="content"><?php echo $item['shipQty']; ?></span>
+                            </td>
+                            <td class="col subtotal" data-th="Subtotal">
+                                <span class="price-excluding-tax" data-label="Excl. Tax">
+                                    <span class="cart-price">
+                                        <span class="price"><?php echo $item['extendedPrice']; ?></span>
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                    <?php }
+                } ?>
+                </tbody>
+                <tfoot>
+                <tr class="subtotal">
+                    <th colspan="5" class="mark" scope="row">Subtotal</th>
+                    <td class="amount" data-th="Subtotal"><span class="price"><?php if (isset($invoice['invoiceDetails']['merchandiseTotal']) && $invoice['invoiceDetails']['merchandiseTotal'] != '') {
+                                echo $invoice['invoiceDetails']['merchandiseTotal'];
+                            } else {
+                                echo '$0.00';
+                            } ?></span></td>
+                </tr>
+                <tr class="misctotal">
+                    <th colspan="5" class="mark" scope="row">Miscellaneous Total</th>
+                    <td class="amount" data-th="Miscellaneous Total"><span class="price"><?php if (isset($invoice['invoiceDetails']['miscellaneousTotal']) && $invoice['invoiceDetails']['miscellaneousTotal'] != '') {
+                                echo $invoice['invoiceDetails']['miscellaneousTotal'];
+                            } else {
+                                echo '$0.00';
+                            } ?></span></td>
+                </tr>
+                <tr class="shipping">
+                    <th colspan="5" class="mark" scope="row">Shipping & Handling</th>
+                    <td class="amount" data-th="Shipping & Handling">
+                        <span class="price"><?php if (isset($invoice['invoiceDetails']['freightTotal']) && $invoice['invoiceDetails']['freightTotal'] != '') {
+                                echo $invoice['invoiceDetails']['freightTotal'];
+                            } else {
+                                echo '$0.00';
+                            } ?></span></td>
+                </tr>
+                <tr class="tax">
+                    <th colspan="5" class="mark" scope="row">Tax</th>
+                    <td class="amount" data-th="Tax">
+                        <span class="price"><?php if (isset($invoice['invoiceDetails']['taxTotal']) && $invoice['invoiceDetails']['taxTotal'] != '') {
+                                echo $invoice['invoiceDetails']['taxTotal'];
+                            } else {
+                                echo '$0.00';
+                            } ?></span></td>
+                </tr>
+                <tr class="grand_total">
+                    <th colspan="5" class="mark" scope="row">
+                        <strong>Grand Total</strong>
+                    </th>
+                    <td class="amount" data-th="Grand Total">
+                        <strong><span class="price"><?php echo $invoice['invoiceDetails']['invoiceTotal']; ?></span></strong>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="block block-order-details-view">
+        <div class="block-title">
+            <strong>Order Information</strong>
+        </div>
+        <div class="block-content">
+            <div class="box box-order-shipping-address">
+                <strong class="box-title"><span>Shipping Address</span></strong>
+                <div class="box-content">
+                    <address><?php echo $invoice['shipAddress']['shipCompanyName']; ?><br>
+                        <?php echo $invoice['shipAddress']['shipAddress1']; ?><br>
+                        <?php echo $invoice['shipAddress']['shipCity'];
+                        if (isset($invoice['shipAddress']['shipState']) && $invoice['shipAddress']['shipState'] != '') {
+                            echo ', ' . $invoice['shipAddress']['shipState'];
+                        }
+                        if (isset($invoice['shipAddress']['shipPostCode']) && $invoice['shipAddress']['shipPostCode'] != '') {
+                            echo ', ' . $invoice['shipAddress']['shipPostCode'];
+                        } ?>
+                        <?php if (isset($invoice['shipAddress']['shipPhone'])) { ?><br>
+                        T: <a href="tel:<?php echo $invoice['shipAddress']['shipPhone']; ?>"><?php echo $invoice['shipAddress']['shipPhone']; ?></a>
+                        <?php } ?>
+                    </address>
+                </div>
+            </div>
+            <div class="box box-order-shipping-method">
+                <strong class="box-title">
+                    <span>Shipping Method</span>
+                </strong>
+                <div class="box-content">
+                    <?php echo $invoice['invoiceDetails']['shipMethod']['shipVia']; ?>
+                    - <?php echo $invoice['invoiceDetails']['shipMethod']['shipViaDescription']; ?>                                        </div>
+            </div>
+            <div class="box box-order-billing-address">
+                <strong class="box-title">
+                    <span>Billing Address</span>
+                </strong>
+                <div class="box-content">
+                    <address><?php echo $invoice['billAddress']['billCompanyName']; ?><br>
+                        <?php echo $invoice['billAddress']['billAddress1']; ?><br>
+                        <?php echo $invoice['billAddress']['billCity'];
+                        if (isset($invoice['billAddress']['billState']) && $invoice['billAddress']['billState'] != '') {
+                            echo ', ' . $invoice['billAddress']['billState'];
+                        }
+                        if (isset($invoice['billAddress']['billPostCode']) && $invoice['billAddress']['billPostCode'] != '') {
+                            echo ', ' . $invoice['billAddress']['billPostCode'];
+                        } ?>
+                        <?php if (isset($invoice['billAddress']['billPhone'])) { ?><br>
+                        T: <a href="tel:<?php echo $invoice['billAddress']['billPhone']; ?>"><?php echo $invoice['billAddress']['billPhone']; ?></a>
+                        <?php } ?>
+                    </address>
+                </div>
+            </div>
+            <div class="box box-order-billing-method">
+                <strong class="box-title">
+                    <span>Payment Method</span>
+                </strong>
+                <div class="box-content">
+                    <!--<dl class="payment-method">
+                        <dt class="title">Cash On Delivery</dt>
+                    </dl>-->
+                </div>
+            </div>
+        </div>
+        <?php if (isset($invoice['invoiceDetails']['shipMethod']['attachment'])) { ?>
+            <div class="block-content">
+                <div class="box box-invoice-sign" style="float: right;">
+                    <strong class="box-title">
+                        <span>Signature</span>
+                    </strong>
+                    <div class="box-content">
+                        <?php $signData = 'data:image/bmp;base64,'.$invoice['invoiceDetails']['shipMethod']['attachment']['documentData']; ?>
+                        <img src="<?php echo $signData; ?>" alt="Signature" width="150" height="150" />
+                        <ul>
+                            <li><span class="label">Name:</span><span class="value"><?php echo $invoice['invoiceDetails']['shipMethod']['attachment']['signeeName']; ?></span></li>
+                            <li><span class="label">Date:</span><span class="value"><?php echo $invoice['invoiceDetails']['shipMethod']['attachment']['dateSigned']; ?></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+<?php } else { ?>
+    <div class="message info empty"><span><?= __('Invoice detail not found.') ?></span></div>
+<?php } ?>

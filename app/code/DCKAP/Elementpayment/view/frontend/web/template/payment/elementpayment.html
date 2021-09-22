@@ -1,0 +1,71 @@
+<!--
+/**
+ * Copyright © 2017 DCKAP. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="payment-method" id="elementpayment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+    <div class="payment-method-title field choice">
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
+        <label data-bind="attr: {'for': getCode()}" class="label"><span data-bind="text: getTitle()"></span></label>
+    </div>
+    <div class="payment-method-content" style="display:none;">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <strong id="msg-info">Please enable third party content on your mobile device.</strong>
+        <fieldset class="transaction-result" style="display: none;">
+            <input type="text" value="" name="status" id="status"/>
+            <input type="text" value="" name="cc_holder" id="cc_holder"/>
+            <input type="text" value="" name="cc_number" id="cc_number"/>
+            <input type="text" value="" name="cc_type" id="cc_type"/>
+            <input type="text" value="" name="cc_auth_code" id="cc_auth_code"/>
+            <input type="text" value="" name="cc_token" id="cc_token"/>
+            <input type="text" value="" name="cc_exp_date" id="cc_exp_date"/>
+            <input type="text" value="" name="cc_validation_key" id="cc_validation_key"/>
+            <input type="text" value="" name="cc_amount_approved" id="cc_amount_approved"/>
+        </fieldset>
+        <iframe id="iframe_transaction" style="width: 500px;height: 550px;border: none;overflow-y: hidden;"></iframe>
+        <!--<button class="action primary" id="get-transaction-details" type="button" data-bind="click: getDataFromIframe">
+            <span>Get Details</span>
+        </button>-->
+
+        <div class="checkout-agreements-block">
+            <!-- ko foreach: $parent.getRegion('before-place-order') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button  id="getDataFromIframe" class="action primary checkout" style="display: none;"
+                         type="submit"
+                         data-bind="
+                        click: getDataFromIframe,
+                        attr: {title: $t('Place Order')}
+                        ">
+                    <span data-bind="i18n: 'Place Order'"></span>
+                </button>
+                <button  id="reloadIframe" class="action primary checkout" style="display: none;"
+                         type="button"
+                         data-bind="
+                        click: reloadIframe,
+                        attr: {title: $t('Place Order')}
+                        ">
+                    <span data-bind="i18n: 'Place Order'"></span>
+                </button>
+                <button  id="placeorder" style="display: none;"
+                         type="submit"
+                         data-bind="
+                        click: placeOrder,
+                        attr: {title: $t('Place Order')}
+                        ">
+                    <span data-bind="i18n: 'Place Order'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

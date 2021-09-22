@@ -1,0 +1,30 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+
+	<head>
+        <title>Titlename</title>
+        <!-- 
+		demo
+		<css src="Dckap_Attachment::css/css.css"/>
+		<script src="Dckap_Attachment::js/js.js"/>
+		<css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+		<script src="path/file.js" defer="defer"/>
+		<link src="http://url.com" src_type="url"/>
+		<remove src="path/remove/file.css"/>
+
+		-->
+    </head> 
+
+    <body>
+
+
+        <referenceContainer name="sidebar.main">
+            <block class="Dckap\Attachment\Block\Index\Sidebar" name="attachment_index_sidebar" before="-" template="Dckap_Attachment::attachment_index_sidebar.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="content">
+            <block class="Dckap\Attachment\Block\Index\Index" name="attachment_index_index" template="Dckap_Attachment::attachment_index_index.phtml"/>
+        </referenceContainer>
+
+
+    </body>
+</page>

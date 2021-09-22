@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_CheckoutCustomField
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="left">
+            <block class="Bss\CheckoutCustomField\Block\Adminhtml\Attributes\Edit\Tabs" name="attribute_edit_tabs">
+                <container label="Main" name="main">
+                    <block class="Bss\CheckoutCustomField\Block\Adminhtml\Attributes\Edit\Tab\Main" as="base"/>
+                    <block class="Bss\CheckoutCustomField\Block\Adminhtml\Attributes\Edit\Options\Options" as="options"/>
+                    <block class="Bss\CheckoutCustomField\Block\Adminhtml\Attributes\Edit\Tab\Advanced" as="advanced"/>
+                </container>
+                <block class="Bss\CheckoutCustomField\Block\Adminhtml\Attributes\Edit\Options\Labels" as="labels"/>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Bss\CheckoutCustomField\Block\Adminhtml\Attributes\Edit" name="attribute_edit_content"/>
+        </referenceContainer>
+        <referenceContainer name="js">
+            <block class="Magento\Backend\Block\Template" name="attribute_edit_js" template="Bss_CheckoutCustomField::attributes/js.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

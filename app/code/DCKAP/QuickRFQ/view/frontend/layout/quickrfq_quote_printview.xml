@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="sales_order_print_renderers" />
+    <update handle="sales_order_item_price"/>
+    <update handle="print" />
+    <body>
+        <referenceBlock name="page.main.title" remove="true" />
+        <referenceBlock name="store.menu" remove="true" />
+        <referenceBlock name="copyright" remove="true" />
+        <referenceContainer name="content">
+            <block class="Dckap\QuickRFQ\Block\Quote\View" name="erp_quote_printview" template="Dckap_QuickRFQ::quote/printview.phtml">
+            </block>
+        </referenceContainer>
+    </body>
+</page>

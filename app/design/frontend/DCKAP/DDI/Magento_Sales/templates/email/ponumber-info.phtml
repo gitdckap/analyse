@@ -1,0 +1,15 @@
+<?php
+$order = $this->getData('order');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$serializer = $objectManager->create('Magento\Framework\Serialize\Serializer\Json');
+$customCheckoutField = $serializer->unserialize($order->getBssCustomfield());
+if (isset($customCheckoutField['purchase_order_number'])) {
+    echo '<tr><td class="method-info"><h3>PO Number</h3>';
+    if (isset($customCheckoutField['purchase_order_number']['value'])) {
+        echo $customCheckoutField['purchase_order_number']['value'];
+    } else {
+        echo $customCheckoutField['purchase_order_number'];
+    }
+    echo '</td></tr>';
+}
+?>

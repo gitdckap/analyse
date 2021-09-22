@@ -1,0 +1,6 @@
+<?php $categories=$block->getFeaturedCategories();?>
+<ul>
+<?php foreach ($categories as $category): ?>
+<li><a href="<?= $block->escapeUrl($category->getUrl());?>"><?= $block->escapeHtml($category->getName()); ?></a></li>
+<?php endforeach; ?>
+</ul>

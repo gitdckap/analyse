@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <referenceContainer name="product.info.main">
+                <block class="DCKAP\Catalog\Block\Index\Product" name="custom_tier_price" template="DCKAP_Catalog::tier_price.phtml"/>
+                <container name="custom.product.info.warehouse" htmlTag="div" htmlClass="custom-product-info-warehouse" before="product.info.overview">
+                    <block class="DCKAP\Catalog\Block\Index\Product" name="custom_warehouse_qty" template="DCKAP_Catalog::warehouse_qty.phtml" />
+                    <!--<block class="DCKAP\Catalog\Block\Index\Product" name="custom_product_variants" template="DCKAP_Catalog::variants.phtml" />-->
+                </container>
+                <block class="Magento\Catalog\Block\Product\View" name="custom.upc" template="DCKAP_Catalog::custom_upc.phtml" />
+            </referenceContainer>
+            <!-- as="description" -->
+            <referenceBlock name="product.info.description">
+                <action method="setTemplate">
+                    <argument name="template" xsi:type="string">DCKAP_Catalog::product/detail.phtml</argument>
+                </action>
+                <arguments>
+                    <argument name="title" translate="true" xsi:type="string">Product Description</argument>
+                </arguments>
+            </referenceBlock>
+            <referenceBlock name="product.attributes">
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Specifications</argument>
+                </arguments>
+            </referenceBlock>
+            <container name="pdp.custom.block" htmlTag="div" htmlClass="pdp-custom-block" before="content.aside">
+                <block name="pdp.support" class="DCKAP\Catalog\Block\Index\Product" template="DCKAP_Catalog::support.phtml" />
+            </container>
+            <container name="pdp.email.print" htmlTag="div" htmlClass="pdp-email-print" before="product.info.whole">
+                <block name="pdp.print" class="Magento\Framework\View\Element\Template" template="DCKAP_Catalog::print.phtml" />
+            </container>
+        </referenceContainer>
+        <move element="custom_tier_price" destination="product.info.main" after="product.price.review" />
+    </body>
+</page>

@@ -1,0 +1,269 @@
+<?php
+/**
+ * Copyright © 2016 DCKAP. All rights reserved.
+ */
+/** @var \DCKAP\OrderApproval\Block\PendingOrders $block */
+$DataHelper = $this->helper('DCKAP\OrderApproval\Helper\Data');
+if ($DataHelper->checkApprovalFunctionalityStatus()) {
+$intDefaultShipTo = 999999999;
+$_orders = $block->getOrders();
+$arrShipToItems = $block->getAllowedShipNumber();
+$params = $this->getRequest()->getParams();
+$arrShipToDetails = (array) $DataHelper->getShiptoItems();
+$arrCustomerShipToAddress = $block->getCustomerShipToAddresses();
+?>
+    <div class="table-wrapper orders-history">
+        <div class="page-title-wrapper">
+            <h1 class="page-title">
+                <span class="base" data-ui-id="page-title-wrapper">Pending Approval - Orders</span></h1>
+        </div>
+        <div class="col-md-12 col-sm-12 ship-to-filter-sec">
+            <label for="ship_to">Select Ship-To</label>
+            <select class="sorter-options" data-role="sorter" name="ship_to" id="sort-by-ship-to-number">
+                <!-- Dropdown List Option -->
+            </select>
+            <button class="action primary reset-btn-filter" onclick="location.href='<?php echo $block->getPendingOrderApprovalListUrl(); ?>'">Reset Filter
+            </button>
+        </div><br>
+        <?php if ($_orders && count($_orders)) : ?>
+        <div class="table-responsive">
+            <table class="data table table-order-items history" id="my-orders-table">
+                <caption class="table-caption"><?= $block->escapeHtml(__('Orders')) ?></caption>
+                <thead>
+                <tr>
+                    <th scope="col" class="col id"><?= $block->escapeHtml(__('Reference #')) ?></th>
+                    <th scope="col" class="col po"><?= $block->escapeHtml(__('PO #')) ?></th>
+                    <th scope="col" class="col date"><?= $block->escapeHtml(__('Date')) ?></th>
+                    <?= $block->getChildHtml('extra.column.header') ?>
+                    <th scope="col" class="col shipping"><?= $block->escapeHtml(__('Ship To')) ?></th>
+                    <th scope="col" class="col shipping"><?= $block->escapeHtml(__('Submitted By')) ?></th>
+                    <th scope="col" class="col total"><?= $block->escapeHtml(__('Order Total')) ?></th>
+                    <th scope="col" class="col status"><?= $block->escapeHtml(__('Status')) ?></th>
+                    <th scope="col" class="col actions"><?= $block->escapeHtml(__('Action')) ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($_orders as $_order) : ?>
+                    <tr>
+                        <td data-th="<?= $block->escapeHtml(__('Order #')) ?>" class="col id"><?= $block->escapeHtml($_order->getRealOrderId()) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Order #')) ?>" class="col id"><?= $block->escapeHtml($DataHelper->getPurchaseOrderNumberByQuoteId($_order->getQuoteId())) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Date')) ?>" class="col date"><?= $block->formatDate($_order->getCreatedAt()) ?></td>
+                        <?php $extra = $block->getChildBlock('extra.container'); ?>
+                        <?php if ($extra) : ?>
+                            <?php $extra->setOrder($_order); ?>
+                            <?= $extra->getChildHtml() ?>
+                        <?php endif; ?>
+                        <td data-th="<?= $block->escapeHtml(__('Ship To')) ?>" class="col shipping"><?= $_order->getShipToNumber(); ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Submitted By')) ?>" class="col submit-by"><?= ucfirst(strtolower($_order->getErpCustomerFirstName())) . ' ' . ucfirst(strtolower($_order->getErpCustomerLastName())); ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Order Total')) ?>" class="col total"><?= $_order->formatPrice($_order->getGrandTotal()) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Status')) ?>"class="col status"><?= $block->escapeHtml($_order->getStatusLabel()) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Actions')) ?>" class="col actions">
+                            <a href="<?= $block->escapeUrl($block->getViewUrl($_order->getId())) ?>" class="action view">
+                                <span><?= $block->escapeHtml(__('View')) ?></span>
+                            </a>
+                            <a href="<?= $block->escapeUrl($block->getApproveUrl($_order->getId())) ?>" class="action approve">
+                                <span><?= $block->escapeHtml(__('Approve')) ?></span>
+                            </a>
+                            <a href="<?= $block->escapeUrl($block->getDeclineUrl($_order->getId())) ?>" class="action decline">
+                                <span><?= $block->escapeHtml(__('Decline')) ?></span>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <?php if ($block->getPagerHtml()) :
+        $strDecodedHtml =  html_entity_decode( $block->getPagerHtml());
+    ?>
+        <div class="order-products-toolbar toolbar bottom"><?= $strDecodedHtml; ?></div>
+    <?php endif ?>
+<?php else : ?>
+    </div>
+    <div class="message info empty"><span><?= $block->escapeHtml(__("You don't have any orders to approve or decline.")) ?></span></div>
+<?php endif ?>
+<style>
+    .sorter-options{
+        width:65% !important;
+        padding: 1px;
+        height:15px;
+    }
+    .ship-to-filter-sec{
+        max-width:100%;
+    }
+    .sorter-options:hover ,.sorter-action:hover{
+        cursor: pointer;
+    }
+    body > div.modals-wrapper > aside.modal-popup.confirm._show > div.modal-inner-wrap > header > button{
+        display: none;
+    }
+    .reset-btn-filter{
+        margin-left: 19px;
+    }
+    </style>
+<script>
+    require([
+        'jquery',
+        'Magento_Checkout/js/select2',
+        'mage/mage',
+        'Magento_Ui/js/modal/alert'
+    ], function ($,select2, mage, alert) {
+        $(document).ready(function () {
+            /* sort-by selection */
+            var arrmixShipToLocation = [
+                {
+                    id: "",
+                    text: "<?= $block->escapeHtml(__( 'Please Select') ) ?>"
+                },
+                {
+                    id: "<?php echo $intDefaultShipTo;?>",
+                    text: "<?php echo $intDefaultShipTo;?>"
+                },
+                <?php
+                if (true == is_array($arrShipToDetails) && 0 < count($arrShipToDetails)) {
+                foreach ($arrShipToDetails as $arrShipToAddressAndNumber) {
+                if(true == is_array($arrCustomerShipToAddress) && false == empty($arrCustomerShipToAddress) && true == array_key_exists($arrShipToAddressAndNumber['value'], $arrCustomerShipToAddress)) { ?>
+                {
+                    id: "<?php echo $arrShipToAddressAndNumber['value']; ?>",
+                    text: "<?php echo $block->escapeHtml(ucfirst(trim($arrCustomerShipToAddress[$arrShipToAddressAndNumber['value']]))); ?>"
+                },
+                <?php }
+                }
+                } ?>
+            ];
+            $("#sort-by-ship-to-number").select2({
+                data: arrmixShipToLocation
+            });
+
+            <?php
+            $boolIsShipToAvailable = true;
+            if( false == empty($params) && true == array_key_exists('shipto', $params ) && false == empty( $params['shipto'] ) && true == is_array( $arrShipToDetails) ) {
+                $boolIsShipToAvailable = (bool) array_key_exists($params['shipto'], array_column( $arrShipToDetails,'label','value'));
+
+                if( $params['shipto'] == $intDefaultShipTo ){
+                    $boolIsShipToAvailable = true;
+                }
+            }
+
+            if( false == empty($params) && true == array_key_exists('shipto', $params ) && false == empty( $params['shipto'] ) && true == $boolIsShipToAvailable ) { ?>
+            $('#sort-by-ship-to-number').val('<?php echo $params['shipto']; ?>');
+            $('#sort-by-ship-to-number').select2().trigger('change');
+
+            <?php } else if( false == $boolIsShipToAvailable) {  ?>
+            alert({
+                title: '<?= $block->escapeHtml(__('Shipto not found') ) ?>',
+                content: '<?= $block->escapeHtml(__('The Shipto number that you have entered does not exist. Please enter a valid Shipto.') ) ?>',
+                autoOpen: true,
+                clickableOverlay: false,
+                focus: "",
+                actions: {
+                    always: function () {
+                        console.log("modal closed");
+                    }
+                },
+                buttons: [{
+                    text: $.mage.__('OK'),
+                    class: 'action-primary action-accept'
+                }]
+            });
+            $('aside.modal-popup.confirm._show > div.modal-inner-wrap > header > button').css("display", "block");
+            <?php } ?>
+        });
+        /* sort dropdown click */
+        $(document).on("change", ".sorter-options", function (e) {
+            var url = '<?php echo $block->getPendingOrderApprovalListUrl();?>';
+            var shipto = $(this).val();
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+            for(var i = 0; i < hashes.length; i++)
+            {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+
+            if( vars['shipto'] == shipto ){
+                return false;
+            }
+            if (shipto != '') {
+                url += '?shipto=' + shipto;
+                window.location.href = url;
+            }
+        });
+
+        /* Approve the order */
+        $(document).on("click", "a.action.approve", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: 'is_ajax=1',
+                showLoader: true,
+                success: function (res) {
+                    console.log(res);
+                    alert({
+                        title: res.status,
+                        content: res.message,
+                        autoOpen: true,
+                        clickableOverlay: false,
+                        focus: "",
+                        actions: {
+                            always: function () {
+                                console.log("modal closed");
+                            }
+                        },
+                        buttons: [{
+                            text: $.mage.__('OK'),
+                            class: 'action-primary action-accept',
+                            click: function () {
+                                window.location.reload();
+                            }
+                        }]
+                    });
+                }
+            });
+        });
+
+        /* decline the order */
+        $(document).on("click", "a.action.decline", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: 'is_ajax=1',
+                showLoader: true,
+                success: function (res) {
+                    console.log(res);
+                    alert({
+                        title: res.status,
+                        content: res.message,
+                        autoOpen: true,
+                        clickableOverlay: false,
+                        focus: "",
+                        actions: {
+                            always: function () {
+                                console.log("modal closed");
+                            }
+                        },
+                        buttons: [{
+                            text: $.mage.__('OK'),
+                            class: 'action-primary action-accept',
+                            click: function () {
+                                window.location.reload();
+                            }
+                        }]
+                    });
+                }
+            });
+        });
+    });
+</script>
+<?php } else { ?>
+    <div class="message info empty"><span><?= $block->escapeHtml(__("You don't have permission to access this page.")) ?></span></div>
+<?php } ?>

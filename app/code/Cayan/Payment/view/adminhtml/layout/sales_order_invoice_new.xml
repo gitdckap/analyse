@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cayan Payments
+ *
+ * @package Cayan\Payment
+ * @author Igor Miura
+ * @author Joseph Leedy
+ * @copyright Copyright (c) 2017 Cayan (https://cayan.com/)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="invoice_totals">
+            <block class="Cayan\Payment\Block\Adminhtml\Order\Item\Discount" name="cayancard" template="Cayan_Payment::sales/order/totals/cayancard.phtml" after="-">
+                <action method="setSourceField">
+                    <argument name="value" xsi:type="string">cayancard</argument>
+                </action>
+                <action method="setLabel">
+                    <argument name="value" xsi:type="string">Gift Card</argument>
+                </action>
+            </block>
+            <block class="Cayan\Payment\Block\Adminhtml\Order\Item\Discount\Refund" name="cayancard_refund" template="Cayan_Payment::sales/order/totals/cayancard/refund.phtml" after="-"/>
+        </referenceBlock>
+    </body>
+</page>

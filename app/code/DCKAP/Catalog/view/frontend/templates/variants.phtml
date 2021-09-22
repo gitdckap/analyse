@@ -1,0 +1,115 @@
+<?php $product = $block->getCurrentProduct();
+if ($product->getTypeId() == 'configurable') {
+    $uomData = $block->getUOMData();
+    $optionAttr = $product->getTypeInstance()->getConfigurableAttributesAsArray($product);
+    $data = $product->getTypeInstance()->getConfigurableOptions($product);
+    $options = [];
+    foreach ($data as $attr) {
+        foreach ($attr as $p) {
+            $options[$p['sku']][$p['attribute_code']] = $p;
+        }
+    }
+    $addToCartUrl = $block->getUrl('Catalog/index/addtocart');
+    $childProducts = $product->getTypeInstance()->getUsedProducts($product);
+    if (!empty($childProducts)) { ?>
+<div class="product-add-form-new">
+    <form action="<?= $addToCartUrl; ?>" method="post" id="product_addtocart_form-new" novalidate="novalidate">
+        <input type="hidden" name="product" value="<?= $product->getId(); ?>">
+        <input type="hidden" name="selected_configurable_option" value="">
+            <?= $block->getBlockHtml('formkey')?>
+        <div class="products wrapper">
+            <table class="product_mdstable" id="super-product-table">
+                <tbody>
+                <tr>
+                    <th>SKU</th>
+                    <th>Name</th>
+                    <th>Variants</th>
+                    <th>Availability</th>
+                    <th>
+                        <span>
+                            <select name="variant_uom" id="variant-uom">
+                                <?php if (is_array($uomData) && isset($uomData['uomFactors']) && !empty($uomData['uomFactors'])) { ?>
+                                    <?php foreach ($uomData['uomFactors'] as $uom) { ?>
+                                        <option value="<?= $uom['altUomCode']; ?>">
+                                            <?php if ($uom['altUomCode'] != '') {
+                                                echo $uom['altUomCode'];
+                                            } else {
+                                                echo $uom['altUomDesc'];
+                                            } ?></option>
+                                    <?php }
+                                } else { ?>
+                                <option value="EA">EACH</option>
+                                <?php } ?>
+                            </select>
+                        </span>
+                        Add To Cart</th>
+                </tr>
+                    <?php foreach ($childProducts as $childProduct) {
+                        $erpData = $block->getErpProductData($childProduct->getSku()); ?>
+                    <tr>
+                        <td>
+                            <span class="data-th" style="display: none;">SKU</span>
+                            <b><?= $childProduct->getSku(); ?></b>
+                        </td>
+                        <td class="item-specification"><span class="data-th" style="display: none;">Name</span><?= $childProduct->getName(); ?>
+                        </td>
+                        <td><span class="data-th" style="display: none;">Variants</span>
+                            <?php if (!empty($options[$childProduct->getSku()])) {
+                                foreach ($options[$childProduct->getSku()] as $option) {
+                                    echo '<p>'.$option['attribute_code'].': <b>'.$option['option_title'].'</b></p>';
+                                }
+                            } ?></td>
+                        <td class="inventory-availability"><span class="data-th" style="display: none;">Availability</span>
+                            <?php if (isset($erpData['lineItem']['locations'])) { ?>
+                                <ul>
+                                    <?php foreach ($erpData['lineItem']['locations'] as $qtyData) {
+                                        if ($qtyData['branchName'] != '') { ?>
+                                            <li><?= $qtyData['branchName'] . ': <b>' . $qtyData['available'].'</b>'; ?><?php if ((int)$qtyData['available'] > 0) {
+                                                echo '<span> In Stock</span>';
+                                                } else {
+                                                    echo '<span> Out of Stock</span>';
+                                                } ?></li>
+                                        <?php }
+                                    } ?>
+                                </ul>
+                            <?php } else { ?>
+                                <p class="in-stock"><span> In Stock</span></p>
+                            <?php } ?>
+                        </td>
+                        <td class="add-to-cart-wrapper-plp">
+                            <span class="data-th" style="display: none;">Add To Cart</span>
+                            <div class="box-tocart">
+                                <div class="cart-section">
+                                    <?php
+                                    foreach ($optionAttr as $key => $optionv) {
+                                        $hiddenInput = 'super_attr['.$childProduct->getId().']['.$key.']'; ?>
+                                        <input type="hidden" name="<?= $hiddenInput; ?>" value="<?= $childProduct->getData($optionv['attribute_code']); ?>" />
+                                    <?php } ?>
+                                    <input type="number" name="<?= 'super_attr_qty['.$childProduct->getId().']'; ?>" value="0" title="Qty" class="input-text qty" />
+                                </div>
+                                <div class="price-list"><strong><?php if (isset($erpData['prices']['netPrice'])) {
+                                    echo $block->getPriceWithCurrency($erpData['prices']['netPrice']);
+                                                                } else {
+                                                                    echo $block->getPriceWithCurrency($childProduct->getPrice());
+                                                                } ?></strong><span class="price-uom">/EA</span></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="primary">Add To Cart</button>
+    </form>
+</div>
+    <?php } ?>
+<script>
+    require([
+        "jquery"
+    ], function ($) {
+        $(document).ready(function () {
+            $('.catalog-product-view .product-add-form form#product_addtocart_form').remove();
+        });
+    });
+</script>
+<?php } ?>

@@ -1,0 +1,10 @@
+<?php $themeHelper = $this->helper('Dckap\Theme\Helper\Data');
+$option = $themeHelper->getPDPPrintOption();
+if ($option) { ?>
+<div class="product-addto-print">
+    <a id="print-action" class="action" href="#" title="Print Product">
+        <i class="fas fa-print"></i>
+        <span>Print this page</span>
+    </a>
+</div>
+<?php } ?>

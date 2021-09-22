@@ -1,0 +1,659 @@
+<?php
+/**
+ * @var \DCKAP\Catalog\Block\Price $block
+ */
+$extensionHelper = $this->helper('DCKAP\Extension\Helper\Data');
+$dckapCatalogHelper = $this->helper('DCKAP\Catalog\Helper\Data');
+$ecommUserData = $extensionHelper->getErpEcommUserData();
+$validateUserData = $extensionHelper->getValidateUserData();
+$childUrl = $block->getUrl('Catalog/configurable/get');
+$actionName = $block->getFullActionName();
+
+/**
+ * common css for multiple pages
+ */
+$includedPages = [
+    'catalog_category_view',
+    'catalogsearch_result_index',
+    'catalog_product_view',
+    'checkout_cart_index'
+];
+?>
+<style type="text/css">
+    .show-prices-handler .price-box .price {
+        display: block;
+    }
+    .price-box.price-final_price .price {
+        display: none;
+    }
+    .product-item-info .stock {
+        visibility: hidden;
+    }
+    .products-grid .availability {
+        display: none;
+    }
+    .products-list .price-box.price-final_price {
+        display:block;
+        background-image: linear-gradient(90deg,#eeeeee 0px,#f5f5f5 50px,#eeeeee 80px);
+        background-position: -100vw;
+        animation: shine 4s infinite linear;
+        width: 40%;
+        height: 40px;
+        margin: 0 0 10px auto;
+    }
+    .plp-list-view-stock-rewview {
+        justify-content: flex-end;
+        background-image: linear-gradient(
+                90deg
+                ,#eeeeee 0px,#f5f5f5 50px,#eeeeee 80px);
+        background-position: -100vw;
+        animation: shine 4s infinite linear;
+        width: 100%;
+        height: 40px;
+        margin: 0 0 10px auto;
+    }
+
+    @keyframes shine {
+        0% {
+            background-position: -100vw;
+        }
+        100% {
+            background-position: 100vw;
+        }
+    }
+    .products-list .product .actions-primary {
+        display: block;
+    }
+    .products-list .actions-primary .stock {
+        margin-top: 38px;
+    }
+    <?php if ($actionName == 'catalogsearch_result_index' || $actionName == 'catalog_category_view') { ?>
+        .products-grid .price-box.price-final_price {
+            display:block;
+            background-position-x: right;
+            background-position-y: bottom;
+            background-image: linear-gradient(90deg,#eeeeee 0px,#f5f5f5 50px,#eeeeee 80px);
+            background-size: 600px;
+            animation: shine 2s infinite linear;
+            width: 40%;
+            height: 40px;
+            margin: 0 0 10px auto;
+        }
+    <?php } ?>
+
+    #opc-sidebar > div.opc-block-summary > table > tbody > tr.totals-tax {
+        display: none;
+    }
+</style>
+<script type="text/javascript">
+    require(['jquery', 'Magento_Ui/js/modal/alert', 'domReady!'], function ($, alert) {
+        $(document).ready(function () {
+            /**
+             * common js for multiple pages
+             */
+            $('.pages-items li.item a.page, .toolbar #limiter').click(function () {
+                $('body').addClass('show-prices-handler');
+            });
+
+            <?php if (!(in_array($actionName, $includedPages))) { ?>
+                var productIds = [];
+                $(".price-box").each(function () {
+                    var product_id = $(this).attr('data-product-id');
+                    if ($.inArray(product_id, productIds) == -1) {
+                        productIds.push(product_id);
+                    }
+                });
+
+                if (productIds.length === 0) {
+                    var interval5 = null;
+                    interval5 = setInterval(function () {
+                        if ($(document).find('div.price-box.price-final_price').attr('data-product-id')) {
+                            $("div.price-box.price-final_price").each(function () {
+                                var product_id = $(this).attr('data-product-id');
+                                if ($.inArray(product_id, productIds) == -1) {
+                                    productIds.push(product_id);
+                                }
+                            });
+                            if (productIds.length > 0) {
+                                var customurl = "<?php echo $block->getBasePriceUrl(); ?>";
+                                $.ajax({
+                                    url: customurl,
+                                    type: 'POST',
+                                    global: false,
+                                    dataType: 'json',
+                                    data: {
+                                        productIds: productIds.toString()
+                                    },
+                                    success: function (response) {
+                                        $.each(response, function (key, value) {
+                                            var product_id = value.id;
+                                            var price = value.price;
+                                            var qty = value.qty;
+                                            var uom = value.uom;
+                                            if (product_id) {
+                                                if (price != 0) {
+                                                    $('.products-list #product-price-' + product_id + ' .price').html(price).show().css('visibility', 'visible');
+                                                    $('.products-grid #product-price-' + product_id + ' .price').html(price).show().css('visibility', 'visible');
+                                                }
+                                                <?php if ($dckapCatalogHelper->getStockDisplay() > 0) { ?>
+                                                if (qty > 0) {
+                                                    $('#product-id-' + product_id + ' .stock').removeClass('available').removeClass('unavailable').addClass('available').html('<span>Available In-Stock</span>');
+                                                    <?php if ($dckapCatalogHelper->getStockDisplay() > 1) { ?>
+                                                    $('#product-id-' + product_id + ' .stock').after('<div class="availability only" title="Only ' + qty + ' left" style="display: none;">Only <strong>' + qty + '</strong> left</div>');
+                                                    $('#product-id-' + product_id + ' .availability').show().css('visibility', 'visible');
+                                                    <?php } ?>
+                                                } else {
+                                                    $('#product-id-' + product_id + ' .stock').removeClass('available').removeClass('unavailable').addClass('unavailable').html('<span>Out of stock</span>');
+                                                }
+                                                $('#product-id-' + product_id + ' .stock').show().css('visibility', 'visible');
+                                                <?php } ?>
+                                                $('#product-id-' + product_id + ' .custom_uom').val(uom);
+                                                $('.products-list .qty').css('display', 'block');
+                                                $('.products-list .price-box').css('display', 'block');
+                                                $('.products-list .price-box.price-final_price').css('display', 'block');
+                                                $('.products-list button.action.tocart.primary').css('display', 'block');
+                                                $('.products-grid .product-info-left-section').css('display', 'block');
+                                                $('.products-grid .qty').css('display', 'block');
+                                                $('.products-grid .availability').css('display', 'block');
+                                                $('.products-grid .price-box').css('display', 'block');
+                                                $('.products-grid .price-box.price-final_price').css('display', 'block');
+                                                $('.products-grid button.action.tocart.primary').css('display', 'block');
+
+                                                $('.products-grid .price-box.price-final_price').css('background-image', 'none');
+                                                $('.products-list .price-box.price-final_price').css('background-image', 'none');
+                                                $('.plp-list-view-stock-rewview').css('background-image', 'none');
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                            clearInterval(interval5);
+                        }
+                    }, 1000);
+                }
+
+                if (productIds.length > 0) {
+                    var customurl = "<?php echo $block->getBasePriceUrl(); ?>";
+                    $.ajax({
+                        url: customurl,
+                        type: 'POST',
+                        global: false,
+                        dataType: 'json',
+                        global: false,
+                        data: {
+                            productIds: productIds.toString()
+                        },
+                        success: function (response) {
+                            $.each(response, function (key, value) {
+                                var product_id = value.id;
+                                var price = value.price;
+                                var qty = value.qty;
+                                var uom = value.uom;
+                                if (product_id) {
+                                    if (price != 0) {
+                                        $('#product-price-' + product_id + ' .price').html(price);
+                                    }
+                                    <?php if ($dckapCatalogHelper->getStockDisplay() > 0) { ?>
+                                    if (qty > 0) {
+                                        $('#product-id-' + product_id + ' .stock').removeClass('available').removeClass('unavailable').addClass('available').html('<span>Available In-Stock</span>');
+                                        <?php if ($dckapCatalogHelper->getStockDisplay() > 1) { ?>
+                                        $('#product-id-' + product_id + ' .stock').after('<div class="availability only" title="Only ' + qty + ' left" style="display: none;">Only <strong>' + qty + '</strong> left</div>');
+                                        $('#product-id-' + product_id + ' .availability').show().css('visibility', 'visible');
+                                        <?php } ?>
+                                    } else {
+                                        $('#product-id-' + product_id + ' .stock').removeClass('available').removeClass('unavailable').addClass('unavailable').html('<span>Out of stock</span>');
+                                    }
+                                    $('#product-id-' + product_id + ' .stock').show().css('visibility', 'visible');
+                                    <?php } ?>
+                                    $('#product-id-' + product_id + ' .custom_uom').val(uom);
+                                }
+                            });
+                            $('.price-box .price').show();
+                            $('.products-grid .price-box.price-final_price').css('display', 'block');
+                            $('.products-grid .price-box.price-final_price').css('background-image', 'none');
+                            $('.products-list .price-box.price-final_price').css('display', 'block');
+                            $('.products-list .price-box.price-final_price').css('background-image', 'none');
+                            $('.plp-list-view-stock-rewview').css('background-image', 'none');
+                            $('.price-outer-container').css('visibility', 'visible');
+                        }
+                    });
+                }
+            <?php } ?>
+
+            /* Display alert message if 'orderPadOnly' is 'yes' for add to cart button */
+            <?php if(isset($validateUserData['orderPadOnly']) && $validateUserData['orderPadOnly'] == 'yes') { ?>
+                $('.action.tocart, #addtocart').on('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    alert({
+                        title: "Insufficient Permission",
+                        content: "You don't have permission to purchase this item. All Items in your cart must be only from your order pad.",
+                        autoOpen: true,
+                        clickableOverlay: false,
+                        focus: "",
+                        actions: {
+                            always: function () {
+                                console.log("modal closed");
+                            }
+                        }
+                    });
+                });
+            <?php } ?>
+
+            /* Display current company in header */
+            var serviceUrl = "<?php echo $block->getUrl('multiaccount/index/company'); ?>";
+            $.ajax({
+                url: serviceUrl,
+                type: 'GET',
+                global: false,
+                dataType: 'json',
+                data: "",
+                success: function (response) {
+                    console.log(response);
+                    if (response.status === "SUCCESS" && response.company !== "") {
+                        $('.page-header').prepend(response.company);
+                    }
+                    var multiuser = response.multi_user;
+                    if (multiuser == 2) {
+                        $(".origin-signout").css("display", "none");
+                        $(".alert-for-multiaccount").css("display", "block");
+                    }
+                }
+            });
+
+            /**
+             * PLP and Search page scripts
+             */
+            <?php if ($actionName == 'catalog_category_view' || $actionName == 'catalogsearch_result_index') { ?>
+                var productIds = [];
+                $(".products-list .price-box.price-final_price").each(function () {
+                    var product_id = $(this).attr('data-product-id');
+                    if ($.inArray(product_id, productIds) == -1) {
+                        productIds.push(product_id);
+                    }
+                });
+
+                $(".products-grid .price-box.price-final_price").each(function () {
+                    var product_id = $(this).attr('data-product-id');
+                    if ($.inArray(product_id, productIds) == -1) {
+                        productIds.push(product_id);
+                    }
+                });
+                if (productIds.length > 0) {
+                    var customurl = "<?php echo $block->getBasePriceUrl(); ?>";
+                    $.ajax({
+                        url: customurl,
+                        type: 'POST',
+                        global: false,
+                        dataType: 'json',
+                        data: {
+                            productIds: productIds.toString()
+                        },
+                        success: function (response) {
+                            $.each(response, function (key, value) {
+                                var product_id = value.id;
+                                var price = value.price;
+                                var qty = value.qty;
+                                var uom = value.uom;
+                                if (product_id) {
+                                    if (price != 0) {
+                                        $('.products-list #product-price-' + product_id + ' .price').html(price).show().css('visibility', 'visible');
+                                        $('.products-grid #product-price-' + product_id + ' .price').html(price).show().css('visibility', 'visible');
+                                    }
+                                    <?php if ($dckapCatalogHelper->getStockDisplay() > 0) { ?>
+                                    if (qty > 0) {
+                                        $('#product-id-' + product_id + ' .stock').removeClass('available').removeClass('unavailable').addClass('available').html('<span>Available In-Stock</span>');
+                                        <?php if ($dckapCatalogHelper->getStockDisplay() > 1) { ?>
+                                        $('#product-id-' + product_id + ' .stock').after('<div class="availability only" title="Only ' + qty + ' left" style="display: none;">Only <strong>' + qty + '</strong> left</div>');
+                                        $('.products-list .availability, .products-grid .availability').show().css('visibility', 'visible');
+                                        <?php } ?>
+                                    } else {
+                                        $('#product-id-' + product_id + ' .stock').removeClass('available').removeClass('unavailable').addClass('unavailable').html('<span>Out of stock</span>');
+                                    }
+                                    $('.products-list .stock, .products-grid .stock').show().css('visibility', 'visible');
+                                    <?php } ?>
+                                    $('#product-id-' + product_id + ' .custom_uom').val(uom);
+                                }
+                            });
+                            $('.products-list .qty, .products-grid .qty').css('display', 'inline-block');
+                            $('.products-list .price-box, .products-list .price-box.price-final_price, .products-list button.action.tocart.primary').css('display', 'block');
+                            $('.products-grid .price-box, .products-grid .price-box.price-final_price, .products-grid button.action.tocart.primary').css('display', 'block');
+                            $('.products-grid .price-box.price-final_price').css('background-image', 'none');
+                            $('.products-list .price-box.price-final_price').css('background-image', 'none');
+                            $('.plp-list-view-stock-rewview').css('background-image', 'none');
+                        }
+                    });
+                }
+            <?php } ?>
+
+            /**
+             * PDP page scripts
+             */
+             <?php if ($actionName == 'catalog_product_view') { ?>
+                var productIds = [];
+                /* send grouped associated product ids for getting erp price */
+                if ($('.grouped#super-product-table').length) {
+                    $(".grouped#super-product-table .subproduct-id").each(function () {
+                        var product_id = $(this).attr('data-product-id');
+                        if ($.inArray(product_id, productIds) == -1) {
+                            productIds.push(product_id);
+                        }
+                    });
+                }
+
+                /* PDP related products */
+                $(".products-related .product-item-info.simple .price-box.price-final_price").each(function () {
+                    var product_id = $(this).attr('data-product-id');
+                    if ($.inArray(product_id, productIds) == -1) {
+                        productIds.push(product_id);
+                    }
+                });
+
+                /* PDP upsell products */
+                $(".products-upsell .product-item-info.simple .price-box.price-final_price").each(function () {
+                    var product_id = $(this).attr('data-product-id');
+                    if ($.inArray(product_id, productIds) == -1) {
+                        productIds.push(product_id);
+                    }
+                });
+                if (productIds.length > 0) {
+                    var customurl = "<?php echo $block->getBasePriceUrl(); ?>";
+                    $.ajax({
+                        url: customurl,
+                        type: 'POST',
+                        dataType: 'json',
+                        global: false,
+                        data: {
+                            productIds: productIds.toString()
+                        },
+                        success: function (response) {
+                            $.each(response, function (key, value) {
+                                var product_id = value.id;
+                                var price = value.price;
+                                var qty = value.qty;
+                                var uom = value.uom;
+                                if (product_id) {
+                                    $('.product-info-main .price-box.price-final_price span.price').css('display', 'block');
+                                    if ($('.grouped#super-product-table').length) {
+                                        $('.grouped#super-product-table #product-price-' + product_id + ' .price').html(price);
+                                        $('.grouped-associated-price').show();
+                                        $('#erp_grouped_price_' + product_id).val(value.price_nocurr);
+                                        if (qty > 0) {
+                                            $('#stock_available_' + product_id).show();
+                                            $('#stock_available_' + product_id + ' .availability.only span').html(qty);
+                                        } else {
+                                            $('#stock_unavailable_' + product_id).show();
+                                        }
+                                        if (value.customuom) {
+                                            $('.custom_uom_' + product_id).html(value.customuom);
+                                        }
+                                        /* UOM select change event */
+                                        $('#super-product-table .custom_uom').on('change', function (e) {
+                                            var proId = $(this).attr('data-product-id');
+                                            $('.grouped#super-product-table #product-price-' + proId + ' .price').html($(this).children(":selected").attr("data-price"));
+                                            $('#erp_grouped_price_' + proId).val($(this).children(":selected").attr("data-org-price"));
+
+                                        });
+                                    }
+                                    if (price != 0) {
+                                        if ($('.products-upsell #product-price-' + product_id).length) {
+                                            $('.products-upsell .price-box.price-final_price[data-product-id=' + product_id + ']').css('display', 'block');
+                                            $('.products-upsell #product-price-' + product_id + ' .price').html(price).show().css('visibility', 'visible');
+                                            $('.products-upsell #product-id-' + product_id + ' .actions-primary .qty').css('display', 'inline-block');
+                                            $('.products-upsell #product-id-' + product_id + ' button.action.tocart.primary').css('display', 'block');
+                                        }
+                                        if ($('.products-related #product-price-' + product_id).length) {
+                                            $('.products-related .price-box.price-final_price[data-product-id=' + product_id + ']').css('display', 'block');
+                                            $('.products-related #product-price-' + product_id + ' .price').html(price).show().css('visibility', 'visible');
+                                            $('.products-related #product-id-' + product_id + ' .actions-primary .qty').css('display', 'inline-block');
+                                            $('.products-related #product-id-' + product_id + ' button.action.tocart.primary').css('display', 'block');
+                                        }
+                                    }
+                                    $('#product-id-' + product_id + ' .custom_uom').val(uom);
+                                }
+                            });
+                        }
+                    });
+                }
+
+                /* review navigation */
+                $('.product-info-main .reviews-actions a.action.view').click(function (e) {
+                    e.preventDefault();
+                    $('html, body').animate({
+                        scrollTop: $('#tab-label-reviews').offset().top
+                    }, 300);
+                    return false;
+                });
+
+                /* hide warehouse qty */
+                $('.custom-warehouse-qty .block-content button').click(function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $('.custom-warehouse-qty .block-content').hide().css({"visibility": "hidden"});
+                });
+                $('.custom-warehouse-qty .block-title a').click(function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    //$('.custom-warehouse-qty .block-content').toggle();
+                    var currentDisplay = $('.custom-warehouse-qty .block-content').css("display");
+                    if (currentDisplay === "none") {
+                        $('.custom-warehouse-qty .block-content').show().css({"visibility": "visible"});
+                    } else {
+                        $('.custom-warehouse-qty .block-content').hide().css({"visibility": "hidden"});
+                    }
+                });
+
+                /* configurable product on select */
+                $('#product-options-wrapper .field.configurable select').each(function () {
+                    $(this).on('change', function (e) {
+                        $('.product-info-main .box-tocart #product-addtocart-button').prop("disabled", true);
+                        var val = $(this).val();
+                        var super_attribute = $(this).attr('data-selector');
+                        var id = $(this).parents('form#product_addtocart_form').find(' input[name="product"]').val();
+                        var sku = $(this).parents('form#product_addtocart_form').attr('data-product-sku');
+                        var customurl = "<?php echo $childUrl; ?>";
+                        $.ajax({
+                            url: customurl,
+                            type: 'POST',
+                            global: false,
+                            dataType: 'json',
+                            data: {
+                                id: id,
+                                sku: sku,
+                                selected_option: val,
+                                super_attribute: super_attribute
+                            },
+                            success: function (response) {
+                                $.each(response, function (key, value) {
+                                    var price = value.price;
+                                    var sku = value.sku;
+                                    var qty = value.qty;
+                                    qty = parseInt(qty);
+                                    $('.product-info-price #product-price-' + id + ' .price').html(price);
+                                    $('.product-info-stock-sku .sku .value').html(sku);
+                                    $('.product-info-mid-right .availability.only').remove();
+                                    <?php if ($dckapCatalogHelper->getStockDisplay() > 0) { ?>
+                                    if (qty > 0) {
+                                        $('.product-info-mid-right .stock').removeClass('available').removeClass('unavailable').addClass('available').html('<span>Available In-Stock</span>').show();
+                                        <?php if ($dckapCatalogHelper->getStockDisplay() > 1) { ?>
+                                        $('.product-info-mid-right .stock').after('<div class="availability only" title="Only ' + qty + ' left">Only <strong>' + qty + '</strong> left</div>').show();
+                                        <?php } ?>
+                                    } else {
+                                        $('.product-info-mid-right .stock').removeClass('available').removeClass('unavailable').addClass('unavailable').html('<span>Out of stock</span>').show();
+                                        <?php if ($dckapCatalogHelper->getStockDisplay() > 1) { ?>
+                                        $('.product-info-mid-right .stock').after('<div class="availability only" title="Only 0 left">Only <strong>0</strong> left</div>').show();
+                                        <?php } ?>
+                                    }
+                                    <?php } else { ?>
+                                    $('.product-info-mid-right .stock').hide();
+                                    <?php } ?>
+                                    $('.box-tocart #product-options-wrapper').show();
+                                    $('.box-tocart #product-options-wrapper #custom_uom').html(value.uom_html);
+                                    $('.product-info-main .box-tocart #product-addtocart-button').prop("disabled", false);
+                                });
+                            }
+                        });
+                    });
+                });
+            <?php } ?>
+
+            /**
+             * Cart page scripts
+             */
+            <?php if ($actionName == 'checkout_cart_index') { ?>
+                /* cart page cross sell products */
+                var productIds = [];
+                $(".products-crosssell .product-item-info.simple .price-box.price-final_price").each(function () {
+                    var product_id = $(this).attr('data-product-id');
+                    if ($.inArray(product_id, productIds) == -1) {
+                        productIds.push(product_id);
+                    }
+                }
+
+                if ($(document).find('body').hasClass('catalog-product-view')) {
+                    $('.custom-warehouse-qty .block-title a').click(function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        //$('.custom-warehouse-qty .block-content').toggle();
+                        var currentDisplay = $('.custom-warehouse-qty .block-content').css("display");
+                        if (currentDisplay === "none") {
+                            $('.custom-warehouse-qty .block-content').show().css({"visibility":"visible"});
+                        } else {
+                            $('.custom-warehouse-qty .block-content').hide().css({"visibility":"hidden"});
+                        }
+                    });
+
+                    /* configurable product on select */
+                    $('#product-options-wrapper .field.configurable select').each(function () {
+                        $(this).on('change', function (e) {
+                            $('.product-info-main .box-tocart #product-addtocart-button').prop("disabled", true);
+                            var val = $(this).val();
+                            var super_attribute = $(this).attr('data-selector');
+                            var id = $(this).parents('form#product_addtocart_form').find(' input[name="product"]').val();
+                            var sku = $(this).parents('form#product_addtocart_form').attr('data-product-sku');
+                            var customurl = "<?php echo $childUrl; ?>";
+                            $.ajax({
+                                url: customurl,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    id: id,
+                                    sku: sku,
+                                    selected_option: val,
+                                    super_attribute: super_attribute
+                                },
+                                success: function (response) {
+                                    console.log(response);
+                                    $.each(response, function(key, value) {
+                                        var price = value.price;
+                                        var sku = value.sku;
+                                        var qty = value.qty;
+                                        var type = value.type;
+                                        qty = parseInt(qty);
+                                        $('.product-info-price #product-price-' + id + ' .price').html(price);
+                                        $('.product-info-stock-sku .sku .value').html(sku);
+                                        $('.product-info-main .availability.only').remove();
+                                        if(type == "simple"){
+                                            if (qty > 0) {
+                                                $('.product-info-main .stock').removeClass('available').removeClass('unavailable').addClass('available').css('display','block').html('<span>Available In-Stock</span>');
+                                                $('.product-info-main .stock').after('<div class="availability only" title="Only ' + qty + ' left">Only <strong>' + qty + '</strong> left</div>');
+
+                                            } else {
+                                                $('.product-info-main .stock').removeClass('available').removeClass('unavailable').addClass('unavailable').html('<span>Out of stock</span>');
+                                                $('.product-info-main .stock').after('<div class="availability only" title="Only 0 left">Only <strong>0</strong> left</div>');
+                                            }
+                                        }
+                                        else{
+                                            $('.product-info-main .stock').removeClass('available').removeClass('unavailable').addClass('unavailable').html('');
+                                        }
+                                        $('.box-tocart #product-options-wrapper').show();
+                                        $('.box-tocart #product-options-wrapper #custom_uom').html(value.uom_html);
+                                        $('.product-info-main .box-tocart #product-addtocart-button').prop("disabled", false);
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            <?php } ?>
+
+            /**
+             * Checkout page scripts
+             */
+            <?php if ($actionName == 'checkout_index_index') { ?>
+                function compareKeyValuePair(pair, param) {
+                    var key_value = pair.split('=');
+                    var decodedKey = decodeURIComponent(key_value[0]);
+                    var decodedValue = decodeURIComponent(key_value[1]);
+                    if (decodedKey == param) return decodedValue;
+                    return null;
+                }
+
+                function getUrlParams(param) {
+                    var search = window.location.search.substring(1);
+                    var quoteType = null;
+                    if (search.indexOf('&') > -1) {
+                        var params = search.split('&');
+                        for (var i = 0; i < params.length; i++) {
+                            quoteType = compareKeyValuePair(params[i], param);
+                            if (quoteType !== null) {
+                                break;
+                            }
+                        }
+                    } else {
+                        quoteType = compareKeyValuePair(search, param);
+                    }
+                    return quoteType;
+                }
+
+                if (getUrlParams('type') == 'quote') {
+                    var interval = null;
+                    interval = setInterval(function () {
+                        if ($(document).find('.opc-block-summary span.title').text()) {
+                            $(document).find('.opc-block-summary span.title').html('Quote Summary');
+                            clearInterval(interval);
+                        }
+                    }, 1000);
+
+                    var interval2 = null;
+                    interval2 = setInterval(function () {
+                        if ($(document).find('.opc-block-summary tr.grand.totals th strong').text()) {
+                            $(document).find('.opc-block-summary tr.grand.totals th strong').html('Quote Total');
+                            clearInterval(interval2);
+                        }
+                    }, 1000);
+
+                    /* Edit back option in checkout page - quote request */
+                    window.checkoutConfig.checkoutUrl += '?type=quote';
+                }
+            <?php } ?>
+
+            /**
+             * Register page scripts
+             */
+            <?php if ($actionName == 'customer_account_create') {
+                if (is_array($ecommUserData) && count($ecommUserData)) { ?>
+                    $('.form-create-account input#firstname').val('<?php echo $ecommUserData['firstName']; ?>');
+                    $('.form-create-account input#lastname').val('<?php echo $ecommUserData['lastName']; ?>');
+                    $('.form-create-account input#telephone').val('<?php echo (int)str_ireplace('-', '', $ecommUserData['billPhone']); ?>');
+                    $('.form-create-account input#street_1').val('<?php echo $ecommUserData['billAddress1']; ?>');
+                    $('.form-create-account input#street_2').val('<?php echo $ecommUserData['billAddress2']; ?>');
+                    $('.form-create-account input#street_3').val('<?php echo $ecommUserData['billAddress3']; ?>');
+                    $('.form-create-account input#city').val('<?php echo $ecommUserData['billCity']; ?>');
+                    $('.form-create-account input#zip').val('<?php echo $ecommUserData['billPostCode']; ?>');
+                    $('.form-create-account input#email_address').val('<?php echo $ecommUserData['email']; ?>');
+                    $('.form-create-account input#is_b2b').val('1');
+                    $('.form-create-account input#company').val('<?php echo $ecommUserData['billCompanyName']; ?>');
+                    $('.form-create-account input#erp_account_number').val("<?php echo $ecommUserData['accountNumber']; ?>");
+                    $('.form-create-account input#ddi_ship_number').val("00000001");
+                    var country = "<?php echo $ecommUserData['billCountry']; ?>";
+                    if (country != '') {
+                        $('#country option[value="' + country + '"]').attr("selected", "selected");
+                    } else {
+                        $('#country option[value="US"]').attr("selected", "selected");
+                    }
+                <?php }
+            } ?>
+        });
+    });
+</script>

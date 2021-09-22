@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="ddi_order_approval" resource="default" engine="innodb" comment="This table will keep the user order for approval">
+        <column xsi:type="int" name="id" nullable="false" padding="11" identity="true" comment="This column keep the unique id for each transaction"/>
+        <column xsi:type="varchar" name="customer_id" nullable="false" length="100" comment="This column keep the customer id"/>
+        <column xsi:type="varchar" name="erp_user_id" nullable="true" length="100" comment="This column keep the DDI ERP user id"/>
+        <column xsi:type="varchar" name="customer_email" nullable="false" length="100" comment="This column keep the customer email address"/>
+        <column xsi:type="varchar" name="erp_account_number" nullable="false" length="100" comment="This column keep the DDI ERP account number"/>
+        <column xsi:type="varchar" name="ship_to_number" nullable="false" length="100" comment="This column keep the ship to number"/>
+        <column xsi:type="varchar" name="website_id" nullable="false" length="100" default="base"  comment="This column keep the website id"/>
+        <column xsi:type="boolean" name="order_approval" nullable="false" default="0" comment="This column keep order approval Status"/>
+        <column xsi:type="timestamp" name="created_on" nullable="false" default="CURRENT_TIMESTAMP" comment="This column keep created on time"/>
+        <column xsi:type="timestamp" name="updated_on" nullable="false" default="CURRENT_TIMESTAMP" comment="This column keep updated on time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index referenceId="INDEX_SEVERITY" indexType="btree">
+            <column name="id"/>
+        </index>
+    </table>
+    <table name="sales_order" resource="default" engine="innodb" comment="This table will keep the user order details">
+        <column xsi:type="varchar" name="account_number" nullable="false" length="100" comment="This column keep the account number"/>
+        <column xsi:type="varchar" name="user_id" nullable="true" length="100" comment="This column keep the DDI ERP user id"/>
+        <column xsi:type="varchar" name="ship_to_number" nullable="false" length="100" comment="This column keep the ship to number"/>
+        <column xsi:type="varchar" name="erp_customer_first_name" nullable="true" length="200" comment="This column will store the ERP customer first name"/>
+        <column xsi:type="varchar" name="erp_customer_last_name" nullable="true" length="200" comment="This column will store the ERP customer last name"/>
+        <column xsi:type="text" name="admin_approval_details" nullable="true" comment="This column stores admin approval information"/>
+        <column xsi:type="varchar" name="existing_order_id" nullable="true" length="200" comment="This column will store the existing order id from order approval edit."/>
+        <column xsi:type="text" name="existing_order_details" nullable="true" comment="This column will store the existing order details from order approval edit. "/>
+    </table>
+    <table name="quote" resource="default" engine="innodb" comment="Storing reference order id in Quote table">
+        <column xsi:type="int" name="order_id" nullable="true" padding="10"  identity="false" comment="This column stores the reference order id "/>
+    </table>
+</schema>

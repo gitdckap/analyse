@@ -1,0 +1,42 @@
+<?php
+/**
+ * Copyright © DCKAP Inc. All rights reserved.
+ */
+/**
+ * Here list of companies will be displayed.
+ * If more than one account is not available then automatically redirect that to myaccount page
+ * After click login button respective to the company, it will redirected to the controller, there it will logged in and customer session value setup and then redirected them to my account page
+ */
+$customerId = $this->getRequest()->getParam('id');
+$helper = $this->helper('Mageplaza\LoginAsCustomer\Helper\Dckap');
+$customerData = $helper->getMultiAccountData();
+?>
+<div class="multi-account-login">
+    <h1>Select Company Account</h1>
+    <?php if ($customerData && count($customerData)) { ?>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Account Number</th>
+                    <th>User Id</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($customerData as $user) { ?>
+                    <tr class="child-row">
+                        <td data-th="Name" class="multiact-name"><p><?php echo $user['firstName'] . ' ' . $user['lastName']; ?></p></td>
+                        <td data-th="Company" class="multiact-company-name"><p><?php echo $user['billCompanyName']; ?></p></td>
+                        <td data-th="Email" class="multiact-account-number"><p><?php echo $user['accountNumber']; ?></p></td>
+                        <td data-th="Email" class="multiact-user-id"><p><?php echo $user['userId']; ?></p></td>
+                        <td data-th="Action" class="action">
+                            <a class="btn btn-default" href="<?php echo $block->getUrl('mploginascustomer/login/login', ['id' => $customerId, 'accountNumber' => $user['accountNumber']]); ?>">Login</a>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    <?php } ?>
+</div>

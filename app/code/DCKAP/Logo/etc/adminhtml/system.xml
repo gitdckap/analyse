@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   DCKAP
+ * @package    DCKAP_Logo
+ * @website    http://www.dckap.com
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="dckap" translate="label" sortOrder="200">
+            <label>DCKAP</label>
+        </tab>
+        <section id="mobile_logo"  showInDefault="1" showInWebsite="1">
+            <tab>dckap</tab>
+            <label>Mobile Logo</label>
+            <resource>Magento_Config::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>LOGO</label>
+               <field id="upload_image_id" translate="label comment" type="image" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Select Logo</label>
+                <comment>Allowe Types jpg, jpeg, gif, png, svg</comment>
+                    <backend_model>DCKAP\Logo\Model\Config\Backend\Image</backend_model>
+                    <base_url type="media" scope_info="1">logo/mobile</base_url>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

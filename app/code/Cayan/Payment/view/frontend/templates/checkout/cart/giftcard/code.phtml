@@ -1,0 +1,115 @@
+<?php
+/**
+ * Cayan Payments
+ *
+ * @package Cayan\Payment
+ * @author Igor Miura
+ * @author Joseph Leedy
+ * @copyright Copyright (c) 2017 Cayan (https://cayan.com/)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+/**
+ * @var $this \Cayan\Payment\Block\Checkout\Cart\Code
+ */
+?>
+<?php if ($this->isEnabled()): ?>
+    <script type="text/javascript">
+        var $jQ = undefined;
+        require(["jquery"], function($){
+            $jQ = jQuery.noConflict();
+        });
+        function applyGiftCard(){
+            if ($jQ('.input-giftcode').val() !== "") {
+                $jQ('.giftcode-error').hide();
+                var applyUrl = "<?= $this->getFormUrl() ?>"+"giftcode/"+$jQ('.input-giftcode').val();
+                //Check if PIN is being used
+                var pinContinue = true;
+                if($jQ('.input-gift-pin').val() !== undefined && $jQ('.input-gift-pin').val() !== "")
+                {
+                    var pinNumber = parseInt($jQ('.input-gift-pin').val());
+                    if (pinNumber <= 9999) {
+                        applyUrl = applyUrl + "/pin/" + $jQ('.input-gift-pin').val();
+                    } else {
+                        pinContinue = false;
+                    }
+                }
+                if (pinContinue) {
+                    window.location.href = applyUrl;
+                } else {
+                    $jQ('.giftcode-error').text("<?= __("Invalid PIN number, please check the PIN number.") ?>");
+                    $jQ('.giftcode-error').show();
+                }
+
+            } else {
+                $jQ('.giftcode-error').text("<?= __("Invalid coupon code, please check the code.") ?>");
+                $jQ('.giftcode-error').show();
+            }
+        }
+        function checkAvailableAmount(){
+            if($jQ('.input-giftcode').val() !== ""){
+                $jQ('.giftcode-error').hide();
+                $jQ('.giftcard-buttons').hide();
+                $jQ('.loading-image').show();
+                var checkBalanceUrl = "<?= $this->getCheckBalanceUrl() ?>";
+                $jQ.ajax({
+                    url: checkBalanceUrl,
+                    type: "POST",
+                    data: {giftcode: $jQ('.input-giftcode').val()},
+                    success: function (response) {
+                        if (response !== "") {
+                            var errorNumber = parseInt(response.error);
+                            if(parseInt(response.error) === 0){
+                                $jQ('.available-amount').text('<?= __("Available Amount: ") ?>'+response.message);
+                            }
+                            else{
+                                $jQ('.available-amount').text('<?= __("Invalid code.") ?>');
+                            }
+                            $jQ('.loading-image').hide();
+                            $jQ('.available-amount').show();
+                            $jQ('.giftcard-buttons').show();
+                        }
+                    },
+                    error: function (xhr) {
+                        console.log("Error in ajaxResponse balance.");
+                    }
+                });
+            }
+            else{
+                $jQ('.giftcode-error').text("<?= __("Invalid coupon code, please check the code.") ?>");
+                $jQ('.giftcode-error').show();
+            }
+        }
+        function maxLengthCheck(object) {
+            if (object.value.length > object.maxLength)
+                object.value = object.value.slice(0, object.maxLength)
+        }
+        function isNumeric (evt) {
+            var theEvent = evt || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode (key);
+            var regex = /[0-9]|\./;
+            if ( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+    </script>
+    <fieldset class="giftcard-fieldset">
+        <p class="giftcode-error" style="display: none;"></p>
+        <label><?= $this->getTitle() ?></label>
+        <label class="available-amount" style="display: none;"></label>
+        <input type="text" class="input-giftcode" maxlength="<?= $this->getCodeLength() ?>" name="giftcode"/>
+        <?php if ($this->showPin()): ?>
+            <label for="giftpin"><?= __('PIN (if available)') ?></label>
+            <input onkeypress="return isNumeric(event)"
+                   oninput="maxLengthCheck(this)"
+                   type = "number"
+                   maxlength="4" min="1" max="9999" class="input-gift-pin" name="giftpin" placeholder="PIN" />
+        <?php endif; ?>
+        <div class="giftcard-buttons">
+            <input type="button" name="submit" class="submit-giftcard" value="<?= __('Add Gift Card') ?>" onclick="applyGiftCard();" />
+            <input type="button" name="submit" class="check-available-amount" value="<?= __('Check Available Amount') ?>" onclick="checkAvailableAmount();" />
+        </div>
+        <p class="loading-image" style="display: none;"><img src="<?= $this->getLoadingImageUrl() ?>" /></p>
+    </fieldset>
+<?php endif; ?>

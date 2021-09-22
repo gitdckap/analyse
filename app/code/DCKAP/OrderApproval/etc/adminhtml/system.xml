@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!--
+/**
+  * @author     DCKAP <extensions@dckap.com>
+  * @package    DCKAP_Shoppinglist
+  * @copyright  Copyright (c) 2020 DCKAP Inc (http://www.dckap.com)
+  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+
+        <tab id="dckap" translate="label" sortOrder="1000">
+            <label>DCKAP</label>
+        </tab>
+        <section id="OrderApproval_section" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Order Approval</label>
+            <tab>dckap</tab>
+            <resource>DCKAP_OrderApproval::config_OrderApproval</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>\Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="sender_email_identity" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Sender</label>
+                    <source_model>\Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="ddi_order_approval" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label> Order Approval Email Template</label>
+                    <source_model>\Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="ddi_waiting_for_order_approval" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Shopper Email Template</label>
+                    <source_model>\Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="ddi_approve_customer_order" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Approver Email Template</label>
+                    <source_model>\Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="ddi_update_order_email" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Update Order Email Template</label>
+                    <source_model>\Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="ddi_allow_edit_order" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow Edit Order</label>
+                    <source_model>\Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="copy_submitter_approver_email" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>CC Approver for Pending Approval</label>
+                    <source_model>\Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="copy_approver_email" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>CC Approver for Approve/Decline order</label>
+                    <source_model>\Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="copy_approver_cancel_order_email" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>CC Approver for customer cancelled order</label>
+                    <source_model>\Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+        </group>
+            <group id="threshold_based_order_approval" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Threshold Based Order Approval</label>
+                <field id="threshold_setting" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <comment>If Yes then please add threshold amount.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="threshold_amount" type="text" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Threshold Amount</label>
+                    <comment>Threshold amount Should be greater than 0.</comment>
+                    <depends>
+                        <field id="threshold_setting">1</field>
+                    </depends>
+                    <validate>required-entry validate-not-negative-number validate-number validate-digits-range digits-range-1-100000</validate>
+                </field>
+            </group>
+        </section>
+
+    </system>
+</config>

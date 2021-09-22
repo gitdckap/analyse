@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<head>
+        <title>Video Import CSV Creation</title>
+    </head> 
+	<body>
+        <referenceContainer name="content">
+            <block class="Dckap\CsvConverter\Block\Adminhtml\Video\Index" name="csvconverter_block_adminhtml_video_index"  template="Dckap_CsvConverter::csvconverter_video_index.phtml" />
+        </referenceContainer>
+    </body>
+</page>

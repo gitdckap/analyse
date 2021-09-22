@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>        
+
+        <update id="FME_Extensions::fmeextensions"
+             title="Store Pickup" translate="title"
+             module="FME_GoogleMapsStoreLocator" sortOrder="10"           
+             resource="FME_Extensions::fmeextensions" parent="DCKAP_Extension::parent" />
+
+        <!--<add id="FME_GoogleMapsStoreLocator::manage_gmaps"
+             title="Google Map Stores Locator" translate="title" 
+        	 module="FME_GoogleMapsStoreLocator" sortOrder="1" 
+        	 parent="FME_Extensions::fmeextensions"        	
+        	 resource="FME_GoogleMapsStoreLocator::manage_gmaps"/>-->
+
+        <add id="FME_GoogleMapsStoreLocator::manage_stores"
+             title="Manage Stores" 
+             module="FME_GoogleMapsStoreLocator" sortOrder="2" 
+             parent="FME_Extensions::fmeextensions"
+             action="googlemapsstorelocator/storelocator/"  
+             resource="FME_GoogleMapsStoreLocator::manage_stores" />      
+                       
+        <add id="FME_GoogleMapsStoreLocator::configuration"
+             title="Configurations"
+             module="FME_GoogleMapsStoreLocator" sortOrder="4" 
+             parent="FME_Extensions::fmeextensions"
+             action="adminhtml/system_config/edit/section/googlemapsstorelocator"
+             resource="FME_GoogleMapsStoreLocator::configuration" />	 
+    </menu>
+</config>
+
+ 

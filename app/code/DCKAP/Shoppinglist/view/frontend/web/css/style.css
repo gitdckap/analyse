@@ -1,0 +1,90 @@
+/**
+  * @author     DCKAP <extensions@dckap.com>
+  * @package    DCKAP_Shoppinglist
+  * @copyright  Copyright (c) 2016 DCKAP Inc (http://www.dckap.com)
+  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+
+/* Shopping List Page */
+.add-shopping-list-form, .shopping-list-dropdown-form { padding: 0px 0px 20px 0px; width: 48%; }
+.add-shopping-list-form { float: left; margin-right: 2%; }
+#shopping_item_table tr th.col {  }
+#shopping_item_table tr th.image { width: 90px; }
+#shopping_item_table tr th.name { width: 300px; }
+#shopping_item_table tr th.sku { width: 150px; }
+#shopping_item_table tr .image,
+#shopping_item_table tr .qty,
+#shopping_item_table tr .add-to-cart,
+#shopping_item_table tr .remove-btn { text-align: center; }
+#shopping_item_table tr .qty .qty { width: 40px; }
+#shopping_item_table tr .add-to-cart input[type="checkbox"] { margin: 0px; }
+#shopping_item_table tr.empty-table td { text-align: center; padding: 50px 0px; font-size: 18px; color: red; }
+.shopping-list-search-form { width: 48%; float: left; }
+.shopping-list-search-form .search_field_div { position: relative; }
+.shopping-list-search-form .search_field_div .item_loader { display:none; position: absolute; top: 6px; right: 6px; }
+.shopping-list-submit-form .actions-toolbar { text-align: right; }
+.shopping-list-submit-form .actions-toolbar .primary { float: none; }
+.shopping-list-submit-form .actions-toolbar #deletelist { margin-right: 20px; }
+.ui-helper-hidden-accessible { display: none; }
+
+
+/* Product View Page */
+.add-shopping-list-content { float: left; width: 100%; margin: 10px 0px; }
+.add-shopping-list-content .toshoppinglist { color: #666 !important; font-weight: 600; letter-spacing: .06px; text-transform: uppercase !important; display: inline-block; text-decoration: none; }
+.add-shopping-list-content .toshoppinglist span {padding-left:3px;
+}
+.add-shopping-list-content .toshoppinglist:hover { color: #333 !important; text-decoration: none; }
+.add-to-shoppinglist-content { margin: 15px 0px; display:none; }
+#shopping_list_name_content { display: none; }
+.add-to-shoppinglist-content .mage-error { display: none; }
+.product_list_table .item-options dt { clear: left; float: left; margin: 0 10px 5px 0 }
+.product_list_table .bundle.item-options dt { float: none; }
+.product_list_table .item-options dt:after{ content: ': '; }
+.product_list_table .remove-btn .delete-ico span { border: 0; clip: rect(0, 0, 0, 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+.product_list_table .remove-btn .delete-ico:before { content: '\e604'; -webkit-font-smoothing: antialiased; font-size: 18px; line-height: 20px; color: #8f8f8f; font-family: 'luma-icons'; vertical-align: middle; display: inline-block; font-weight: normal; overflow: hidden; speak: none; text-align: center; }
+.product_list_table .remove-btn .delete-ico:hover:before { color: #333; }
+
+@media only screen and (max-width: 767px){
+	.add-shopping-list-form, .shopping-list-dropdown-form, .shopping-list-search-form { width: 100%; }
+	#shoppinglist-form .add-shopping-list-form { margin: 0px; }
+	#shoppinglist-form { overflow: hidden; }
+	.shopping-list-search-form { margin: 20px 0px 0px 0px; }
+	#shoppinglist-form-add .table-wrapper { margin-top: 20px; }
+	#shopping_item_table tr.empty-table td:before{ content: none; }
+	#shopping_item_table tr td.image { display: none; }
+	#shopping_item_table tr .qty,
+	#shopping_item_table tr .add-to-cart,
+	#shopping_item_table tr .remove-btn { text-align: left; }
+}
+
+.add-shopping-list-content .customicon {
+	color: #666666;
+	font-size: 16px;
+}
+
+.customhover:hover .toshoppinglist{
+	color:#333333 !important;
+}
+
+.customhover:hover .customicon {
+	color:#333333 !important;
+}
+
+/* styles for pagination */
+
+.pager {
+	width:100%;
+	float: left;
+	margin-bottom: 15px;
+}
+.pager > .toolbar-amount {
+	margin-right: 120px;
+}
+.pager > .pages {
+	width: 50%;
+	float: left;
+}
+.limiter {
+	float: right;
+}
+/* end of pagination styles */

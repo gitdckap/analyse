@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Dckap\QuickRFQ\Block\Order\History" name="erp_order_history" template="Dckap_QuickRFQ::order/history.phtml">
+            </block>
+        </referenceContainer>
+    </body>
+</page>

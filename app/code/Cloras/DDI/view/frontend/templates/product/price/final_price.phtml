@@ -1,0 +1,142 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<?php
+/** @var \Magento\Catalog\Pricing\Render\FinalPriceBox $block */
+
+$productId = $block->getSaleableItem()->getId();
+
+/** ex: \Magento\Catalog\Pricing\Price\RegularPrice */
+/** @var \Magento\Framework\Pricing\Price\PriceInterface $priceModel */
+$priceModel = $block->getPriceType('regular_price');
+
+/** ex: \Magento\Catalog\Pricing\Price\FinalPrice */
+/** @var \Magento\Framework\Pricing\Price\PriceInterface $finalPriceModel */
+$finalPriceModel = $block->getPriceType('final_price');
+$idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
+$schema = ($block->getZone() == 'item_view') ? true : false;
+?>
+<?php if ($block->hasSpecialPrice()): ?>
+    <span class="special-price">
+        <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
+            'display_label'     => __('Special Price'),
+            'price_id'          => $block->getPriceId('product-price-' . $idSuffix),
+            'price_type'        => 'finalPrice',
+            'include_container' => true,
+            'schema' => $schema
+        ]); ?>
+    </span>
+    <span class="old-price">
+        <?php /* @escapeNotVerified */ echo $block->renderAmount($priceModel->getAmount(), [
+            'display_label'     => __('Regular Price'),
+            'price_id'          => $block->getPriceId('old-price-' . $idSuffix),
+            'price_type'        => 'oldPrice',
+            'include_container' => true,
+            'skip_adjustments'  => true
+        ]); ?>
+    </span>
+    <span>available: </span>
+<?php else: ?>     
+       
+    <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
+        'price_id'          => $block->getPriceId('product-price-' . $idSuffix),
+        'price_type'        => 'finalPrice',
+        'include_container' => true,
+        'schema' => $schema
+    ]); ?>
+    <?php
+        $availableQtyId = 'product-available-qty-' . $productId;
+    ?><!-- 
+    <span class="stock available"><span id="<?php echo $availableQtyId;  ?>"> </span></span> -->
+<?php endif; ?>
+
+<?php if ($block->showMinimalPrice()): ?>
+    <?php if ($block->getUseLinkForAsLowAs()):?>
+        <a href="<?= /* @escapeNotVerified */ $block->getSaleableItem()->getProductUrl() ?>" class="minimal-price-link">
+            <?= /* @escapeNotVerified */ $block->renderAmountMinimal() ?>
+        </a>
+    <?php else:?>
+        <span class="minimal-price-link">
+            <?= /* @escapeNotVerified */ $block->renderAmountMinimal() ?>
+        </span>
+    <?php endif?>
+<?php endif; ?>
+<style type="text/css">
+.product-info-price .price-wrapper .price{
+    display: none;
+}
+</style>
+<?php 
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$requestInterface = $objectManager->get('Magento\Framework\App\RequestInterface');
+$actionName     = $requestInterface->getFullActionName();
+if($actionName == "catalog_product_view"){
+?>
+<script type="text/javascript">
+    require(["jquery","mage/loader"],function($) {
+        $(document).ready(function() {
+            //DDI system
+            var customurl = "<?php echo $this->getUrl() . 'ddi/index/price'?>";
+            var productId = "<?php echo $productId; ?>";
+            var loaderImg = "<?= $block->getViewFileUrl('images/loader-1.gif') ?>";
+            var loaderHtml = '<div id="price-panel-'+productId+'"  data-role="pannel" class="price-panel" style="position: absolute;"><div data-role="loader" class="loading-mask" style="position: relative;"><div class="loader"><img style="position: relative;" src="'+loaderImg+'" alt="loading" width="30px"></div></div>';
+
+            $('[data-role=priceBox]').hide();
+            $('#product-price-'+productId+' .price').hide();
+            $('[data-product-id='+productId+']').before(loaderHtml);
+            $("#price-panel-"+productId+ " .loader").show();
+            
+            $.ajax({
+                url: customurl,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    productId: productId,
+                },
+                complete: function(response) {
+                     
+
+                    for (let [key, value] of Object.entries(response.responseJSON)) {
+                        
+                        product_id = value.productId;
+                        price = value.price;
+                        qty = value.qty;                             
+                       /* product_id = response.responseJSON.productId;
+                        price = response.responseJSON.price;
+                        qty = response.responseJSON.qty;*/
+
+                        if(product_id){
+                            $('[data-role=priceBox]').show(); 
+                            loaderClass = "div.price-panel-"+product_id;
+                            $("#price-panel-"+product_id).hide();   
+
+
+                            $('#product-price-'+product_id+' .price').show();
+
+                            if(price != 0){
+                                $('#product-price-'+product_id+' .price').html(price);      
+                            }
+                           /* if(qty != 0){
+                                $('#product-available-qty-'+product_id).html('Available: '+qty); 
+                            }*/
+                            console.log(price);    
+                        }
+                    }                        
+                       
+                },
+                error: function (xhr, status, errorThrown) {
+                    console.log('Error happens. Try again.');
+                }
+            });
+        });
+    });
+</script>
+<?php } ?>

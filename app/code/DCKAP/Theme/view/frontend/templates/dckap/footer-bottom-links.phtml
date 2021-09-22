@@ -1,0 +1,16 @@
+<?php
+/** @var Dckap\Theme\Block\FooterBottomLinks $block */
+$footerBottomLinks = $block->getFooterBottomLinks();
+?>
+<?php if ($footerBottomLinks): ?>
+<div class="block-links footer-links">
+    <ul>
+        <?php foreach ($footerBottomLinks as $footerBottomLink): ?>
+            <li><a href="<?= $block->escapeUrl($block->getUrl($footerBottomLink['footer_bottom_link_href'])); ?>"
+                   title="<?= $block->escapeHtml($footerBottomLink['footer_bottom_link_name']); ?>">
+                    <?= $block->escapeHtml(ucwords($footerBottomLink['footer_bottom_link_name'])); ?>
+                </a></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php endif; ?>
+</div>

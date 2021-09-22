@@ -1,0 +1,53 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customer_account_navigation">
+            <block class="Dckap\Theme\Block\Menu" name="customer-account-navigation-orderpad">
+                <arguments>
+                    <argument name="path" xsi:type="string">quickrfq/customer</argument>
+                    <argument name="label" xsi:type="string">Order Pad</argument>
+                    <argument name="sortOrder" xsi:type="number">247</argument>
+                </arguments>
+            </block>
+            <block class="Dckap\Theme\Block\Menu" name="customer-account-navigation-price-quotes">
+                <arguments>
+                    <argument name="path" xsi:type="string">quickrfq/quote</argument>
+                    <argument name="label" xsi:type="string">Price Quotes</argument>
+                    <argument name="sortOrder" xsi:type="number">245</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Customer\Block\Account\SortLinkInterface" name="customer-account-navigation-order-list">
+                <arguments>
+                    <argument name="path" xsi:type="string">quickrfq/order/history</argument>
+                    <argument name="label" xsi:type="string">Order List</argument>
+                    <argument name="sortOrder" xsi:type="number">249</argument>
+                </arguments>
+            </block>
+            <block class="Dckap\Theme\Block\Menu" name="customer-account-navigation-invoice-summary">
+                <arguments>
+                    <argument name="path" xsi:type="string">quickrfq/invoice/summary</argument>
+                    <argument name="label" xsi:type="string">Open Invoices</argument>
+                    <argument name="sortOrder" xsi:type="number">248</argument>
+                </arguments>
+            </block>
+            <block class="Dckap\Theme\Block\Menu" name="customer-account-navigation-invoice-list">
+                <arguments>
+                    <argument name="path" xsi:type="string">quickrfq/invoice/history</argument>
+                    <argument name="label" xsi:type="string">Invoice List</argument>
+                    <argument name="sortOrder" xsi:type="number">248</argument>
+                </arguments>
+            </block>
+            <block class="Dckap\Theme\Block\Menu" ifconfig="wishlist/general/active" name="customer-account-navigation-wish-list-link">
+                <arguments>
+                    <argument name="path" xsi:type="string">wishlist</argument>
+                    <argument name="label" xsi:type="string" translate="true">My Wish List</argument>
+                    <argument name="sortOrder" xsi:type="number">210</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <referenceBlock name="customer-account-navigation-orders-link" remove="true"/>
+        <!--<referenceBlock name="customer-account-navigation-wish-list-link" remove="true"/>-->
+        <referenceBlock name="customer-account-navigation-downloadable-products-link" remove="true"/>
+        <referenceBlock name="customer-account-navigation-delimiter-2" remove="true"/>
+        <referenceBlock name="customer-account-navigation-billing-agreements-link" remove="true"/>
+    </body>
+</page>

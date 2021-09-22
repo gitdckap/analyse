@@ -1,0 +1,51 @@
+<!--
+/**
+ * Cayan Payments
+ *
+ * @package Cayan\Payment
+ * @author Igor Miura
+ * @author Joseph Leedy
+ * @copyright Copyright (c) 2017 Cayan (https://cayan.com/)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+-->
+<div class="payment-option _collapsible opc-payment-additional cayancard-code"
+     data-bind="mageInit: {'collapsible':{'openedState': '_active'}}" style="max-width: 522px;">
+    <div class="payment-option-title field choice" data-role="title">
+        <span class="action action-toggle" id="block-discount-heading" role="heading" aria-level="2">
+            <!-- ko i18n: 'Apply Gift Card'--><!-- /ko -->
+        </span>
+    </div>
+    <div class="payment-option-content" data-role="content">
+        <form class="form form-cayancard" id="cayacard-form">
+            <div class="payment-option-inner">
+                <div class="field">
+                    <div class="control">
+                        <input class="input-text"
+                               type="text"
+                               id="cayancard-code"
+                               name="cayancard_code"
+                               data-validate="{'required-entry':true}"
+                               data-bind="value: giftNumber,
+                               attr:{maxlength: getInputMaxLength(), placeholder: $t('Enter giftcard code')}"/>
+                    </div>
+                    <!-- ko if: isPINEnabled() -->
+                    <input data-bind="event: { keypress: validatePIN },
+                           value: pinNumber,
+                           attr:{placeholder: $t('PIN')}"
+                           type = "text" maxlength="4" class="input-gift-pin" name="giftpin"
+                           style="margin-top: 10px;"/>
+                    <!-- /ko -->
+                </div>
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button class="action action-apply giftcard-submit" type="submit" data-bind="'value': $t('Apply Gift Card'),
+                    click: applyGiftCard">
+                        <span><!-- ko i18n: 'Apply Gift Card'--><span></span><!-- /ko --></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

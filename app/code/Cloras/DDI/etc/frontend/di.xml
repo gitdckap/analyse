@@ -1,0 +1,9 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\Controller\Account\LoginPost">
+        <plugin name="ddi_ecommuser_login" type="Cloras\DDI\Plugin\LoginPost" />
+    </type>
+    <!--<type name="Magento\Customer\Controller\Ajax\Login">
+        <plugin name="ddi_ajax_ecommuser_login" type="Cloras\DDI\Plugin\AjaxLogin" />
+    </type>-->
+    <preference for="Magento\Customer\Controller\Ajax\Login" type="Cloras\DDI\Plugin\AjaxLogin" />
+</config>

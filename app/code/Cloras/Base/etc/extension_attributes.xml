@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+    <extension_attributes for="Magento\Sales\Api\Data\OrderItemInterface">
+        <attribute code="cloras_p21_mastid" type="string"></attribute>
+        <attribute code="supplier_id" type="string" />
+        <attribute code="uom" type="string" /> 
+        <attribute code="partnumber" type="string" />
+        <attribute code="tax_exemption" type="string"/>
+        <attribute code="po_cost" type="string" />     
+    </extension_attributes>
+    <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
+      <attribute code="cloras_p21_customer_id" type="string" />  
+      <attribute code="cloras_p21_contact_id" type="string" />  
+      <attribute code="cloras_p21_shipto_id" type="string" />
+      <attribute code="p21_ups_no" type="string" />      
+      <attribute code="formatted_fedex_no" type="string" />
+      <attribute code="sales_location_id" type="string" />
+
+     
+      <attribute code="payment_amt" type="string" />
+      <attribute code="payment_type" type="string" />
+      <attribute code="trans_id" type="string" />
+      <attribute code="authorize_no" type="string" />
+      <attribute code="card" type="string" />
+
+    </extension_attributes>
+</config>

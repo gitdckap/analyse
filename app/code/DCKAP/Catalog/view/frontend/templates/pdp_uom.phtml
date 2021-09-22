@@ -1,0 +1,80 @@
+<?php
+$product = $block->getCurrentProduct();
+
+if ($product->getTypeId() == 'configurable') { ?>
+    <div class="product-options-wrapper" id="product-options-wrapper" data-hasrequired="* Required Fields">
+        <div class="fieldset" tabindex="0">
+            <div class="field required">
+                <div class="control">
+                    <select id="custom_uom" class="custom_uom" name="custom_uom" style="width: auto">
+
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .product-info-main .price-box.price-final_price span.price,
+        .catalog-product-view .product-info-whole .product-info-main .product-info-price .price-box.price-final_price span.price {
+            visibility: hidden;
+        }
+        .box-tocart #product-options-wrapper {
+            display: none;
+        }
+    </style>
+<?php } else {
+    $uomData = $block->getUOMData();
+    $price = $block->getERPPrice();
+    if ($price) {
+        if (is_array($uomData) && isset($uomData['uomFactors']) && !empty($uomData['uomFactors'])) { ?>
+            <div class="product-options-wrapper" id="product-options-wrapper" data-hasrequired="* Required Fields">
+                <div class="fieldset" tabindex="0">
+                    <div class="field required">
+                        <div class="control">
+                            <select id="custom_uom" class="custom_uom" name="custom_uom" style="width: auto">
+                                <?php foreach ($uomData['uomFactors'] as $uom) {
+                                    if ($uom['altUomCode']!="") { ?>
+                                        <option value="<?php echo $uom['altUomCode']; ?>" data-price="<?php echo $block->getPriceWithCurrency($uom['price']); ?>" <?php if ($uom['altUomCode'] == $uomData['uomCode']) {
+                                            ?> selected="selected"<?php
+                                                       } ?>><?php if ($uom['altUomCode'] != '') {
+                                                       echo $uom['altUomCode'];
+                                                       } else {
+                                                           echo $uom['altUomDesc'];
+                                                       } ?></option>
+                                    <?php }
+                                } ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php }
+    } ?>
+    <style>
+        .product-info-main .price-box.price-final_price span.price {
+            visibility: hidden;
+            display: block;
+        }
+        .catalog-product-view .product-info-whole .product-info-main .product-info-price .price-box.price-final_price span.price{
+            visibility: hidden;
+        }
+    </style>
+<?php } ?>
+<script>
+    require(['jquery', 'mage/mage', 'domReady!'],
+        function ($) {
+            'use strict';
+            $(document).ready(function () {
+                <?php if ($product->getTypeId() != 'configurable') { ?>
+                setTimeout(function() {
+                    $('.product-info-main .price-box.price-final_price span.price').html('<?php  echo $price; ?>').css('visibility', 'visible');
+                }, 500);
+                <?php } ?>
+
+                /* UOM select change event */
+                $('#custom_uom').on('change', function (e) {
+                    $('.product-info-main .price-box.price-final_price span.price').html($(this).children(":selected").attr("data-price"));
+                });
+            });
+        });
+</script>

@@ -1,0 +1,68 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_MegaMenu
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2016-2017 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+<?php
+/**
+ * Top menu for store
+ *
+ * @var $block Bss\Megamenu\Block\Html\Menu
+ */
+?>
+<?php $columnsLimit = $block->getColumnsLimit() ?: 0; ?>
+<?php $_menu = $block->getHtml('level-top', 'submenu', $columnsLimit) ?>
+
+<?php
+$helper = $block->getHelperData();
+$topMenuDefault = $block->getTopMenuDefault();
+?>
+<?php $columnsLimit = $topMenuDefault->getColumnsLimit() ?: 0; ?>
+<?php $_menuDefault = $topMenuDefault->getHtml('level-top', 'submenu', $columnsLimit) ?>
+<?php if ($helper->getConfig('enable') == 1) : ?>
+    <nav class="bss-megamenu navigation" role="navigation" data-action="navigation">
+        <div id="defaultmenu" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav" data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}'>
+                <?php if($helper->getConfig('enable_home') == 1) : ?>
+                    <li class="level0 <?php echo $helper->isHomeUrl() ? 'active' : "" ?> level-top ui-menu-item" >
+                        <a class="level-top ui-corner-all"
+                           href="<?php echo $block->escapeUrl($block->getBaseUrl()) ?>" >
+                            <span><?php echo $block->escapeHtml(__("Home")) ?></span></a>
+                    </li>
+                <?php endif ?>
+                <?php /* @escapeNotVerified */ echo $_menuDefault; ?>
+                <?php /* @escapeNotVerified */ echo $topMenuDefault->getChildHtml(); ?>
+
+                <li class="brand level0 level-top ui-menu-item last">
+                    <a class="level-top ui-corner-all" href="<?php echo $this->getUrl('brand');?>">
+                        <span><?php echo __('Shop By Brand');?></span>
+                    </a>
+                </li>
+
+                <?php /* @escapeNotVerified */ echo $_menu; ?>
+                <?php /* @escapeNotVerified */ echo $block->getChildHtml(); ?>
+                <?php 
+                    if($block->getStoreConfig()=="b2c"){?>
+                        <li class="brand level0 level-top ui-menu-item last">
+                            <a class="level-top ui-corner-all" href="<?php echo $this->getUrl('contact');?>">
+                                <span><?php echo __("Contact Us");?></span>
+                            </a>
+                        </li>
+               <?php }?>
+            </ul>
+        </div>
+    </nav>
+<?php endif; ?>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Edit" type="Dckap\Checkout\Block\CartItemActionsEdit" />
+    <preference for="Magento\Checkout\CustomerData\DefaultItem" type="Dckap\Checkout\CustomerData\DefaultItem" />
+    <!--<preference for="Magento\Tax\Model\Sales\Total\Quote\Tax" type="Dckap\Checkout\Model\Tax\Total\Quote\Tax" />-->
+    <type name="Magento\Tax\Model\Sales\Total\Quote\Tax">
+        <plugin name="update_tax_total" type="Dckap\Checkout\Model\Tax\Total\Quote\TaxChange" sortOrder="100"/>
+    </type>
+    <preference for="Magento\Checkout\Controller\Cart\UpdatePost" type="Dckap\Checkout\Controller\Cart\UpdatePost" />
+</config>

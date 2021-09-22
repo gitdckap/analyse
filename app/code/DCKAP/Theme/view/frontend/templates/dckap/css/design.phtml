@@ -1,0 +1,334 @@
+/**
+ * WARNING: Do not change this file. Your changes will be lost.
+ * <?php echo date("Y-m-d H:i:s"); ?>
+ */
+
+<?php $d=$this->getConfig("theme", $this->_coreRegistry->registry('cssgen_store'));
+
+$_helper=$this->helper('Dckap\Theme\Helper\Cssconfig');
+
+
+?>
+/* Theme Color */
+
+.minicart-wrapper .action.showcart:before,
+.custom-tagline p,
+h1.page-title,
+.product-info-price .price-box,
+.product-item-name,
+.product.name a,
+.product-item .price-box .price,
+.products-list .option-price,
+.modes-mode.active:before,
+.filter-options-title,
+.breadcrumbs a,
+.breadcrumbs a:visited,
+.minicart-wrapper .action.showcart:before,
+.product.data.items>.item.title:not(.disabled)>.switch:active,
+.product.data.items>.item.title.active>.switch,
+.product.data.items>.item.title.active>.switch:focus,
+.product.data.items>.item.title.active>.switch:hover,
+.product.data.items>.item.title:not(.disabled)>.switch:focus,
+.product.data.items>.item.title:not(.disabled)>.switch:hover,
+.minicart-wrapper .action.showcart .text,
+.block-search .label:before,
+.block-search .label:hover:before,
+.minicart-items .action.delete:before,
+.minicart-items .action.edit:before,
+.minicart-wrapper .action.close:before,
+input#shopping_list_name::placeholder,
+.add-to-shoppinglist-content .cancelcretatelist,
+.select2-container--default .select2-results__group,
+#shopping_list_existing_name_content>label,
+.account .page-title-wrapper .page-title,
+.block-dashboard-info .block-title strong,
+.block-collapsible-nav .item.current>strong,
+button.action-select-shipping-item,
+.custom-qty-break ul li,
+.custom-warehouse-qty a,
+.account .orders-history .table>tbody>tr>td.col.order-number,
+.table-wrapper .order-list-table.table:not(.totals):not(.cart):not(.table-comparison)>tbody>tr td[data-th]:before,
+.table-wrapper .table:not(.totals):not(.cart):not(.table-comparison)>tbody>tr th[data-th]:before,
+.product-info-price .price-box .price-container .price,
+.pages a.page:visited, .pages a.page,
+.breadcrumbs strong,
+.breadcrumbs .items,
+.product-social-links a.action.mailto.friend, .product-addto-print #print-action,
+.checkout-index-index .opc-wrapper ol#checkoutSteps .checkout-shipping-address #checkout-step-shipping .customize-shipping.active,
+.checkout-index-index .opc-wrapper ol#checkoutSteps .checkout-shipping-address #checkout-step-shipping .customize-pickup.active {
+    <?php if (isset($d['general']['primary_bg_color']) && $d['general']['primary_bg_color'] !='') {
+        echo "color:".$d['general']['primary_bg_color'].";";
+    }
+
+    ?>
+}
+
+/* @media (min-width: 769px),
+print {
+    .navigation .level0>.level-top,
+    .navigation .level0.active>.level-top,
+    .navigation .level0.has-active>.level-top {
+        <?php if (isset($d['general']['primary_bg_color']) && $d['general']['primary_bg_color'] !='') {
+            echo "color:".$d['general']['primary_bg_color'].";";
+        }
+
+        ?>
+    }
+} */
+
+@media (max-width: 768px),
+print {
+    .product.data.items>.item.title>.switch {
+        <?php if (isset($d['general']['primary_bg_color']) && $d['general']['primary_bg_color'] !='') {
+            echo "color:".$d['general']['primary_bg_color'].";";
+        }
+
+        ?>
+    }
+}
+
+.customer-account-login .modals-wrapper .modal-popup .modal-inner-wrap .modal-content .multi-account-login .table > tbody > tr > td form input.log-button,
+.customer-account-login-ajax .modals-wrapper .modal-popup .modal-inner-wrap .modal-content .multi-account-login .table > tbody > tr > td form input.log-button,
+.page-header .panel.wrapper,
+.page-footer,
+.copyright,
+.owl-carousel .owl-controls .owl-dot.active span,
+.filter-clear,
+.product.data.items>.item.title.active:after,
+.checkout-index-index .opc-progress-bar-item._active:before,
+.checkout-index-index .opc-progress-bar-item._active>span:before,
+.opc-wrapper .shipping-address-item.selected-item:after,
+button.action-show-popup,
+.filter-options-content a:hover:after,
+.pdp-custom-block,
+.checkout-index-index .opc-wrapper ol#checkoutSteps .checkout-shipping-address #checkout-step-shipping .customize-shipping,
+.checkout-index-index .opc-wrapper ol#checkoutSteps .checkout-shipping-address #checkout-step-shipping .customize-pickup {
+    <?php if (isset($d['general']['primary_bg_color']) && $d['general']['primary_bg_color'] !='') {
+        echo "background-color:".$d['general']['primary_bg_color'].";";
+    }
+
+    ?>
+}
+
+.fotorama__thumb-border,
+.navigation .level0.active>a:not(.ui-state-active),
+.navigation .level0.has-active>a:not(.ui-state-active),
+#shopping_list_name,
+.add-to-shoppinglist-content .cancelcretatelist,
+.select2-dropdown,
+.select2-container--default .select2-results__group,
+#shopping_list_existing_name_content>label,
+.opc-wrapper .shipping-address-item.selected-item,
+button.action-select-shipping-item,
+button.action-show-popup,
+.custom-qty-break ul li,
+.filter-options-content a:before {
+    <?php if (isset($d['general']['primary_bg_color']) && $d['general']['primary_bg_color'] !='') {
+        echo "border-color:".$d['general']['primary_bg_color'].";";
+    }
+
+    ?>
+}
+
+/* Theme background text Color */
+.page-header .panel.wrapper,
+.customer-welcome .action.switch,
+.header.panel>.header.links>li>a,
+.header.panel>.header.links>li>a:visited,
+.footer.content .block-links li a,
+.block.newsletter .title strong,
+.footer_links h3,
+.contact-us h3,
+.footer.content .contact-us address,
+.footer.content .contact-us p,
+.copyright,
+.pdp-custom-block,
+.checkout-index-index .opc-progress-bar-item._active > span:after,
+.page-header .custom-tagline p {
+    <?php if (isset($d['general']['primary_font_color']) && $d['general']['primary_font_color'] !='') {
+        echo "color:".$d['general']['primary_font_color'].";";
+    }
+
+    ?>
+}
+/* Theme background text Color for borders */
+.page-footer,
+.pdp-custom-block,
+.pdp-custom-block .custom-support .support-hours {
+    <?php if (isset($d['general']['primary_font_color']) && $d['general']['primary_font_color'] !='') {
+        echo "border-color:".$d['general']['primary_font_color'].";";
+    }
+
+    ?>
+}
+
+
+/* body backgrond and  text Color */
+body, .custom-warehouse-qty .block-content, .minicart-wrapper .block-minicart,
+.modal-popup._inner-scroll .modal-inner-wrap,
+.modal-slide .modal-inner-wrap, .modal-popup .modal-inner-wrap {
+
+    /* Body background Color */
+    <?php if (isset($d['general']['body_bg_color']) && $d['general']['body_bg_color'] !='') {
+        echo "background-color:".$d['general']['body_bg_color'].";";
+    }
+
+    ?>
+
+    /* body text Color */
+    <?php if (isset($d['general']['theme_font']) && $d['general']['theme_font'] !='') {
+        echo "color:".$d['general']['theme_font'].";";
+    }
+
+    ?>
+}
+
+.minicart-items .product-item-name a,
+.cart.table-wrapper .product-item-name a,
+.cart.table-wrapper .col.price .price-excluding-tax .price,
+.cart.table-wrapper .col.subtotal .price-excluding-tax .price,
+.cart.table-wrapper .actions-toolbar > .action-edit:before, .cart.table-wrapper .actions-toolbar > .action-delete:before,
+#shopping_item_table .product-item-name > a,
+#shopping_item_table .product.name a > a,
+.nav-toggle:before, .nav-toggle:hover:before {
+    <?php if (isset($d['general']['theme_font']) && $d['general']['theme_font'] !='') {
+        echo "color:".$d['general']['theme_font'].";";
+    }
+
+    ?>
+}
+
+/* Action Color */
+a,
+.alink,
+a:visited,
+.alink:visited,
+.reviews-actions a,
+.products-list .product-item-description .more,
+.product.data.items>.item.title>.switch,
+.cart-summary .checkout-methods-items li:first-child button,
+button.action.update,
+.block-collapsible-nav .item a,
+.checkout-index-index .modal-popup .modal-footer .action-hide-popup,
+.block-authentication .actions-toolbar>.secondary a {
+    <?php if (isset($d['general']['action_color']) && $d['general']['action_color'] !='') {
+        echo "color:".$d['general']['action_color'].";";
+    }
+
+    ?>
+}
+
+.block.newsletter .form.subscribe button,
+.footer.content .contact-us button,
+.slider-wrapper .slider-text-content a,
+.action.primary,
+.orders-recent .table td.col.actions a.action,
+#my-orders-table .table td.col.actions a.action,
+#minicart-quote-request,
+.account .description-filter a,
+body:not(.page-print) .table td.col.actions a.action,
+.actions-toolbar>.primary .action,
+.checkout-billing-address .actions-toolbar .action-cancel:hover,
+.review-form .action.submit.primary,
+.modal-popup .modal-footer .action-primary {
+    <?php if (isset($d['general']['action_color']) && $d['general']['action_color'] !='') {
+        echo "background-color:".$d['general']['action_color'].";";
+    }
+
+    ?>
+}
+
+.action.primary,
+.cart-summary .checkout-methods-items li:first-child button,
+button.action.update,
+body:not(.page-print) .table td.col.actions a.action,
+.actions-toolbar>.primary .action,
+.checkout-billing-address .actions-toolbar .action-cancel:hover,
+.review-form .action.submit.primary,
+.modal-popup .modal-footer .action-secondary, .modal-popup .modal-footer .action-primary {
+    <?php if (isset($d['general']['action_color']) && $d['general']['action_color'] !='') {
+        echo "border-color:".$d['general']['action_color'].";";
+    }
+
+    ?>
+}
+
+/* Nav Background Color */
+.nav-sections,
+.navigation,
+.navigation .level0 .submenu,
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    <?php if (isset($d['general']['nav_bg_color']) && $d['general']['nav_bg_color'] !='') {
+        echo "background-color:".$d['general']['nav_bg_color'].";";
+    }
+
+    ?>
+}
+/* Nav Font Color */
+.navigation .level0 .submenu {
+    <?php if (isset($d['general']['nav_bg_color']) && $d['general']['nav_bg_color'] !='') {
+        echo "border-color:".$d['general']['nav_bg_color'].";";
+    }
+
+    ?>
+}
+
+
+/* Nav Font Color */
+.navigation .level0>.level-top,
+.navigation .level0.active>.level-top,
+.navigation .level0.has-active>.level-top,
+.navigation .level0.active > a:not(.ui-state-active),
+.navigation .level0.has-active > a:not(.ui-state-active),
+.navigation .submenu:not(:first-child) ul > li a,
+.navigation .submenu:not(:first-child) > li > a,
+.navigation .level0 > .level-top:hover {
+    <?php if (isset($d['general']['nav_font_color']) && $d['general']['nav_font_color'] !='') {
+        echo "color:".$d['general']['nav_font_color']." !important;";
+    }
+
+    ?>
+}
+@media (max-width: 768px){
+    .nav-sections .header.links,
+    .nav-sections .header.links a,
+    .nav-sections .header.links a:hover,
+    .navigation a, .navigation a:hover,
+    .navigation .submenu:not(:first-child) ul > li a,
+    .nav-sections-item-title .nav-sections-item-switch:hover,
+    .active .nav-sections-item-switch
+    {
+        <?php if (isset($d['general']['nav_font_color']) && $d['general']['nav_font_color'] !='') {
+            echo "color:".$d['general']['nav_font_color'].";";
+        }
+
+        ?>
+    }
+}
+
+/* Add to Cart Button Color */
+.action.primary.tocart,
+.minicart-wrapper .action.showcart .counter.qty,
+.block-minicart #top-cart-btn-checkout,
+.cart-summary .checkout-methods-items .action.primary.checkout,
+.order-pad-cart button.add-icon.btn.btn-success,
+button.button.action.continue.primary,
+button.action.action-apply,
+.modal-popup .modal-footer .action-secondary,
+.block-authentication .actions-toolbar>.primary .action,
+.table-order-pad.order-pad-table button.add_orderpad_item.add-icon.btn.btn-success:hover {
+    <?php if (isset($d['general']['cart_btn_color']) && $d['general']['cart_btn_color'] !='') {
+        echo "background-color:".$d['general']['cart_btn_color'].";";
+    }
+
+    ?><?php if (isset($d['general']['cart_btn_color']) && $d['general']['cart_btn_color'] !='') {
+        echo "border-color:".$d['general']['cart_btn_color'].";";
+    }
+
+    ?>
+}
+
+/* custom css */
+<?php if(isset($d['customcss']['customcss_custom']) && $d['customcss']['customcss_custom']) echo $d['customcss']['customcss_custom'];
+
+?>

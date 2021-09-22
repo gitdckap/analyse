@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Attribute Import Section</title>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Dckap\ProductImport\Block\Adminhtml\Attributeimport" name="attributeimport_block_adminhtml_index_index"  template="Dckap_ProductImport::attributeimport.phtml" />
+        </referenceContainer>
+    </body>
+</page>

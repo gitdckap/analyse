@@ -1,0 +1,68 @@
+<?php
+ 
+/**
+ * Copyright Â© DCKAP INC, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+/**
+ * Category widget
+ *
+ * @var $block \DCKAP\Categorywidget\Block\Widget\Showcategories
+ */
+?>
+<?php
+$title = $block->getTitle() ? __($block->getTitle()) : 'Featured Categories';
+?>
+<div class="block-title">
+    <strong role="heading" aria-level="2"><h3><?= $block->escapeHtml($title); ?></h3></strong>
+</div>
+<?php $parentCategories = $block->getCategoryCollection();
+?>
+<div class="block pad-main-product">
+    <div class="block widget block-products-list grid">
+        <div class="block-content">
+            <div class="products-grid grid">
+                <ol class="product-items widget-product-grid">
+                    <?php
+                    foreach ($parentCategories as $parentCategory) {
+                        if (!$parentCategory->getIsActive()) {
+                            continue;
+                        }
+                        $image_url = $block->getCategoryImageUrl($parentCategory->getId());
+                        $parentCategoryUrl = $parentCategory->getUrl();
+                        ?>
+                        <li class="product-item">
+                            <div class="product-item-info">
+                                <div class="product-img-block">
+                                    <a href="<?= $block->escapeUrl($parentCategoryUrl); ?>" class="product-item-photo">
+                                        <span class="product-image-container" style="width:300px;">
+                                            <span class="product-image-wrapper" style="padding-bottom: 100%;">
+                                                <img class="product-image-photo" src="<?= $block->escapeUrl($image_url); ?>" width="155" height="155" alt="<?= $block->escapeHtml($parentCategory->getName());?>">
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <div class="pro-overlay"></div>
+                                </div>
+                                <div class="product-item-details">
+                                    <ul class="productsub-categories">
+                                       <a href="<?= $block->escapeUrl($parentCategoryUrl); ?>" class="product-item-name-link">
+                                            <strong class="product name product-item-name">
+                                                <?= $block->escapeHtml($parentCategory->getName()); ?>
+                                            </strong>
+                                        </a>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    <?php  }  ?>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    var category_page = 'static_block';
+</script>

@@ -1,0 +1,12 @@
+#row_clorasbase_api_list,
+#row_clorasbase_lamda_list {
+    display: block;
+}
+#row_clorasbase_api_list td.value,
+#row_clorasbase_lamda_list td.value {
+    width: 80%;
+}
+#row_clorasbase_api_list td.label,
+#row_clorasbase_lamda_list td.label {
+    width: 20%;
+}

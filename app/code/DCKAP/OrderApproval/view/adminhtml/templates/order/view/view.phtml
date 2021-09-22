@@ -1,0 +1,43 @@
+<?php /* Display admin approval user details */
+$order = $this->getData('order');
+if ($block->isOrderApprovalEnabled()) {
+    $adminOrderApprovalDetails = $block->getAdminOrderApprovalData($order->getId());
+    if ($adminOrderApprovalDetails && !empty($adminOrderApprovalDetails)) {
+        ?>
+        <section class="admin__page-section">
+            <div class="admin__page-section-title">
+                <span class="title"><?= $block->escapeHtml(__('Approval Information')) ?></span>
+            </div>
+            <div class="admin__page-section-content">
+                <div class="admin__page-section-item order-information">
+                    <div class="admin__page-section-item-title">
+                        <span class="title"><?= $block->escapeHtml(__('Last Admin Approver Details')) ?></span>
+                    </div>
+                    <div class="admin__page-section-item-content">
+                        <table class="admin__table-secondary order-account-information-table">
+                            <tr>
+                                <th><?= $block->escapeHtml(__('Admin Name')) ?></th>
+                                <td>
+                                    <?php if (isset($adminOrderApprovalDetails['firstname'])) {
+                                        echo $adminOrderApprovalDetails['firstname'];
+                                    }
+                                    if ($adminOrderApprovalDetails['lastname']) {
+                                        echo ' ' . $adminOrderApprovalDetails['lastname'];
+                                    } ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><?= $block->escapeHtml(__('Username')) ?></th>
+                                <td>
+                                    <?php if (isset($adminOrderApprovalDetails['username'])) {
+                                        echo $adminOrderApprovalDetails['username'];
+                                    } ?>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <?php }
+} ?>

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cayan Payments
+ *
+ * @package Cayan\Payment
+ * @author Igor Miura
+ * @author Joseph Leedy
+ * @copyright Copyright (c) 2017 Cayan (https://cayan.com/)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <cayancc>
+                <model>CayanCcFacade</model>
+                <title>Credit Card (Cayan)</title>
+                <merchant_site_id backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <merchant_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <api_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_use_internal>1</can_use_internal>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_refund>1</can_refund>
+                <can_void>1</can_void>
+                <can_cancel>1</can_cancel>
+                <can_edit>1</can_edit>
+                <can_review_payment>1</can_review_payment>
+                <can_deny_payment>1</can_deny_payment>
+                <can_authorize_vault>1</can_authorize_vault>
+                <can_capture_vault>1</can_capture_vault>
+                <cctypes>AE,VI,MC,DI,JCB,DN,MI</cctypes>
+                <useccv>1</useccv>
+                <order_status>processing</order_status>
+                <privateInfoKeys>Token,CardNumber,CardType,Cardholder</privateInfoKeys>
+                <paymentInfoKeys>ApprovalStatus,AuthorizationCode,TransactionDate,Amount,ErrorMessage</paymentInfoKeys>
+                <allowspecific>0</allowspecific>
+                <min_order_total>0.10</min_order_total>
+                <api_url>https://ps1.merchantware.net/Merchantware/ws/RetailTransaction/v45/Credit.asmx?WSDL</api_url>
+                <debug>0</debug>
+            </cayancc>
+            <cayancc_vault>
+                <model>CayanCcVaultFacade</model>
+                <title>Saved Credit Card (Cayan)</title>
+                <active>0</active>
+            </cayancc_vault>
+        </payment>
+        <cayancard>
+            <default_values>
+                <active>1</active>
+                <title>Gift Card</title>
+                <api_url>https://ps1.merchantware.net/Merchantware/ws/ExtensionServices/v45/Giftcard.asmx?WSDL</api_url>
+                <max_length>20</max_length>
+                <partial_authorization>0</partial_authorization>
+                <cache_lifetime>600</cache_lifetime>
+                <enable_pin>0</enable_pin>
+            </default_values>
+        </cayancard>
+    </default>
+</config>

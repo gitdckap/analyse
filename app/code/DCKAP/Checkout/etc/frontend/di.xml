@@ -1,0 +1,7 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Checkout\Controller\Index\Index" type="Dckap\Checkout\Controller\Overwrite\Index" />
+    <preference for="Magento\Checkout\Model\Cart" type="Dckap\Checkout\Model\Overwrite\Cart" />
+    <type name="Magento\Customer\Model\Address\CustomerAddressDataProvider">
+        <plugin name="customer_address_data_provideer_overwrite" type="Dckap\Checkout\Model\Overwrite\CustomerAddressDataProvider" />
+    </type>
+</config>

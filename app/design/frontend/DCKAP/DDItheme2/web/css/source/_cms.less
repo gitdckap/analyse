@@ -1,0 +1,176 @@
+& when (@media-common = true) {
+	.block-minicart {
+		.mincart-block-bottom {
+			#minicart-quote-request {
+			    width: calc(~"100% - 40px");
+			    margin: 10px auto 0;
+			}
+			.actions {
+			    padding: 20px 20px 0;
+			}
+		}
+	}
+
+	.page-main > {
+		.page-title-wrapper {
+			.page-title {
+			    display: block;
+			    font-size: 24px;
+			    padding-bottom: 0;
+			    border-bottom: none;
+			    font-weight: bold;
+			    margin: 30px 0;
+			    color: #333;
+			}
+		}
+	}
+
+	.cms-no-route,
+	.contact-index-index,
+	.customer-account-login,
+	.customer-account-create,
+	.customer-account-forgotpassword,
+	.brand-index-index {
+		.page-main {
+			.columns {
+				.column.main {
+				    background: #fff;
+				    border: 1px solid #ececec;
+				    border-radius: 5px;
+				    padding: 25px;
+    				margin-bottom: 50px;
+    				@media (max-width: 1023px) {
+				    	padding: 20px;
+    				}
+    				@media (max-width: 768px) {
+				    	padding: 15px;
+				    	margin-bottom: 30px;
+				    }
+    			}
+			}
+		}
+	}
+
+	.customer-account-login {
+		.page-main {
+			.columns {
+				.column.main {
+					.actions-toolbar {
+						.primary .action {
+						    border: none;
+						    margin: 0 15px 0 0;
+						    padding: 10px 30px;
+						    font-size: 14px;
+						    line-height: 20px;
+						    text-transform: uppercase;
+						    border-radius: 5px;
+						}
+						.secondary .action {
+						    margin-top: 8px;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.cms-no-route .page-main .columns {
+		.column.main {
+			width: 100%;
+		}
+		.sidebar {
+		    display: none;
+		}
+	}
+	
+	.contact-index-index .page-main .columns .column.main {
+		.fieldset {
+		    margin: 0;
+		}
+		.actions-toolbar > .primary .action.submit.primary {
+		    padding: 10px 30px;
+		    line-height: 20px;
+		    font-size: 14px;
+		    text-transform: uppercase;
+		    border-radius: 5px;
+		}
+	}    
+
+	.fieldset > {
+        > .legend {
+            margin: 0 0 20px;
+            padding: 0 0 10px;
+            font-weight: bold;
+            line-height: 30px;
+            font-size: 20px;
+        }
+        .field > .label {
+            padding: 0;
+            font-size: 14px;
+            border-radius: 0;
+            margin-bottom: 10px;
+        }
+    }
+
+
+	.brand-index-index {
+		.page-main {
+			.columns {
+				.column.main {
+    				> h3 {
+					    font-size: 20px;
+					    margin: 0 0 25px;
+					    line-height: 30px;
+					}
+					.featured-brands {
+					    display: flex;
+					    flex-wrap: wrap;
+					    margin: 0 -5px 30px;
+					    > span {
+						    width: calc(~"100% / 7 - 10px");
+						    padding: 10px;
+						    border: 1px solid #ececec;
+						    margin: 5px;
+    						text-align: center;
+    						@media (max-width: 1199px) {
+							    width: calc(~"100% / 5 - 10px");
+							}
+    						@media (max-width: 1023px) {
+							    width: calc(~"100% / 4 - 10px");
+							}
+    						@media (max-width: 768px) {
+							    width: calc(~"100% / 3 - 10px");
+							}
+    						@media (max-width: 480px) {
+							    width: calc(~"100% / 2 - 10px");
+							}
+						}
+					}
+					.brand-container {
+						.brand-char {
+    						@media (max-width: 1023px) {
+							    width: 50%;
+							}
+    						@media (max-width: 480px) {
+							    width: 100%;
+							}
+							strong {
+							    border-bottom: 1px solid #ececec;
+							    margin-right: 10%;
+							    display: block;
+							    line-height: 30px;
+							}
+							ul {
+							    padding: 15px 0 0;
+							    li {
+								    margin-bottom: 0;
+								    line-height: 30px;
+							    }
+							}
+						}
+					}
+    			}
+			}
+		}
+	}
+}	

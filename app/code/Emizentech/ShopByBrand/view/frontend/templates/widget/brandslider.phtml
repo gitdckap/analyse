@@ -1,0 +1,43 @@
+<div class="widget block aw-sbb-list-brand">
+    <div class="block-content">
+<?php 
+
+$brands = $this->getFeaturedBrands();
+if ($brands && $brands->getSize()) {
+?>
+ <div class="box featured-brands">
+    <div class="box-title">
+        <h3>Brands</h3>
+    </div>
+    <div class="box-content">
+        <ol class="items brand-items">
+             <div id="mp-list-items" class="owl-carousel owl-theme">
+
+		        <?php foreach ($brands as $brand) {
+		        	$url = ($this->getUrl('shop-by-category.html').'?manufacturer='.$brand->getAttributeId())? $this->getUrl('shop-by-category.html').'?manufacturer='.$brand->getAttributeId() : "#";
+		        ?> 
+		         <li class="item brand-item">
+		        	 <a href="<?php echo $url ?>" class="brand-logo">
+		                <?php if(!empty($brand->getLogo())){ ?>
+		                <img src="<?php echo $this->helper('\Magento\Cms\Helper\Wysiwyg\Images')->getBaseUrl().$brand->getLogo() ?>" width="95" height="95" />
+		                <?php } else { ?>
+		                 <img src="<?php echo $this->getViewFileUrl('Emizentech_ShopByBrand::images/default_magentoimg.png') ?>"  width="95" height="95"/>
+		                <?php } ?>
+		            </a>
+		        </li>
+		        <?php } ?>
+    		 </div>
+         </ol>
+        </div>
+    </div>
+<?php } ?>
+ </div>
+</div>
+<script>
+ require(['jquery', 'mageplaza/core/owl.carousel'], function ($) {
+$( document ).ready(function() {
+
+     $('#mp-list-items').owlCarousel(<?= /** @noEscape */ $block->getOptions() ?>);
+});
+});
+</script>

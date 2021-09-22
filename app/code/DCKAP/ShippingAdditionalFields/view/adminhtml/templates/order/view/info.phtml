@@ -1,0 +1,46 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Shipping\Block\Adminhtml\View */ ?>
+<?php $order = $block->getOrder() ?>
+<?php if ($order->getIsVirtual()) : return '';endif; ?>
+
+<?php /* Shipping Method */ ?>
+<div class="admin__page-section-item order-shipping-method">
+    <div class="admin__page-section-item-title">
+        <span class="title"><?= /* @escapeNotVerified */ __('Shipping &amp; Handling Information') ?></span>
+    </div>
+    <div class="admin__page-section-item-content">
+        <?php  if ($order->getTracksCollection()->count()) : ?>
+            <p><a href="#" id="linkId" onclick="popWin('<?= /* @escapeNotVerified */ $this->helper('Magento\Shipping\Helper\Data')->getTrackingPopupUrlBySalesModel($order) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?= /* @escapeNotVerified */ __('Track Order') ?>"><?= /* @escapeNotVerified */ __('Track Order') ?></a></p>
+        <?php endif; ?>
+        <?php if ($order->getShippingDescription()): ?>
+            <strong><?= $block->escapeHtml($order->getShippingDescription()) ?></strong>
+            <?= /* @escapeNotVerified */ "" ?>
+            <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                (<?= /* @escapeNotVerified */ __('Incl. Tax') ?> <?= /* @escapeNotVerified */ '' ?>)
+            <?php endif; ?>
+            <!-- started custom fields for shipping methods  -->
+                <?php if($order->getShippingMethod() == "ddistorepickup_ddistorepickup"){ ?>
+                    <div id="ddi-description-wrapper">
+                        <?php
+                            echo "Email :".$order->getDdiDeliveryContactEmail()."<br>";
+                            echo "Phone :".$order->getDdiDeliveryContactNo()."<br>";
+                            echo "Preferred Warehouse :".$order->getDdiPrefWarehouse()."<br>";
+                            echo "Pickup Date :".date('d/m/Y',strtotime($order->getDdiPickupDate()))."<br>";
+                            
+                        ?>
+                    </div>
+                <?php } ?>
+                <!-- end of custom fields for shipping methods  -->
+        <?php else: ?>
+            <?= /* @escapeNotVerified */ __('No shipping information available') ?>
+        <?php endif; ?>
+    </div>
+</div>

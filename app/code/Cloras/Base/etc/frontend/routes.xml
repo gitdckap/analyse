@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+    For testing purposes, will be removed on release
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="cloras" frontName="cloras">
+            <module name="Cloras_Base"/>
+        </route>
+    </router>
+</config>

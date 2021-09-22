@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Wishlist\Helper\Data" type="DCKAP\Wishlist\Helper\Data" />
+    <preference for="Magento\Wishlist\Controller\Index\Cart" type="DCKAP\Wishlist\Controller\Index\Cart" />
+    <preference for="Magento\Wishlist\Model\Item" type="DCKAP\Wishlist\Model\Item" />
+</config>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <googlemapsstorelocator>
+        	<general>
+        		<enable>1</enable>
+        		<page_title>MDS Stores</page_title>
+        		<meta_keywords>Meta Key words stores</meta_keywords>
+        		<meta_description>Meta description for stores</meta_description>
+        		<std_latitude>34.0343662</std_latitude>
+        		<std_longitude>-84.3826634</std_longitude>        		
+        		<map_zoom>10</map_zoom>
+        	</general>
+        	<manage_links>
+        		<footer_link_enable>1</footer_link_enable>
+        		<label_footer>Google Map for Stores Location</label_footer>
+        	</manage_links>
+        	<seo_suffix>
+        		<gmap_identifier>shops</gmap_identifier>
+        		<url_suffix>.html</url_suffix>
+        	</seo_suffix>        	      	    
+        </googlemapsstorelocator>         
+    </default>
+</config>

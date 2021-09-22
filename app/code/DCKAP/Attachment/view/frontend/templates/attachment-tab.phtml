@@ -1,0 +1,35 @@
+<?php
+$attachments = $block->getAttachments();
+$sections = $block->getPdfSections();
+$mediaurl = $block->getMediaUrl();
+$_product = $block->getCurrentProduct();
+$customHelper = $this->helper('\DCKAP\Catalog\Helper\View');
+$groups = $customHelper->getAttributeGroups($_product->getAttributeSetId());
+if ($groups && !empty($groups) && isset($groups['attachments'])) {
+    $group = $groups['attachments'];
+    $attrs = $customHelper->getGroupAttributes($_product, $group['attribute_group_id'], $_product->getAttributes());
+    if ($attrs && !empty($attrs)) { ?>
+        <div class="attachment-tab-content">
+            <div class="additional-attributes-wrapper table-wrapper">
+                <table class="data table additional-attributes" id="product-attribute-specs-table">
+                    <caption class="table-caption"><?= __('More Information') ?></caption>
+                    <tbody>
+                    <tr>
+                        <?php foreach ($attrs as $_data): ?>
+                            <td class="col label" scope="row">
+                                <a href="<?= $_data->getFrontend()->getValue($_product); ?>" target="_blank">
+                                    <?= rtrim($_data->getFrontendLabel(), ' URL'); ?>
+                                </a>
+                            </td>
+                        <?php endforeach; ?>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <?php } else {
+        echo "<div class='additional-attributes-wrapper table-wrapper'><p>No documents available</p></div>";
+    }
+} else {
+    echo "<div class='additional-attributes-wrapper table-wrapper'><p>No documents available</p></div>";
+} ?>

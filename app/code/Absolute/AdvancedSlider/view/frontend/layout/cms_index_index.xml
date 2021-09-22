@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.wrapper">
+            <container name="slider.container" as="sliderContainer" label="After Page Header Top" htmlTag="div" htmlClass="slider-container" after="page.top">
+                <block class="Absolute\AdvancedSlider\Block\Slider" name="slider" template="Absolute_AdvancedSlider::slider.phtml" before="-">
+                    <arguments>
+                        <argument name="slider_alias" xsi:type="string">test-abs</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+    </body>
+</page>

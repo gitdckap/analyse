@@ -1,0 +1,218 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_CheckoutCustomField
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php  $order = $block->getShipment()->getOrder() ?>
+<?php echo $block->getChildHtml('order_info') ?>
+<?php $jsonHelper = $this->helper('Magento\Framework\Json\Helper\Data');?>
+<?php $helper = $this->helper('Bss\CheckoutCustomField\Helper\Data');?>
+
+<section class="admin__page-section order-shipment-billing-shipping">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Payment &amp; Shipping Method') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+
+        <?php /* Billing Address */ ?>
+        <div class="admin__page-section-item order-payment-method">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */ echo __('Payment Information') ?></span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <div><?php echo $block->getChildHtml('order_payment') ?></div>
+                <div class="order-payment-currency"><?php /* @escapeNotVerified */ echo __('The order was placed using %1.', $order->getOrderCurrencyCode()) ?></div>
+            </div>
+        </div>
+
+        <?php /* Shipping Address */ ?>
+        <div class="admin__page-section-item order-shipping-address">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */ echo __('Shipping and Tracking Information') ?></span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <div class="shipping-description-wrapper">
+                    <?php if ($block->getShipment()->getTracksCollection()->count()): ?>
+                        <p>
+                            <a href="#" id="linkId" onclick="popWin('<?php /* @escapeNotVerified */ echo $this->helper('Magento\Shipping\Helper\Data')->getTrackingPopupUrlBySalesModel($block->getShipment()) ?>','trackshipment','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php /* @escapeNotVerified */ echo __('Track this shipment') ?>"><?php /* @escapeNotVerified */ echo __('Track this shipment') ?></a>
+                        </p>
+                    <?php endif; ?>
+                    <div class="shipping-description-title">
+                        <?php echo $block->escapeHtml($order->getShippingDescription()) ?>
+                    </div>
+
+                    <?php /* @escapeNotVerified */ echo __('Total Shipping Charges'); ?>:
+
+                    <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingPriceIncludingTax()): ?>
+                        <?php $_excl = $block->displayShippingPriceInclTax($order); ?>
+                    <?php else: ?>
+                        <?php $_excl = $block->displayPriceAttribute('shipping_amount', false, ' '); ?>
+                    <?php endif; ?>
+                    <?php $_incl = $block->displayShippingPriceInclTax($order); ?>
+
+                    <?php /* @escapeNotVerified */ echo $_excl; ?>
+                    <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                        (<?php /* @escapeNotVerified */ echo __('Incl. Tax'); ?> <?php /* @escapeNotVerified */ echo $_incl; ?>)
+                    <?php endif; ?>
+                </div>
+                <?php if ($block->canCreateShippingLabel()): ?>
+                <p>
+                    <?php /* @escapeNotVerified */ echo $block->getCreateLabelButton()?>
+                    <?php if ($block->getShipment()->getShippingLabel()): ?>
+                        <?php /* @escapeNotVerified */ echo $block->getPrintLabelButton() ?>
+                    <?php endif ?>
+                    <?php if ($block->getShipment()->getPackages()): ?>
+                        <?php /* @escapeNotVerified */ echo $block->getShowPackagesButton() ?>
+                    <?php endif ?>
+                </p>
+                <?php endif ?>
+                <?php echo $block->getChildHtml('shipment_tracking') ?>
+
+                <?php echo $block->getChildHtml('shipment_packaging') ?>
+<script>
+    require([
+        'prototype'
+    ], function () {
+
+        setTimeout(function () {
+            packaging.setConfirmPackagingCallback(function () {
+                packaging.sendCreateLabelRequest();
+            });
+            packaging.setLabelCreatedCallback(function (response) {
+                setLocation("<?php /* @escapeNotVerified */ echo $block->getUrl(
+'adminhtml/order_shipment/view',
+['shipment_id' => $block->getShipment()->getId()]
+); ?>");
+            });
+        }, 500);
+
+    });
+</script>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- start add delivery date -->
+<?php
+if($helper->isModuleInstall('Bss_OrderDeliveryDate') &&
+    $helper->getConfig('orderdeliverydate/general/enabled') == 1 &&
+    ($_order->getShippingArrivalDate() || $_order->getShippingArrivalTimeslot() || $_order->getShippingArrivalComments())
+):
+    ?>
+    <section class="admin__page-section">
+        <div class="admin__page-section-title">
+            <span class="title"><?php echo __('Delivery Date InformationInformation') ?></span>
+        </div>
+        <div class="admin__page-section-item order-delivery-date">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php echo __('Delivery Date') ?></span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <div id="shipping-arrival-date">
+                    <div>
+                        <strong><?php echo __('Shipping Arrival Date: ') ?></strong>
+                        <?php if($_order->getShippingArrivalDate()):?>
+                            <span><?php echo $helper->formatDate($_order->getShippingArrivalDate());?></span>
+                        <?php else:?>
+                            <span><?php echo __('N/A');?></span>
+                        <?php endif;?>
+                    </div>
+                    <div>
+                        <strong><?php echo __('Shipping Arrival Timeslot: ') ?></strong>
+                        <?php if($_order->getShippingArrivalTimeslot()):?>
+                            <span><?php echo $_order->getShippingArrivalTimeslot();?></span>
+                        <?php else:?>
+                            <span><?php echo __('N/A');?></span>
+                        <?php endif;?>
+                    </div>
+                    <?php if($helper->getConfig('orderdeliverydate/general/shipping_comment') == 1) : ?>
+                        <div>
+                            <strong><?php echo __('Shipping Arrival Comments: ') ?></strong>
+                            <?php if($_order->getShippingArrivalComments()):?>
+                                <span><?php echo $_order->getShippingArrivalComments();?></span>
+                            <?php else:?>
+                                <span><?php echo __('No Comment');?></span>
+                            <?php endif;?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php endif;?>
+<!-- end add delivery date -->
+
+<!-- start add custom field -->
+<?php if($order->getBssCustomfield() && $helper->moduleEnabled()):?>
+    <?php if($helper->hasDataCustomFieldOrder($order->getBssCustomfield())): ?>
+        <?php $bssCustomfield = $jsonHelper->jsonDecode($order->getBssCustomfield()); ?>
+        <section class="admin__page-section">
+            <div class="admin__page-section-title">
+                <span class="title"><?php echo $helper->getTitle($order->getStore()->getId()) ?></span>
+            </div>
+            <div class="admin__page-section-item custom-field">
+                <div class="admin__page-section-item-content">
+                <?php foreach($bssCustomfield as $key => $field): ?>
+                    <?php if($field['show_in_order'] == '1'): ?>
+                        <?php if((is_array($field['value']) && !empty($field['value'])) || $field['value'] != ""): ?>
+                            <div id=<?php echo $block->escapeHtml($key) ?>>
+                                <div>
+                                    <strong><?php echo $block->escapeHtml($field['frontend_label']) . ": "?></strong>
+                                    <?php if(is_array($field['value'])): ?>
+                                        <?php foreach($field['value'] as $value): ?>
+                                            <span><?php echo $block->escapeHtml($value) ?></span><br/>
+                                        <?php endforeach;?>
+                                    <?php else :?>
+                                        <span><?php echo $block->escapeHtml($field['value']) ?></span>
+                                    <?php endif;?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                </div>
+            </div>
+        </section>
+    <?php endif; ?>
+<?php endif;?>
+<!-- end add custom field -->
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Items Shipped') ?></span>
+    </div>
+    <?php echo $block->getChildHtml('shipment_items') ?>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Order Total') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <?php echo $block->getChildHtml('shipment_packed') ?>
+
+        <div class="admin__page-section-item order-comments-history">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */ echo __('Shipment History') ?></span>
+            </div>
+            <div class="admin__page-section-item-content"><?php echo $block->getChildHtml('order_comments') ?></div>
+        </div>
+    </div>
+</section>

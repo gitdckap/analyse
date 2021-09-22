@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+  * @author     DCKAP <extensions@dckap.com>
+  * @package    DCKAP_OrderApproval
+  * @copyright  Copyright (c) 2020 DCKAP Inc (http://www.dckap.com)
+  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <OrderApproval_section>
+            <general>
+                <enabled>0</enabled>
+                <ddi_allow_edit_order>0</ddi_allow_edit_order>
+            </general>
+            <threshold_based_order_approval>
+                <threshold_setting>0</threshold_setting>
+            </threshold_based_order_approval>
+        </OrderApproval_section>
+    </default>
+</config>

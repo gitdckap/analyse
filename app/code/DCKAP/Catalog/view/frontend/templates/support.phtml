@@ -1,0 +1,36 @@
+<?php $dckapHelper = $this->helper('DCKAP\Extension\Helper\Data');
+$callUs = $dckapHelper->getCallUs();
+$workingTime = $dckapHelper->getWorkingTime();
+$_helpertheme = $this->helper('Dckap\Theme\Helper\Data');
+if ($_helpertheme->getWebsiteMode()=="b2b") {
+    ?>
+<div class="custom-support">
+    <span><icon></icon></span>
+    <h4>Questions?</h4>
+    <div>
+        <p>We're here to help! Speak with a Customer Service specialist today.</p>
+        <b><a href="tel:<?php if ($callUs && $callUs != '') {
+            echo $callUs;
+                        } else {
+                            echo '(916) 447-7022';
+                        } ?>"><?php if ($callUs && $callUs != '') {
+                        echo $callUs;
+                        } else {
+                            echo '(916) 447-7022';
+                        } ?></a></b>
+    </div>
+    <?php if ($workingTime && $workingTime != '') { ?>
+    <div class="support-hours">
+        <span>Open:</span>
+        <span><?php echo $workingTime; ?></span>
+    </div>
+    <?php } ?>
+</div>
+<?php } else {?>
+    <?php
+    echo $this->getLayout()
+    ->createBlock('Magento\Cms\Block\Block')
+    ->setBlockId('b2c-question-section')
+    ->toHtml();
+    ?>
+<?php }?>

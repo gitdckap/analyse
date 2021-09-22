@@ -1,0 +1,14 @@
+<?php
+$media = $this->getImageMediaPath();
+$_fbrand = $block->getBrand();
+if ($_fbrand->hasData()) {
+?>
+<div class="product-brand" style="margin-bottom: 10px;">
+    Brand:
+    <a href="<?php echo $this->getUrl('shop-by-category.html').'?manufacturer='.$_fbrand->getAttributeId(); ?>">
+	<span class="brand-title">
+		<?php echo $_fbrand->getName();?>
+	</span>
+        </a>
+</div>
+<?php } ?>

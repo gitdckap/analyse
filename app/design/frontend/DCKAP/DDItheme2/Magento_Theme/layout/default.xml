@@ -1,0 +1,40 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="https://use.fontawesome.com/releases/v5.0.8/css/all.css" src_type="url"/>
+    </head>
+    <body>
+        <!--<referenceBlock name="logo">
+            <arguments>
+                <argument name="logo_file" xsi:type="string">images/logo.png</argument>
+                <argument name="logo_img_width" xsi:type="number">100</argument>
+                <argument name="logo_img_height" xsi:type="number">100</argument>
+            </arguments>
+        </referenceBlock>-->
+       
+        <referenceBlock name="register-link" remove="true" />
+    </body>
+    <referenceBlock name="head.additional">
+        <block class="Dckap\Theme\Block\Template" name="custom-head-components" template="Magento_Theme::html/head.phtml"/>
+    </referenceBlock>
+    <referenceContainer name="before.body.end">
+        <block class="DCKAP\Catalog\Block\Price" name="custom_before_body_end" template="Magento_Theme::html/before-body-end.phtml" />
+    </referenceContainer>
+    <referenceBlock name="catalog.compare.link" remove="true"/>
+    <referenceBlock name="footer_links" remove="true"/>
+    <referenceBlock name="view.addto.compare" remove="true"/>
+     <referenceContainer name="footer-container">
+        <container name="footer-custom-links" label="custom links" htmlTag="div" htmlClass="footer-custom-links">
+            <block class="Magento\Cms\Block\Block" name="custom-links">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">b2c-footer-content</argument>
+                </arguments>
+            </block>
+     </container>
+     </referenceContainer>
+     <referenceContainer name="header.panel.wrapper" remove="true"/>
+    <move element="authorization-link" destination="header-wrapper" before="minicart" />
+    <move element="wish-list-link" destination="header-wrapper" before="minicart" />
+        
+<referenceBlock name="form.subscribe" remove="true" />
+    <referenceBlock name="form.subscribe" remove="true" />
+</page>

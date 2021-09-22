@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Dckap
+ * @package    Dckap_Theme
+ * @website    http://www.Dckap.com
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="Dckap" translate="label" sortOrder="200">
+            <label>DDI THEME</label>
+        </tab>
+        <section id="theme" showInDefault="1" showInWebsite="1" showInStore="0">
+            <tab>Dckap</tab>
+            <label>Color Configuration</label>
+            <resource>Magento_Config::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>DDI Color Configuration</label>
+                <field id="primary_bg_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Theme Color</label>
+                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                </field>
+                <field id="secondary_bg_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Theme Secondary Color</label>
+                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                </field>
+                <field id="primary_font_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Theme Background Text Color</label>
+                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                </field>
+                <field id="body_bg_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Body Background Color</label>
+                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                </field>
+                <field id="theme_font" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Body Font Color</label>
+                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                </field>
+                <field id="action_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Action Color</label>
+                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                </field>
+                <field id="nav_bg_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Navigation Background Color</label>
+                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                </field>
+                <field id="nav_font_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Navigation Font Color</label>
+                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                </field>
+                <field id="cart_btn_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Add to Cart Button Color</label>
+                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                </field>
+                <field id="footer_bg_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Footer Background Color</label>
+                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                </field>
+                <field id="footer_font_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Footer Font Color</label>
+                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                </field>
+            </group>
+            <group id="customcss" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Custom CSS</label>
+                <field id="customcss_custom" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Custom Style</label>
+                </field>
+            </group>
+        </section>
+        <section id="themeconfig" showInDefault="1" showInWebsite="1" showInStore="0">
+            <tab>Dckap</tab>
+            <label>Theme Configuration</label>
+            <resource>Magento_Config::config</resource>
+            <group id="footer_config" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Footer Configuration</label>
+                <field id="footer_block" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Block Id</label>
+                    <comment>Place static block id here</comment>
+                </field>
+            </group>
+            <group id="mode_config" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Website mode</label>
+                <field id="website_mode" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Website mode</label>
+                    <source_model>Dckap\Theme\Model\Config\Mode</source_model>
+                    <!--  <comment>If the mode is B2C, please make sure System-> Configuration-> Customers-> Customer Configuration-> Require Emails Confirmation set to be "Yes"</comment> -->
+                </field>
+
+            </group>
+        </section>
+        <section id="footer_links" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="3">
+            <tab>Dckap</tab>
+            <label>Footer Links</label>
+            <resource>Magento_Config::config</resource>
+            <group id="useful_links" type="text" sortOrder="1" translate="label" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Useful Links</label>
+                <field id="links_list" translate="label" sortOrder="1"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Links to be shown in Footer</label>
+                    <comment>Only 6 links will be displayed on the footer</comment>
+                    <frontend_model>Dckap\Theme\Block\Adminhtml\Form\Field\UsefulLinksList</frontend_model>
+                    <backend_model>\Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <field id="footer_bottom_links_list" translate="label" sortOrder="1"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Footer Bottom Links</label>
+                    <comment>Only 6 links will be displayed on the footer</comment>
+                    <frontend_model>Dckap\Theme\Block\Adminhtml\Form\Field\FooterBottomLinksList</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <field id="follow_us_links_list" translate="label" sortOrder="1"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Follow us(Social Media Links)</label>
+                    <frontend_model>Dckap\Theme\Block\Adminhtml\Form\Field\FollowUsList</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="pdp_config" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Product Page Configuration</label>
+                <field id="print_option" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Page Print Option</label>
+                    <comment>It enables the print option in Product detail page</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

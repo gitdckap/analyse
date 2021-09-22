@@ -1,0 +1,11 @@
+<!--@subject Your account is activated  @-->
+{{template config_path="design/email/header_template"}} <!-- path of template header-->
+Hello {{var firstname|raw}} {{var lastname|raw}},
+
+<p>You have recently created an account ({{var email|raw}}) at <a href="http://127.0.0.1/magento23/"><strong>Magento</strong></a>,  which has been successfully verified by our team. We are happy to have you as a customer.</p>
+
+<p>Now you can place orders, request quotes and apply for credit. Please login to use your account.</p>
+
+<p>Thank You for choosing CYM,</p>
+
+{{template config_path="design/email/footer_template"}} <!--footer of template

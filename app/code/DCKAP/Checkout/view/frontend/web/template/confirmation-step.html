@@ -1,0 +1,45 @@
+<!--Use 'stepCode' as id attribute-->
+<li data-bind="fadeVisible: isVisible, attr: { id: stepCode }">
+    <div class="step-title" data-bind="i18n: stepTitle" data-role="title"></div>
+    <div id="confirmation-step-title"
+         class="confirmation-step-content"
+         data-role="content">
+        <div class="opc-block-summary">
+            <!-- ko foreach: elems() -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!-- /ko -->
+        </div>
+        <form data-bind="submit: navigateToNextStep" novalidate="novalidate" class="before-review">
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <!-- ko if: isQuoteRequest() -->
+                    <button data-role="opc-continue" type="submit" class="button action continue primary" style="float: right;">
+                        <span><!-- ko i18n: 'Submit'--><!-- /ko --></span>
+                    </button>
+                    <!-- /ko -->
+                    <!-- ko ifnot: isQuoteRequest() -->
+                    <button data-role="opc-continue" type="submit" class="button action continue primary " id="review-eve" style="float: right;">
+                        <span><!-- ko i18n: 'Next'--><!-- /ko --></span>
+                    </button>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </form>
+        <form data-bind="submit: navigateToPayment" novalidate="novalidate" class="after-review" style="display: none;">
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button data-role="opc-continue" type="submit" class="button action continue primary">
+                        <span><!-- ko i18n: 'Next'--><!-- /ko --></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div style="display: none;">
+            <div class="price-request-response">
+                <p>We are currently reviewing your quote request. Once processed, you will receive an email notification. In the meantime, you may check the status of your request under <a data-bind="attr: { href: getPriceRequestUrl() }">Price Quotes</a> in your user <a data-bind="attr: { href: getDashboardUrl() }">Dashboard.</a></p>
+                <p>Your quote request is complete <a data-bind="attr: { href: getHomeUrl() }">click here</a> to continue shopping.</p>
+            </div>
+            <div class="order-review-response"></div>
+        </div>
+    </div>
+</li>

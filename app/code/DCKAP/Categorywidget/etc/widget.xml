@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* @author DCKAP Team
+* @copyright Copyright (c) 2017 DCKAP (https://www.DCKAP.com)
+* @package DCKAP_Showcategories
+*
+* Copyright © 2017 DCKAP. All rights reserved.
+*
+*/
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="DCKAP_Categorywidget" class="DCKAP\Categorywidget\Block\Widget\Showcategories">
+        <label translate="true">Show Categories</label>
+        <description>Displayed in home page</description>
+        <parameters>
+            <parameter name="categoryids" xsi:type="text"  visible="true" sort_order="1" >
+                <label translate="true">Category Ids</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

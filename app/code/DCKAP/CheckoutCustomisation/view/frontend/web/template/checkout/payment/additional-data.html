@@ -1,0 +1,30 @@
+
+<!-- ko if: getCustomerPaymentTerms() != "" -->
+	<div class="checkout-terms">
+		<span data-bind="i18n: 'Payment Terms : '"></span>
+		<span data-bind="html: getCustomerPaymentTerms()" >
+		</span>
+</div>
+<!--/ko-->
+
+<div class="payment-custom-fields">
+	<div class="section po_number">
+		<div class="field">
+			<!-- ko if: getCustomerPaymentType() -->	
+			<label class="required"><span data-bind="i18n: 'Enter your P.O. #'"></span></label>
+			<!--/ko-->
+			<!-- ko ifnot: getCustomerPaymentType() -->	
+			<label><span data-bind="i18n: 'Enter your P.O. #'"></span></label>
+			<!--/ko-->
+			<div class="control">
+				<!-- ko if: getCustomerPaymentType() -->	
+	        	<input type="text" placeholder="Enter your P.O. #" id="customer_po_number_req" name="customer_po_number_req" />
+	        	<!--/ko-->
+	        	<!-- ko ifnot: getCustomerPaymentType() -->	
+	        	<input type="text" placeholder="Enter your P.O. #" id="customer_po_number" name="customer_po_number_req" />
+	        	<!--/ko-->
+	        	
+			</div>
+		</div>
+	</div>
+</div>

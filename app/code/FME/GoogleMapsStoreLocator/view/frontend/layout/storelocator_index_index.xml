@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>  
+		<css src="FME_GoogleMapsStoreLocator::css/gmapstrlocator/gmapstrlocator.css" />
+    </head>
+    <body>      
+		<!-- <block class="FME\GoogleMapsStoreLocator\Storelocator\Index" ifconfig="googlemapsstorelocator/general/page_title" name="store_title" />        -->
+		<referenceContainer name="content">
+			<block  class="FME\GoogleMapsStoreLocator\Block\Storelocator" name="storespage" template="FME_GoogleMapsStoreLocator::storelocator.phtml"/>
+		</referenceContainer>
+    </body>
+</page>

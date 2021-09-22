@@ -1,0 +1,229 @@
+<?php
+/**
+  * @author     DCKAP <extensions@dckap.com>
+  * @package    DCKAP_Shoppinglist
+  * @copyright  Copyright (c) 2016 DCKAP Inc (http://www.dckap.com)
+  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Catalog\Block\Product\View*/
+?>
+<input type="hidden" name="productid" id="productid" value="<?php echo $block->getProduct()->getId()?>">
+<div class="product-addto-links" data-role="add-to-links">
+    <?php echo $block->getChildHtml(); ?>
+</div>
+
+<!-- DCKAP Shopping List Extension Code - Start here -->
+<?php $_shoppinglistHelper = $this->helper('DCKAP\Shoppinglist\Helper\Data'); ?>
+<?php  
+if($_shoppinglistHelper->isShowShoppinglistAddOption()): 
+    ?>
+
+	<div class="add-shopping-list-content">
+		<?php
+			$actionUrl = json_decode($_shoppinglistHelper->getAddParams($block->getProduct()));
+			$action = $actionUrl->action;
+			if(isset($actionUrl->data->product)) {
+				$action .= 'product/'.$actionUrl->data->product;
+			}
+			if(isset($actionUrl->data->uenc)) {
+				$action .= '/uenc/'.$actionUrl->data->uenc;
+			}
+		?>
+        <div class="customhover" >
+        <span class="customicon" style="display: none;"><i class="far fa-list-alt"></i></span>
+        <a href="#" class="action toshoppinglist"  data-post="<?php echo $action;?>" style="display: none;"><span><?php /* @escapeNotVerified */ echo __('Add to List') ?></span></a>
+        </div>
+		<?php
+			$display = '';
+			if($slid = $this->getRequest()->getParam('slid', false)) {
+				$display = 'display: block';
+			}
+			?>
+		<div class="add-to-shoppinglist-content">
+        <!-- <div class="add-to-shoppinglist-content" style="<?php //echo $display;?>"> -->
+			<?php if($_shoppinglistHelper->isCustomerLoggedin()): ?>
+
+				<div class="add-to-shoppinglist-section">
+					<fieldset class="fieldset catalog-shopping-list-form">
+						
+						<div class="field required" id="choose_option">
+							<label class="label" for="shopping_list_id"><span><?php /* @escapeNotVerified */ echo __('Manage shopping list:');?></span></label>
+							<div class="control">
+
+								<?php $shoppingList = $_shoppinglistHelper->getShoppingListInfo($slid); ?>
+								<?php
+									$shoppingListId = 0;
+									if(!empty($shoppingList)) {
+										$shoppingListId = $shoppingList->getShoppingListId();
+									}
+									?>
+								<select name="shopping_list_choose" id="shopping_list_choose" title="<?php /* @escapeNotVerified */ echo __('Shopping List');?>" data-validate="{required:true}">
+                                    <option value="choose_existing"><?php /* @escapeNotVerified */ echo __('Choose your shopping list');?></option>
+									<option value="add_new"><?php /* @escapeNotVerified */ echo __('Add new shopping list');?></option>
+								</select>
+
+								<div for="shopping_list_choose" generated="true" class="mage-error" id="shopping_list_choose-error"><?php echo __('This is a required field.');?></div>
+							</div>
+						</div>
+                      
+                        <?php $customerShoppingList = $_shoppinglistHelper->getCustomerShoppingList();
+                            if(!empty($customerShoppingList)) {?>
+                                <input type="hidden" name="listempty" id="listempty" value="1">
+                                <div class="field required" id="shopping_list_existing_name_content" data-action="add-to-shoppinglist-link">
+                                    <label class="label" for="shopping_list_existing_name"><span id="add_to_list"><?php /* @escapeNotVerified */ echo __('Add To list:');?></span></label>
+                                    <div class="control">
+                                        <div id='loadingimage' style='display:none'>
+                                            <img src='<?php echo $block->getViewFileUrl('DCKAP_Shoppinglist::images/ring.gif'); ?>'/>
+                                        </div>
+                                         <select name="shopping_list_id" id="shopping_list_id" data-validate="{required:true}" style='display:none' multiple="multiple" >
+                                        </select>
+                                        <div for="shopping_list_id" generated="true" class="mage-error" id="shopping_list_id-error"><?php echo __('This is a required field.');?></div>
+                                        
+                                    </div>
+                                </div>
+                            <?php } else {?>
+                                <input type="hidden" id="listempty" name="listempty" value="2">
+                        <?php } ?>
+
+                        <div class="field required" id="shopping_list_name_content">
+							
+							<div class="control">
+								<input name="shopping_list_name" value="" id="shopping_list_name" type="text" class="input-text" title="<?php /* @escapeNotVerified */ echo __('Shopping List Name') ?>" data-validate="{required:true}" placeholder="Enter a Name For Your List"/>
+
+								<div for="shopping_list_name" generated="true" class="mage-error" id="shopping_list_name-error"><?php echo __('This is a required field.');?></div>
+							</div>
+						</div>
+
+						<input name="slid" id="slid" value="<?php echo null; ?>" type="hidden" class="input-text" />
+						<div class="actions-toolbar">
+							<div class="primary">
+								<button type="button" class="action primary" name="shopping_list_action" id="shopping_list_action" ><span><?php echo __('Add to List');?></span></button>
+							</div>
+						</div>
+					</fieldset>
+				</div>
+
+			<?php else: ?>
+
+				<div class="login-error">
+					<?php $loginUrl = $this->getUrl('shoppinglist/index/updateproducttolist'); ?>
+					<?php echo sprintf('<a href="%s">Login</a> to add this product on shopping list.', $loginUrl);?>
+				</div>
+
+			<?php endif; ?>
+		</div>
+        <input type="hidden" value="<?php echo $this->getUrl(); ?>" id="baseUrl"/>
+	</div>
+
+
+	<script type="text/x-magento-init">
+		{
+			"body": {
+				"addToShoppinglist": <?php /* @escapeNotVerified */ echo $_shoppinglistHelper->getShoppinglistOptionsJson($block->getProduct()) ?>
+			}
+		}
+	</script>
+
+<?php endif; ?>
+<script type="text/javascript">
+   require(['jquery','mage/mage','select2'], function($,select2) {
+        $(document).ready(function() {
+           
+             function shoppinglisttrigger(){    
+                
+                jQuery('#shopping_list_action').click();
+                $.ajax({
+                //sending product id
+                  url: '<?php echo $this->getUrl('shoppinglist/index/ajaxshoppinglist', ['id' => $block->getProduct()->getId()]);?>',
+                type : 'GET',
+                dataType:'json',
+                success : function(data) {
+                    $('#loadingimage').hide();
+                    $('#shopping_list_id').show();
+                    var url_string = window.location.href;
+                    var url = new URL(url_string);
+                    $("#shopping_list_id").empty();
+                    var result = jQuery.parseJSON(data);
+                     var selected_list = [];
+                    $.each(result, function(key,value) {
+
+                        if(value.is_select){
+                             selected_list.push(value.list_name);
+                            $("#shopping_list_id").append('<option value='+value.list_id+' selected="selected">'+value.list_name+'</option>');
+                        } else{
+                            $("#shopping_list_id").append('<option value='+value.list_id+'>'+value.list_name+'</option>');
+                        }
+                    });
+                      if(selected_list.length){
+                        $('#add_to_list').text("Added in:"+selected_list.join(','));
+                    }else{
+                         $('#add_to_list').text("Add To List");
+                    }
+                    $("#shopping_list_id").append('<optgroup name="create_new_list" label="Create New List" id="create_new_list"></optgroup>');
+
+
+                    $('option').mousedown(function(e) {
+                        e.preventDefault();
+                        var originalScrollTop = $(this).parent().scrollTop();
+                        console.log(originalScrollTop);
+                        $(this).prop('selected', $(this).prop('selected') ? false : true);
+                        var self = this;
+                        $(this).parent().focus();
+                        setTimeout(function() {
+                            $(self).parent().scrollTop(originalScrollTop);
+                        }, 0    );
+
+                        return false;
+                    });
+                },
+                error : function(request,error)
+                {
+                }
+            });
+            }
+             $('#shopping_list_name').on('keyup', function() {
+                if ( $(this).val().length > 30 ){
+                    if($('#shopping_list_name-error').length) {
+                        $('#shopping_list_name-error').html('<?php echo __('Maximum 30 charactes only.');?>');
+                    } else {
+                        $(this).parent().append('<div for="shopping_list_name" generated="true" class="mage-error" id="shopping_list_name-error" style="display:block;"><?php echo __('Maximum 30 charactes only.');?></div>');
+                        $().show();
+                    }
+                    $(this).val(function() {
+                        return $(this).val().substr(0, 30);
+                    });
+                } else {
+                    $("#shopping_list_name-error").remove();
+                }
+            });
+
+            $('option').mousedown(function(e) {
+                e.preventDefault();
+                var originalScrollTop = $(this).parent().scrollTop();
+                console.log(originalScrollTop);
+                $(this).prop('selected', $(this).prop('selected') ? false : true);
+                var self = this;
+                $(this).parent().focus();
+                setTimeout(function() {
+                    $(self).parent().scrollTop(originalScrollTop);
+                }, 0    );
+
+                return false;
+            });
+            var shoppingListId = <?php echo isset($shoppingListId) ? $shoppingListId : 0;?>;
+          
+            $('#loadingimage').show();
+            shoppinglisttrigger();
+
+            jQuery(document).on('change', '#shopping_list_id', function(e) {  
+                shoppinglisttrigger();
+            });
+          
+        });
+    });
+</script>
+
+<!-- DCKAP Shopping List Extension Code - End here -->

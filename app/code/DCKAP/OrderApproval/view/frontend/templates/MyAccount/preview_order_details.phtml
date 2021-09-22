@@ -1,0 +1,220 @@
+<?php
+$params = $this->getRequest()->getParams();
+$order = $block->getOrderDetails();
+$arrOrderDetails = [];
+$moduleStatus = $this->helper('DCKAP\OrderApproval\Helper\Data')->getOrderEditAllow('OrderApproval_section/general/ddi_allow_edit_order');
+if ($order && !empty($order['sale_order_detail_info'])):
+
+    $shippingAddress = $order['sale_order_detail_info']->getShippingAddress();
+    $billingAddress = $order['sale_order_detail_info']->getBillingAddress();
+    $intOrderSubTotal = $intOrderTax = $intOrderShippingAmount = 0;
+
+    $arrOrderDetails['shipping_address'] = $shippingAddress->getFirstname(). ' ' . $shippingAddress->getLastname() .'<br/>' . current($shippingAddress->getStreet()) . ' ' .
+        $shippingAddress->getCity() .' <br/>' . $shippingAddress->getRegion(). ' '. $shippingAddress->getCountryId()  . ' <br/>T- '. $shippingAddress->getTelephone();
+
+    $arrOrderDetails['billing_address'] = $billingAddress->getFirstname(). ' ' . $billingAddress->getLastname() .'<br/>' . current($billingAddress->getStreet()) . ' ' .
+        $billingAddress->getCity() .' <br/>' . $billingAddress->getRegion() .' '. $billingAddress->getCountryId()  . ' <br/>T- '. $billingAddress->getTelephone();
+    ?>
+
+    <div class="page-title-wrapper">
+        <h1 class="page-title">
+            <span class="base" data-ui-id="page-title-wrapper">Order #<?php echo $order['sale_order_detail_info']->getIncrementId() ; ?></span></h1>
+        <span class="order-status"><?php echo $order['sale_order_detail_info']->getStatusLabel() ; ?></span>
+        <div class="order-date">
+            <span class="label"><?= __('Order Date:') ?></span>
+            <date><?php echo date('m/d/Y', strtotime( $order['sale_order_detail_info']->getCreatedAt() )); ?></date>
+        </div>
+        <div class="actions-toolbar order-actions-toolbar">
+            <div style="display:inline-block; float:right;">
+                <?php if (isset($params['from']) && $params['from'] == 'pending') { ?>
+                    <button class="action primary" onclick="location.href='<?php echo $block->getPendingOrderApprovalListUrl();?>'">Back</button>
+                    <?php if($moduleStatus){ ?>
+                    <button class="action primary edit-order" data-edit_order="<?php echo $order['sale_order_detail_info']->getId(); ?>">Edit</button>
+                <?php    } ?>
+                <?php  } else if (isset($params['from']) && $params['from'] == 'editedorder') { ?>
+                    <button class="action primary" onclick="location.href='<?php echo $block->getSubmittedOrdersUrl().'?isEdited=1';?>'">Back</button>
+                <?php } else { ?>
+                        <button class="action primary" onclick="location.href='<?php echo $block->getSubmittedOrdersUrl();?>'">Back</button>
+                <?php } ?>
+                <?php if(isset($params['from']) && $params['from'] == 'pending') {
+                  { ?>
+                        <button  class="action primary" onclick="location.href='<?= $block->getUrl('orderapproval/order/approve', ['order_id' => $order['sale_order_detail_info']->getId()]); ?>'">Approve</button>
+                        <button  class="action primary" onclick="location.href='<?= $block->getUrl('orderapproval/order/decline', ['order_id' => $order['sale_order_detail_info']->getId()]); ?>'">Decline</button>
+                    <?php } ?>
+                    <?php if (isset($params['from']) && $params['from'] == 'submitted') { ?>
+                        <button  class="action primary" onclick="location.href='<?= $block->getUrl('orderapproval/order/cancel', ['order_id' => $order['sale_order_detail_info']->getId()]); ?>'">Cancel</button>
+                    <?php } ?>
+                <?php } ?>
+            </div>
+        </div>
+
+    </div>
+    <ul class="items order-links">
+        <li class="nav item current"><strong><?= __('Ordered Details') ?></strong></li>
+    </ul>
+    <div class="order-details-items ordered">
+        <div class="order-title">
+            <strong><?= __('Items Ordered') ?></strong>
+        </div>
+        <div class="table-wrapper order-items">
+            <table class="data table table-order-items" id="my-orders-table" summary="Items Ordered">
+                <caption class="table-caption"><?= $block->escapeHtml(__('Items Ordered')) ?></caption>
+                <thead>
+                <tr>
+                    <th class="col name"><?= $block->escapeHtml(__('Product Name')) ?></th>
+                    <th class="col sku"><?= $block->escapeHtml(__('SKU')) ?></th>
+                    <th class="col price"><?= $block->escapeHtml(__('Price')) ?></th>
+                    <th class="col qty" width="80px"><?= $block->escapeHtml(__('Ordered Qty')) ?></th>
+                    <th class="col subtotal" width="80px"><?= $block->escapeHtml(__('Sub Total')) ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ( $order['sale_order_detail_info']->getAllVisibleItems() as $orderItem) {  ?>
+                    <tr id="order-item-row-32">
+                        <td class="col name" data-th="Product Name">
+                            <strong class="product name product-item-name"><?= $block->escapeHtml(__( $orderItem->getName() ) ) ?></strong>
+                        </td>
+                        <td class="col sku" data-th="SKU"><?= $block->escapeHtml(__( $orderItem->getSku()) ) ?></td>
+                        <td class="col price" data-th="Price">
+                                <span class="price-excluding-tax" data-label="Excl. Tax">
+                                    <span class="cart-price">
+                                        <span class="price">$<?= $block->escapeHtml(__(  number_format($orderItem->getPrice(), 2) ) ) ?></span>
+                                    </span>
+                                </span>
+                        </td>
+                        <td class="col qty" data-th="Ordered Qty">
+                            <span class="content"><?= $block->escapeHtml(__(  number_format($orderItem->getQtyOrdered() , 0 )) ) ?></span>
+                        </td>
+                        <td class="col subtotal" data-th="Ordered subtotal">
+                            <span class="content">$<?= $block->escapeHtml(__(  number_format($orderItem->getRowTotal(),2) ?? 0.00 ) ) ?></span>
+                        </td>
+                    </tr>
+                    <?php
+                    $intOrderSubTotal = $intOrderSubTotal + $orderItem->getRowTotal();
+                }  ?>
+                </tbody>
+                <tfoot>
+                <tr class="subtotal">
+                    <th colspan="4" class="mark" scope="row"><?= __('Subtotal') ?></th>
+                    <td class="amount" data-th="Subtotal"><span class="price">$<?= $block->escapeHtml(__( number_format( $intOrderSubTotal,2 ) ?? 0.0 ) ) ?></span></td>
+                </tr>
+                <tr class="shipping">
+                    <th colspan="4" class="mark" scope="row"><?= __('Shipping &amp; Handling') ?></th>
+                    <td class="amount" data-th="Shipping &amp; Handling">
+                        <span class="price">$<?= $block->escapeHtml(__(  number_format( $order['sale_order_detail_info']->getBaseShippingAmount(),2) ?? 0.0) ) ?></span>
+                    </td>
+                </tr>
+                <?php if( $order['sale_order_detail_info']->getAdultSignatureFee()): ?>
+                <tr class="tax">
+                    <th colspan="4" class="mark" scope="row"><?= __('Miscellaneous Amount') ?></th>
+                    <td class="amount" data-th="Tax">
+                        <span class="price">$<?= $block->escapeHtml(__( number_format( $order['sale_order_detail_info']->getAdultSignatureFee(),2 )?? 0.0) ) ?></span>
+                    </td>
+                </tr>
+                <?php endif ?>
+                <tr class="tax">
+                    <th colspan="4" class="mark" scope="row">Tax</th>
+                    <td class="amount" data-th="Tax">
+                        <span class="price">$<?= $block->escapeHtml(__( number_format( $order['sale_order_detail_info']->getbaseTaxAmount(),2 )?? 0.0) ) ?></span>
+                    </td>
+                </tr>
+                <tr class="grand_total">
+                    <th colspan="4" class="mark" scope="row">
+                        <strong><?= __('Grand Total') ?></strong>
+                    </th>
+                    <td class="amount" data-th="Grand Total">
+                        <strong><span class="price">$<?= $block->escapeHtml(__( number_format(  $order['sale_order_detail_info']->getGrandTotal(), 2 ) ) ) ?></span></strong>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="block block-order-details-view">
+        <div class="block-title">
+            <strong><?= __('Order Information') ?></strong>
+        </div>
+        <div class="block-content">
+            <div class="box box-order-shipping-address">
+                <strong class="box-title"><span>Shipping Address</span></strong>
+                <div class="box-content">
+                    <address><?= __(  $arrOrderDetails['shipping_address']) ?> </address>
+                </div>
+            </div>
+            <div class="box box-order-shipping-method">
+                <strong class="box-title">
+                    <span><?= __('Shipping Method') ?></span>
+                </strong>
+                <div class="box-content">
+                    <?= $block->escapeHtml(__( $order['sale_order_detail_info']->getShippingDescription() ) ) ?>
+                </div>
+            </div>
+            <div class="box box-order-billing-address">
+                <strong class="box-title">
+                    <span><?= __('Billing Address') ?></span>
+                </strong>
+                <div class="box-content">
+                    <address>
+                        <?= __( $arrOrderDetails['billing_address'] ) ?>
+                    </address>
+                </div>
+            </div>
+            <div class="box box-order-billing-method">
+                <strong class="box-title">
+                    <span><?= __('Payment Method') ?></span>
+                </strong>
+                <div class="box-content">
+                    <dl class="payment-method">
+                        <dt class="title"><?= $block->escapeHtml(__( $order['sale_order_detail_info']->getPayment()->getAdditionalInformation('method_title') ) ) ?></dt>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<?php else: ?>
+    <div class="message info empty"><span><?= __('Order detail not found.') ?></span></div>
+<?php endif ?>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'mage/mage',
+        'Magento_Ui/js/modal/alert'
+    ], function ($, mage, alert) {
+
+        /* Edit the order */
+        $(document).on("click", ".edit-order", function (e) {
+            showLoader: true;
+            alert({
+                title: '<?= $block->escapeHtml(__('Are you sure you want to edit this order?') ) ?>',
+                content: '<?= $block->escapeHtml(__('Note: The existing item(s) of the cart will be replaced by the item(s) that are present on this order. Click on "Proceed" if you wish to edit the existing order.') ) ?>',
+                autoOpen: true,
+                clickableOverlay: false,
+                focus: "",
+                actions: {
+                    always: function () {
+                        console.log("modal closed");
+                    }
+                },
+                buttons: [{
+                    text: $.mage.__('Proceed'),
+                    class: 'action-primary action-accept',
+                    click: function () {
+                        $('body').trigger('processStart');
+                        window.location.href='<?= $block->getUrl('orderapproval/order/edit', ['order_id' => $order['sale_order_detail_info']->getId()]); ?>';
+                        $('body').trigger('processStop');
+                    }
+                },
+                    {
+                    text: $.mage.__('Cancel'),
+                    class: 'action-primary action-accept',
+                    click: function () {
+                        $('body').trigger('processStop');
+                        window.location.reload();
+                    }
+                }]
+
+            });
+        });
+    });
+</script>

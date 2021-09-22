@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Dckap_Theme::theme" title="DDI Theme" module="Dckap_Theme" sortOrder="10" resource="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post1" title="General Store Settings" module="Dckap_Theme" sortOrder="1" action="adminhtml/system_config/index/" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post2" title="Header Logo" module="Dckap_Theme" sortOrder="2" action="theme/design_config/edit/scope/stores/scope_id/1" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post3" title="Mobile Logo" module="Dckap_Theme" sortOrder="3" action="adminhtml/system_config/edit/section/mobile_logo" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post4" title="Site Colors" module="Dckap_Theme" sortOrder="4" action="adminhtml/system_config/edit/section/theme" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post5" title="Slider" module="Dckap_Theme" sortOrder="5" action="absolute_advancedslider/sliders/" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post6" title="Mega Menu Settings" module="Dckap_Theme" sortOrder="6" action="adminhtml/system_config/edit/section/megamenu" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post7" title="Mega Menu Items" module="Dckap_Theme" sortOrder="7" action="megamenu/category/index" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post8" title="Header Modifications" module="Dckap_Theme" sortOrder="8" action="adminhtml/system_config/edit/scope/stores/scope_id/1" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post9" title="Edit Footer" module="Dckap_Theme" sortOrder="9" action="cms/block/index/" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post10" title="Set Footer" module="Dckap_Theme" sortOrder="10" action="adminhtml/system_config/edit/section/themeconfig" resource="Dckap_Theme::config" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post11" title="Shipping Configuration" module="Dckap_Theme" sortOrder="11" action="adminhtml/system_config/edit/section/carriers" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post12" title="SMTP Email Settings" module="Dckap_Theme" sortOrder="12" action="admin/system_config/edit/section/smtp/" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post13" title="Sales Emails" module="Dckap_Theme" sortOrder="13" action="adminhtml/system_config/edit/section/sales_email" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post14" title="ERP Settings" module="Dckap_Theme" sortOrder="14" action="adminhtml/system_config/edit/section/dckapextension" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post15" title="Review Moderation" module="Dckap_Theme" sortOrder="15" action="review/product/index" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post16" title="Abandoned Shopping Cart Report" module="Dckap_Theme" sortOrder="16" action="reports/report_shopcart/abandoned/" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post17" title="Search Synonyms" module="Dckap_Theme" sortOrder="17" action="search/synonyms/" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+        <add id="Dckap_Theme::post18" title="Payment Methods" module="Dckap_Theme" sortOrder="18" action="/system_config/edit/section/payment/" resource="Dckap_Theme::post" parent="Dckap_Theme::theme"/>
+    </menu>
+
+</config>

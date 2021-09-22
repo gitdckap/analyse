@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Dckap Team
+ * @copyright Copyright (c) 2017 Dckap (https://www.Dckap.com)
+ * @package Dckap_RequestQuote
+ *
+ * Copyright © 2017 Dckap. All rights reserved.
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Dckap_Footer" setup_version="1.0.0"/>
+   
+</config>
