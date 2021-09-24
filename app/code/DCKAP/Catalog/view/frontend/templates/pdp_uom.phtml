@@ -34,12 +34,12 @@ if ($product->getTypeId() == 'configurable') { ?>
                             <select id="custom_uom" class="custom_uom" name="custom_uom" style="width: auto">
                                 <?php foreach ($uomData['uomFactors'] as $uom) {
                                     if ($uom['altUomCode']!="") { ?>
-                                        <option value="<?php echo $uom['altUomCode']; ?>" data-price="<?php echo $block->getPriceWithCurrency($uom['price']); ?>" <?php if ($uom['altUomCode'] == $uomData['uomCode']) {
+                                        <option value="<?= $block->escapeHtml($uom['altUomCode']); ?>" data-price="<?= $block->escapeHtml($block->getPriceWithCurrency($uom['price'])); ?>" <?php if ($uom['altUomCode'] == $uomData['uomCode']) {
                                             ?> selected="selected"<?php
                                                        } ?>><?php if ($uom['altUomCode'] != '') {
-                                                       echo $uom['altUomCode'];
+                                                       echo $block->escapeHtml($uom['altUomCode']);
                                                        } else {
-                                                           echo $uom['altUomDesc'];
+                                                           echo $block->escapeHtml($uom['altUomDesc']);
                                                        } ?></option>
                                     <?php }
                                 } ?>
@@ -67,7 +67,7 @@ if ($product->getTypeId() == 'configurable') { ?>
             $(document).ready(function () {
                 <?php if ($product->getTypeId() != 'configurable') { ?>
                 setTimeout(function() {
-                    $('.product-info-main .price-box.price-final_price span.price').html('<?php  echo $price; ?>').css('visibility', 'visible');
+                    $('.product-info-main .price-box.price-final_price span.price').html('<?= $block->escapeHtml($price); ?>').css('visibility', 'visible');
                 }, 500);
                 <?php } ?>
 

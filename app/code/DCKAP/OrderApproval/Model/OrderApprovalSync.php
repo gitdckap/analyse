@@ -76,7 +76,8 @@ class OrderApprovalSync implements OrderApprovalInterface
                 ->addFieldToFilter('website_id', ['eq' => $websiteId]);
             if ($collections && $collections->getSize()) {
                 foreach ($collections as $item) {
-                    $item->delete();
+                    $this->orderApprovalDelete($item);
+                    //$item->delete();
                 }
             }
             foreach ($addressList as $erpAddress) {
@@ -95,9 +96,10 @@ class OrderApprovalSync implements OrderApprovalInterface
                     /**
                      * check whether the customer already have records or not
                      */
-                    $modelSave = $this->orderApprovalFactory->create();
-                    $modelSave->setData($data);
-                    $modelSave->save();
+//                    $modelSave = $this->orderApprovalFactory->create();
+//                    $modelSave->setData($data);
+//                    $modelSave->save();
+                    $this->approveModelSave($data);
                     $response['success']['message'][] = $erpAddress['shipNumber'].' - stored';
                 }
             }
@@ -126,5 +128,24 @@ class OrderApprovalSync implements OrderApprovalInterface
             }
         }
         return $res;
+    }
+
+    /**
+     * @param $item
+     */
+    private function orderApprovalDelete($item)
+    {
+        $item->delete();
+    }
+
+    /**
+     * @param $data
+     * @throws \Exception
+     */
+    private function approveModelSave($data)
+    {
+        $modelSave = $this->orderApprovalFactory->create();
+        $modelSave->setData($data);
+        $modelSave->save();
     }
 }

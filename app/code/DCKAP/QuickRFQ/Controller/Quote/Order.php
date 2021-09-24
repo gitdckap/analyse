@@ -158,7 +158,7 @@ class Order extends \Magento\Framework\App\Action\Action
           $data['price'] = $item_single['netPrice'];
           $data['custom_uom'] = $item_single['uom'];
 
-          $pros = $this->productRepository->get($sku);
+          $pros = $this->productRepository->get($sku, false, null, true);
           $proId = $pros->getId();
           if ($proId) {
 
@@ -166,7 +166,7 @@ class Order extends \Magento\Framework\App\Action\Action
             $itemData[$sku . '_' . $uom] = $item_single;
             $this->customerSession->setQuoteProductData($itemData);
             $itemData = $this->customerSession->getQuoteProductData();
-            $pros = $this->productFactory->create()->load($proId);
+            //$pros = $this->productFactory->create()->load($proId);
 
             $additionalOptions['quote'] = [
               'label' => 'quote_id',

@@ -130,8 +130,6 @@ class InstallSchema implements InstallSchemaInterface
             'Customer Shopping List Items'
         );
         $installer->getConnection()->createTable($table);
-
-       
         $installer->endSetup();
     }
 }

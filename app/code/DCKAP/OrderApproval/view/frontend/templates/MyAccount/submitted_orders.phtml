@@ -21,9 +21,9 @@ $strDefaultEndDate = date('yy-m-d');
         </div>
         <?php
         $arrShipToNumber = [];
-        $arrSortOrderData = array("entity_id" => "Reference #", "ship_to_number" => "Ship To");
+        $arrSortOrderData = ["entity_id" => "Reference #", "ship_to_number" => "Ship To"];
 
-        if (true == is_array($arrPostParams) && 0 < count($arrPostParams) && true == array_key_exists('startDate', $arrPostParams) && true == array_key_exists('endDate', $arrPostParams)) {
+        if (true == is_array($arrPostParams) && !empty($arrPostParams) && true == array_key_exists('startDate', $arrPostParams) && true == array_key_exists('endDate', $arrPostParams)) {
             $strStartDate = $arrPostParams['startDate'];
             $strEndDate = $arrPostParams['endDate'];
         }
@@ -86,7 +86,7 @@ $strDefaultEndDate = date('yy-m-d');
                 </div>
             </div>
         </div>
-        <?php if($_orders && 0 < count($_orders)) : ?>
+        <?php if($_orders && !empty($_orders)) : ?>
         <div class="table-responsive">
             <table class="data table table-order-items history" id="my-orders-table">
                 <caption class="table-caption"><?= $block->escapeHtml(__('Orders')) ?></caption>
@@ -249,7 +249,7 @@ $strDefaultEndDate = date('yy-m-d');
                     text: "<?php echo $intDefaultShipTo; ?>"
                 },
                 <?php
-                if (true == is_array($arrShipToAddressAndNumbers) && 0 < count($arrShipToAddressAndNumbers)) {
+                if (true == is_array($arrShipToAddressAndNumbers) && !empty($arrShipToAddressAndNumbers)) {
                 foreach ($arrShipToAddressAndNumbers as $arrShipToAddressAndNumber) {
 
                 if (true == is_array($arrCustomerShipToAddress) && false == empty($arrCustomerShipToAddress) && true == array_key_exists($arrShipToAddressAndNumber['value'], $arrCustomerShipToAddress)) { ?>

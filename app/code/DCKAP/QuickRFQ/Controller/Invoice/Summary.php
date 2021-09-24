@@ -200,7 +200,7 @@ class Summary extends \Magento\Framework\App\Action\Action
         list($status, $integrationData) = $this->clorasDDIHelper->isServiceEnabled('invoice_list');
         if ($status) {
             $responseData = $this->clorasDDIHelper->getInvoiceList($integrationData, $filterData);
-            if ($responseData && isset($responseData['invoiceList']) && count($responseData['invoiceList'])) {
+            if ($responseData && isset($responseData['invoiceList']) && !empty($responseData['invoiceList'])) {
                 foreach ($responseData['invoiceList'] as $key => $invoice) {
                     if ($invoice['invoiceStatus'] == 'Completed') {
                         unset($responseData['invoiceList'][$key]);

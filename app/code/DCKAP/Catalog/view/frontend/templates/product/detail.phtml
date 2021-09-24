@@ -12,18 +12,18 @@
     $attrs = $customHelper->getGroupAttributes($_product, $group['attribute_group_id'], $_product->getAttributes());
     if ($attrs && !empty($attrs)) { ?>
         <div class="additional-attributes-wrapper table-wrapper">
-            <table class="data table additional-attributes" id="product-attribute-specs-table">
+            <table class="data table additional-attributes" id="product-attribute-specs-table" aria-hidden="true">
                 <caption class="table-caption"><?= $block->escapeHtml(__('More Information')) ?></caption>
                 <tbody>
                 <tr>
                     <?php
-	                    asort($attrs);
+                    asort($attrs);
                     foreach ($attrs as $_data): ?>
-                            <td class="col data" data-th="<?= $_data->getFrontendLabel(); ?>">
+                            <td class="col data" data-th="<?= $block->escapeHtml($_data->getFrontendLabel()); ?>">
                                 <?php if (($detailTabTitle && $checkMode=="b2b") || $checkMode=="b2c") { ?>
-                                    <h4><?= $_data->getFrontendLabel(); ?></h4>
+                                    <h4><?= $block->escapeHtml($_data->getFrontendLabel()); ?></h4>
                                 <?php } ?>
-                                <?= $_data->getFrontend()->getValue($_product); ?>
+                                <?= $block->escapeHtml($_data->getFrontend()->getValue($_product)); ?>
                             </td>
                     <?php endforeach; ?>
                 </tr>

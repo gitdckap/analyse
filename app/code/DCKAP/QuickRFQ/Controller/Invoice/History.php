@@ -143,20 +143,13 @@ class History extends \Magento\Framework\App\Action\Action
         if (fmod(count($data), $limit) > 0) {
             $lastPage = $lastPage + 1;
         }
-        if ($lastPage == $page) {
-            $lastPage = NULL;
-        }
+        $lastPage = ($lastPage == $page) ? null : $lastPage;
         $prevPage = ($page > 1) ? ($page - 1) : null;
         $nextPage = ($page < $lastPage) ? ($page + 1) : null;
 
         $start = abs($limit * ($page - 1));
         $sortField = (isset($params['sfield']) && !empty($params['sfield'])) ? $params['sfield'] : 'invoiceNumber';
 
-        if (isset($params['sfield']) && !empty($params['sfield'])) {
-            $sortField = $params['sfield'];
-        } else {
-            $sortField = 'invoiceNumber';
-        }
         $handleSorder = 0;
         if (isset($params['sorder']) && !empty($params['sorder'])) {
             $sortOrder = ($params['sorder'] == 1) ? SORT_ASC : SORT_DESC;

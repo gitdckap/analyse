@@ -10,7 +10,10 @@ namespace DCKAP\OrderApproval\Controller\Order;
  * @package DCKAP\OrderApproval\Controller\Order
  */
 class Approve extends \Magento\Framework\App\Action\Action {
-	const DEFAULT_SHIP_TO_NUMBER = '999999999';
+    /**
+     *
+     */
+    const DEFAULT_SHIP_TO_NUMBER = '999999999';
 
 	/**
 	 * @var \Magento\Framework\Controller\Result\JsonFactory
@@ -130,7 +133,8 @@ class Approve extends \Magento\Framework\App\Action\Action {
                     $allowZero = $this->extensionHelper->getProceedToCheckout();
                     if ($allowZero == '0') {
                         $superAttribute = "0";
-                        if (isset($item->getProductOptions()['info_buyRequest'])) {                            $superAttribute = isset($item->getProductOptions()['info_buyRequest']['super_attribute']) ? $item->getProductOptions()['info_buyRequest']['super_attribute'] : '0';
+                        if (isset($item->getProductOptions()['info_buyRequest'])) {
+                            $superAttribute = isset($item->getProductOptions()['info_buyRequest']['super_attribute']) ? $item->getProductOptions()['info_buyRequest']['super_attribute'] : '0';
                         }
                         if ($superAttribute != "0" && $item->getParentItem() != null) {
                             if ($item->getPrice() > 0) {
@@ -192,25 +196,16 @@ class Approve extends \Magento\Framework\App\Action\Action {
 				if ($quote->getBssCustomfield()) {
 					$customCheckoutField = $this->serializer->unserialize($quote->getBssCustomfield());
 					if (isset($customCheckoutField['special_instructions'])) {
-						if (isset($customCheckoutField['special_instructions']['value'])) {
-							$orderData['special_instructions'] = $customCheckoutField['special_instructions']['value'];
-						} else {
-							$orderData['special_instructions'] = $customCheckoutField['special_instructions'];
-						}
+                        $orderData['special_instructions'] = (isset($customCheckoutField['special_instructions']['value'])) ?
+                            $customCheckoutField['special_instructions']['value'] : $customCheckoutField['special_instructions'];
 					}
 					if (isset($customCheckoutField['purchase_order_number'])) {
-						if (isset($customCheckoutField['purchase_order_number']['value'])) {
-							$orderData['purchase_order_number'] = $customCheckoutField['purchase_order_number']['value'];
-						} else {
-							$orderData['purchase_order_number'] = $customCheckoutField['purchase_order_number'];
-						}
+                        $orderData['purchase_order_number'] = (isset($customCheckoutField['purchase_order_number']['value'])) ?
+                            $customCheckoutField['purchase_order_number']['value'] : $customCheckoutField['purchase_order_number'];
 					}
 					if (isset($customCheckoutField['expected_delivery_date'])) {
-						if (isset($customCheckoutField['expected_delivery_date']['value'])) {
-							$orderData['expected_delivery_date'] = $customCheckoutField['expected_delivery_date']['value'];
-						} else {
-							$orderData['expected_delivery_date'] = $customCheckoutField['expected_delivery_date'];
-						}
+                        $orderData['expected_delivery_date'] = (isset($customCheckoutField['expected_delivery_date']['value'])) ?
+                            $customCheckoutField['expected_delivery_date']['value'] : $customCheckoutField['expected_delivery_date'];
 					}
 				}
 				$orderData['delivery_contact_email'] = ($order->getDdiDeliveryContactEmail()) ? $order->getDdiDeliveryContactEmail():"";

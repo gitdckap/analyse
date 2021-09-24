@@ -9,20 +9,20 @@ if ($_helpertheme->getWebsiteMode()=="b2b") {
     <h4>Questions?</h4>
     <div>
         <p>We're here to help! Speak with a Customer Service specialist today.</p>
-        <b><a href="tel:<?php if ($callUs && $callUs != '') {
-            echo $callUs;
+        <strong><a href="tel:<?php if ($callUs && $callUs != '') {
+            echo $block->escapeHtml($callUs);
                         } else {
                             echo '(916) 447-7022';
                         } ?>"><?php if ($callUs && $callUs != '') {
-                        echo $callUs;
+                        echo $block->escapeHtml($callUs);
                         } else {
                             echo '(916) 447-7022';
-                        } ?></a></b>
+                        } ?></a></strong>
     </div>
     <?php if ($workingTime && $workingTime != '') { ?>
     <div class="support-hours">
         <span>Open:</span>
-        <span><?php echo $workingTime; ?></span>
+        <span><?= $block->escapeHtml($workingTime); ?></span>
     </div>
     <?php } ?>
 </div>

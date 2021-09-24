@@ -181,7 +181,6 @@ class Addproducttocart extends \Magento\Framework\App\Action\Action
                           'value' => $uom
                         ];
 
-                        //print_r($additionalOptions);exit;
                        $product->addCustomOption('additional_options', $this->serializer->serialize($additionalOptions));
        
                        $params['related_product'] = $params['selected_configurable_option'] = '';

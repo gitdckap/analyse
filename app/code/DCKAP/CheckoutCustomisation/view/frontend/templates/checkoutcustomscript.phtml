@@ -29,7 +29,7 @@ if ($isEditOrder) {
 
             /* added scripts to disable elements if edit order */
             <?php if ($isEditOrder) { ?>
-                var loaderImg = "<?= $block->getViewFileUrl('images/loader-1.gif') ?>";
+                var loaderImg = "<?= $block->escapeUrl($block->getViewFileUrl('images/loader-1.gif')); ?>";
                 var loaderHtml = '<div data-role="loader" class="loading-mask" ><div class="loader" style="position: relative;top: 50%;left: 50%;"><img style="position: relative;" src="'+loaderImg+'" alt="loading" width="30px"></div>';
                 $('#checkout').before(loaderHtml);
                 $('#checkout').trigger('show.loader');
@@ -47,7 +47,7 @@ if ($isEditOrder) {
                     $('#ddi-contact-no').prop("disabled", true);
                     $('.table-checkout-shipping-method tr input.radio').each(function (val) {
                          var shippingMethod = $(this).attr('value');
-                         if (shippingMethod === "<?php echo $shippingMethod; ?>") {
+                         if (shippingMethod === "<?= $block->escapeHtml($shippingMethod); ?>") {
                              $(this).trigger('click');
                          }
                     });
@@ -56,27 +56,27 @@ if ($isEditOrder) {
 
                     <?php if ($checkoutCustomFields && !empty($checkoutCustomFields)) { ?>
                         <?php if (isset($checkoutCustomFields['purchase_order_number']) && $checkoutCustomFields['purchase_order_number'] != '') { ?>
-                            $('input[name="bss_custom_field[purchase_order_number]"]').val("<?php echo $checkoutCustomFields['purchase_order_number']; ?>");
+                            $('input[name="bss_custom_field[purchase_order_number]"]').val("<?= $block->escapeHtml($checkoutCustomFields['purchase_order_number']); ?>");
                             $('input[name="bss_custom_field[purchase_order_number]"]').trigger('keyup');
                         <?php } ?>
                         <?php if (isset($checkoutCustomFields['expected_delivery_date']) && $checkoutCustomFields['expected_delivery_date'] != '') { ?>
-                            $('input[name="bss_custom_field[expected_delivery_date]"]').val("<?php echo $checkoutCustomFields['expected_delivery_date']; ?>");
+                            $('input[name="bss_custom_field[expected_delivery_date]"]').val("<?= $block->escapeHtml($checkoutCustomFields['expected_delivery_date']); ?>");
                         <?php } ?>
                         <?php if (isset($checkoutCustomFields['special_instructions']) && $checkoutCustomFields['special_instructions'] != '') { ?>
-                            $('textarea[name="bss_custom_field[special_instructions]"]').val("<?php echo $checkoutCustomFields['special_instructions']; ?>");
+                            $('textarea[name="bss_custom_field[special_instructions]"]').val("<?= $block->escapeHtml($checkoutCustomFields['special_instructions']); ?>");
                         <?php } ?>
 
                         <?php if (isset($checkoutCustomFields['delivery_contact_email']) && $checkoutCustomFields['delivery_contact_email'] != '') { ?>
-                            $('input[name="ddi_store_pickup[ddi_delivery_contact_email]"]').val("<?php echo $checkoutCustomFields['delivery_contact_email']; ?>");
+                            $('input[name="ddi_store_pickup[ddi_delivery_contact_email]"]').val("<?= $block->escapeHtml($checkoutCustomFields['delivery_contact_email']); ?>");
                         <?php } ?>
                         <?php if (isset($checkoutCustomFields['delivery_contact_no']) && $checkoutCustomFields['delivery_contact_no'] != '') { ?>
-                            $('input[name="ddi_store_pickup[ddi_delivery_contact_no]"]').val("<?php echo $checkoutCustomFields['delivery_contact_no']; ?>");
+                            $('input[name="ddi_store_pickup[ddi_delivery_contact_no]"]').val("<?= $block->escapeHtml($checkoutCustomFields['delivery_contact_no']); ?>");
                         <?php } ?>
                         <?php if (isset($checkoutCustomFields['pickup_date']) && $checkoutCustomFields['pickup_date'] != '') { ?>
-                            $('input[name="ddi_store_pickup[ddi_pickup_date]"]').val("<?php echo $checkoutCustomFields['pickup_date']; ?>");
+                            $('input[name="ddi_store_pickup[ddi_pickup_date]"]').val("<?= $block->escapeHtml($checkoutCustomFields['pickup_date']); ?>");
                         <?php } ?>
                         <?php if (isset($checkoutCustomFields['store_pickup_branch']) && $checkoutCustomFields['store_pickup_branch'] != '') { ?>
-                            $('select[name="ddi_store_pickup[ddi_pref_warehouse]"]').val("<?php echo $checkoutCustomFields['store_pickup_branch']; ?>");
+                            $('select[name="ddi_store_pickup[ddi_pref_warehouse]"]').val("<?= $block->escapeHtml($checkoutCustomFields['store_pickup_branch']); ?>");
                         <?php } ?>
                     <?php } ?>
                     $("#maincontent .loading-mask").css("display","none");

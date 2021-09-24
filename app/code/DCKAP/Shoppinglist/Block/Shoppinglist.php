@@ -69,7 +69,7 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
     {
         return $this->customerSession->create();
     }
-    
+
     public function getShoppinglistId()
     {
 
@@ -82,7 +82,7 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
         } elseif ($customerSession->getShoppinglistId()) {
             return $customerSession->getShoppinglistId();
         }
-        
+
         return 0;
     }
 
@@ -94,16 +94,16 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
 
     public function getShoppinglistProduct($shopping_list_id)
     {
-          
+
         // Get Shopping List Item collection
         $productlistModel = $this->productlistFactory->create();
         $storeId = $this->storeManager->getStore()->getId();
 
         $productlistModelCollection = $productlistModel->getCollection()
-                                                        ->addFieldToFilter('shopping_list_id', $shopping_list_id)
-                                                        ->addFieldToFilter('store_id', $storeId);
+            ->addFieldToFilter('shopping_list_id', $shopping_list_id)
+            ->addFieldToFilter('store_id', $storeId);
         $collection = $productlistModelCollection->getData();
-        
+
         return $collection;
     }
 
@@ -116,7 +116,7 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
     public function getProductImage($product)
     {
 
-        return $this->productImage->init($product, 'category_page_list', ['height' => '100' , 'width'=> '100'])->getUrl();
+        return $this->productImage->init($product, 'category_page_list', ['height' => '100', 'width' => '100'])->getUrl();
     }
 
     public function getConfigurableOptionList($productId)
@@ -171,10 +171,10 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
 
             //get all the selection products used in bundle product.
             $selectionCollection = $product->getTypeInstance(true)
-                                        ->getSelectionsCollection(
-                                            $product->getTypeInstance(true)->getOptionsIds($product),
-                                            $product
-                                        );
+                ->getSelectionsCollection(
+                    $product->getTypeInstance(true)->getOptionsIds($product),
+                    $product
+                );
             foreach ($selectionCollection as $proselection) {
                 $selectionArray = [];
                 $selectionArray['selection_product_name'] = $proselection->getName();
@@ -212,53 +212,50 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
         return false;
     }
 
+    /**
+     * @return $this
+     */
+    protected function _prepareLayout()
+    {
+        parent::_prepareLayout();
 
-	/**
-	 * @return $this
-	 */
-	protected function _prepareLayout()
-	{
-		parent::_prepareLayout();
+        $collection = $this->getShoppinglistProductCollection($this->getShoppinglistId());
+        if ($collection) {
+            /** @var \Magento\Theme\Block\Html\Pager */
+            $pager = $this->getLayout()->createBlock(
+                'Magento\Theme\Block\Html\Pager',
+                'shopping_list.pager'
+            );
+            $pager->setAvailableLimit([5 => 5, 10 => 10, 15 => 15, 20 => 20])
+                ->setShowPerPage(true)
+                ->setCollection($collection);
+            $this->setChild('pager', $pager);
+            $collection->load();
+        }
+        return $this;
+    }
 
-		$collection = $this->getShoppinglistProductCollection($this->getShoppinglistId());
-		if ($collection) {
-			/** @var \Magento\Theme\Block\Html\Pager */
-			$pager = $this->getLayout()->createBlock(
-					'Magento\Theme\Block\Html\Pager',
-					'shopping_list.pager'
-			);
-			$pager->setAvailableLimit([5 => 5, 10 => 10, 15 => 15, 20 => 20])
-					->setShowPerPage(true)
-					->setCollection($collection);
-			$this->setChild('pager', $pager);
-			$collection->load();
-		}
-		return $this;
-	}
+    /**
+     * @return string
+     */
+    public function getPagerHtml()
+    {
+        return $this->getChildHtml('pager');
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getPagerHtml()
-	{
-		return $this->getChildHtml('pager');
-	}
+    public function getShoppinglistProductCollection($shopping_list_id)
+    {
+        $page = ($this->getRequest()->getParam('p')) ? $this->getRequest()->getParam('p') : 1;
+        $pageSize = ($this->getRequest()->getParam('limit')) ? $this->getRequest()->getParam('limit') : 5;
+        // Get Shopping List Item collection
+        $productlistModel = $this->productlistFactory->create();
+        $storeId = $this->storeManager->getStore()->getId();
 
-
-	public function getShoppinglistProductCollection($shopping_list_id)
-	{
-		$page = ($this->getRequest()->getParam('p')) ? $this->getRequest()->getParam('p') : 1;
-		$pageSize = ($this->getRequest()->getParam('limit')) ? $this->getRequest()->getParam('limit') : 5;
-		// Get Shopping List Item collection
-		$productlistModel = $this->productlistFactory->create();
-		$storeId = $this->storeManager->getStore()->getId();
-
-		$collection = $productlistModel->getCollection()
-				->addFieldToFilter('shopping_list_id', $shopping_list_id)
-				->addFieldToFilter('store_id', $storeId);
-		$collection->setPageSize($pageSize);
-		$collection->setCurPage($page);
-		return $collection;
-	}
-
+        $collection = $productlistModel->getCollection()
+            ->addFieldToFilter('shopping_list_id', $shopping_list_id)
+            ->addFieldToFilter('store_id', $storeId);
+        $collection->setPageSize($pageSize);
+        $collection->setCurPage($page);
+        return $collection;
+    }
 }

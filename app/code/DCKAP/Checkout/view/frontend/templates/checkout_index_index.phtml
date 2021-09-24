@@ -2,8 +2,8 @@
 $params = $this->getRequest()->getParams();
 $invoiceData = $this->helper('Dckap\Checkout\Helper\Data')->getInvoices($params);
 $paymentMethod = $this->helper('DCKAP\Extension\Helper\Data')->getPayInvoicePayment();
-	$cctypecheck = $this->helper('DCKAP\Extension\Helper\Data')->getpayflowproAllowCreditCards();
-	$cctypecheck = preg_split ("/\,/", $cctypecheck);
+$cctypecheck = $this->helper('DCKAP\Extension\Helper\Data')->getpayflowproAllowCreditCards();
+$cctypecheck = preg_split("/\,/", $cctypecheck);
 $priceHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 $staticUrl = $block->getStaticUrl();
 
@@ -22,18 +22,18 @@ if ($paymentMethod != '' && ($paymentMethod == 'authorizenet_acceptjs' || $payme
                 <div class="control">
                     <ul class="credit-card-types">
                         <li class="item">
-                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/ae.png" alt="American Express" width="46" height="30">
+                            <img src="<?= $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/ae.png" alt="American Express" width="46" height="30">
                         </li>
                         <li class="item">
-                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/vi.png" alt="Visa" width="46" height="30">
-                        </li>
-
-                        <li class="item">
-                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/mc.png" alt="MasterCard" width="46" height="30">
+                            <img src="<?= $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/vi.png" alt="Visa" width="46" height="30">
                         </li>
 
                         <li class="item">
-                            <img src="<?php echo $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/di.png" alt="Discover" width="46" height="30">
+                            <img src="<?= $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/mc.png" alt="MasterCard" width="46" height="30">
+                        </li>
+
+                        <li class="item">
+                            <img src="<?= $staticUrl; ?>frontend/DCKAP/DDI/en_US/Magento_Payment/images/cc/di.png" alt="Discover" width="46" height="30">
                         </li>
                     </ul>
                     <input type="hidden" name="payment[cc_type]" class="input-text" value="" id="authorizenet_acceptjs_cc_type" data-container="authorizenet_acceptjs-cc-type" />
@@ -329,7 +329,7 @@ if ($paymentMethod != '' && ($paymentMethod == 'authorizenet_acceptjs' || $payme
                     }
                 });
             }
-            
+
             setTimeout(function (){
                 calliframe();
             }, 1000);
@@ -341,8 +341,8 @@ if ($paymentMethod != '' && ($paymentMethod == 'authorizenet_acceptjs' || $payme
     /**
      * Here need to add Payflow Pro form and its script/functionalities
      */
-	$authUrl = $block->getUrl('dckapcheckout/payinvoice/payflow');
-	?>
+    $authUrl = $block->getUrl('dckapcheckout/payinvoice/payflow');
+    ?>
 <style>
     ul.credit-card-types .item{
         display: none;
@@ -460,7 +460,7 @@ if ($paymentMethod != '' && ($paymentMethod == 'authorizenet_acceptjs' || $payme
             'Magento_Ui/js/modal/alert'
         ], function($, urlBuilder, alert){
             $(document).ready(function () {
-               
+
                 var cards = <?php echo json_encode($cctypecheck); ?>;
                 $.each( cards, function( i, val ) {
                     $("#"+val).css("display","block");
@@ -547,4 +547,4 @@ if ($paymentMethod != '' && ($paymentMethod == 'authorizenet_acceptjs' || $payme
             }*/
         } );
     </script>
-<?php } ?>
+<?php }?>

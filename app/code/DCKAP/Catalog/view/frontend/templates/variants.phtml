@@ -14,27 +14,28 @@ if ($product->getTypeId() == 'configurable') {
     if (!empty($childProducts)) { ?>
 <div class="product-add-form-new">
     <form action="<?= $addToCartUrl; ?>" method="post" id="product_addtocart_form-new" novalidate="novalidate">
-        <input type="hidden" name="product" value="<?= $product->getId(); ?>">
+        <input type="hidden" name="product" value="<?= $block->escapeHtml($product->getId()); ?>">
         <input type="hidden" name="selected_configurable_option" value="">
             <?= $block->getBlockHtml('formkey')?>
         <div class="products wrapper">
-            <table class="product_mdstable" id="super-product-table">
+            <table class="product_mdstable" id="super-product-table" >
+            <caption>product add form</caption>
                 <tbody>
                 <tr>
-                    <th>SKU</th>
-                    <th>Name</th>
-                    <th>Variants</th>
-                    <th>Availability</th>
-                    <th>
+                    <th scope="row">SKU</th>
+                    <th scope="row">Name</th>
+                    <th scope="row">Variants</th>
+                    <th scope="row">Availability</th>
+                    <th scope="row">
                         <span>
                             <select name="variant_uom" id="variant-uom">
                                 <?php if (is_array($uomData) && isset($uomData['uomFactors']) && !empty($uomData['uomFactors'])) { ?>
                                     <?php foreach ($uomData['uomFactors'] as $uom) { ?>
-                                        <option value="<?= $uom['altUomCode']; ?>">
+                                        <option value="<?= $block->escapeHtml($uom['altUomCode']); ?>">
                                             <?php if ($uom['altUomCode'] != '') {
-                                                echo $uom['altUomCode'];
+                                                echo $block->escapeHtml($uom['altUomCode']);
                                             } else {
-                                                echo $uom['altUomDesc'];
+                                                echo $block->escapeHtml($uom['altUomDesc']);
                                             } ?></option>
                                     <?php }
                                 } else { ?>
@@ -49,22 +50,24 @@ if ($product->getTypeId() == 'configurable') {
                     <tr>
                         <td>
                             <span class="data-th" style="display: none;">SKU</span>
-                            <b><?= $childProduct->getSku(); ?></b>
+                            <strong><?= $block->escapeHtml($childProduct->getSku()); ?></strong>
                         </td>
-                        <td class="item-specification"><span class="data-th" style="display: none;">Name</span><?= $childProduct->getName(); ?>
+                       <td class="item-specification"><span class="data-th" style="display: none;">Name</span>
+                        <?= $block->escapeHtml($childProduct->getName()); ?>
                         </td>
                         <td><span class="data-th" style="display: none;">Variants</span>
                             <?php if (!empty($options[$childProduct->getSku()])) {
                                 foreach ($options[$childProduct->getSku()] as $option) {
-                                    echo '<p>'.$option['attribute_code'].': <b>'.$option['option_title'].'</b></p>';
+                                    echo '<p>'.$block->escapeHtml($option['attribute_code']).': <b>'.$block->escapeHtml($option['option_title']).'</b></p>';
                                 }
                             } ?></td>
-                        <td class="inventory-availability"><span class="data-th" style="display: none;">Availability</span>
+                        <td class="inventory-availability">
+                        <span class="data-th" style="display: none;">Availability</span>
                             <?php if (isset($erpData['lineItem']['locations'])) { ?>
                                 <ul>
                                     <?php foreach ($erpData['lineItem']['locations'] as $qtyData) {
                                         if ($qtyData['branchName'] != '') { ?>
-                                            <li><?= $qtyData['branchName'] . ': <b>' . $qtyData['available'].'</b>'; ?><?php if ((int)$qtyData['available'] > 0) {
+                                            <li><?= $block->escapeHtml($qtyData['branchName']) . ': <b>' . $block->escapeHtml($qtyData['available']).'</b>'; ?><?php if ((int)$qtyData['available'] > 0) {
                                                 echo '<span> In Stock</span>';
                                                 } else {
                                                     echo '<span> Out of Stock</span>';
@@ -83,14 +86,14 @@ if ($product->getTypeId() == 'configurable') {
                                     <?php
                                     foreach ($optionAttr as $key => $optionv) {
                                         $hiddenInput = 'super_attr['.$childProduct->getId().']['.$key.']'; ?>
-                                        <input type="hidden" name="<?= $hiddenInput; ?>" value="<?= $childProduct->getData($optionv['attribute_code']); ?>" />
+                                        <input type="hidden" name="<?= $block->escapeHtml($hiddenInput); ?>" value="<?= $block->escapeHtml($childProduct->getData($optionv['attribute_code'])); ?>" />
                                     <?php } ?>
-                                    <input type="number" name="<?= 'super_attr_qty['.$childProduct->getId().']'; ?>" value="0" title="Qty" class="input-text qty" />
+                                    <input type="number" name="<?= 'super_attr_qty['.$block->escapeHtml($childProduct->getId()).']'; ?>" value="0" title="Qty" class="input-text qty" />
                                 </div>
                                 <div class="price-list"><strong><?php if (isset($erpData['prices']['netPrice'])) {
-                                    echo $block->getPriceWithCurrency($erpData['prices']['netPrice']);
+                                    echo $block->escapeHtml($block->getPriceWithCurrency($erpData['prices']['netPrice']));
                                                                 } else {
-                                                                    echo $block->getPriceWithCurrency($childProduct->getPrice());
+                                                                    echo $block->escapeHtml($block->getPriceWithCurrency($childProduct->getPrice()));
                                                                 } ?></strong><span class="price-uom">/EA</span></div>
                             </div>
                         </td>

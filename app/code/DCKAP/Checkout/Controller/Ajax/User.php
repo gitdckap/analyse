@@ -4,7 +4,7 @@ namespace Dckap\Checkout\Controller\Ajax;
 
 class User extends \Magento\Framework\App\Action\Action
 {
-    CONST DEFAULT_SHIP_TO_NUMBER = '999999999';
+    const DEFAULT_SHIP_TO_NUMBER = '999999999';
     protected $resultJsonFactory;
     protected $customerSession;
     protected $extensionHelper;
@@ -69,7 +69,7 @@ class User extends \Magento\Framework\App\Action\Action
                 $data['is_b2b'] = 1;
 
                 $orderApprovalStatus = $this->orderApprovalHelper->getOrderApprovalStatus($email, $accountNumber, $shiptoNumber, $isB2B);
-                if(!$shiptoNumber){
+                if (!$shiptoNumber) {
                     $shiptoNumber = SELF::DEFAULT_SHIP_TO_NUMBER;
                 }
                 if ($orderApprovalStatus == 0) {
@@ -78,12 +78,12 @@ class User extends \Magento\Framework\App\Action\Action
                     }
                 }
                 $arrApproverList = $this->orderApprovalHelper->getApproverList($accountNumber, $shiptoNumber);
-                if(empty($arrApproverList)){
+                if (empty($arrApproverList)) {
                     $orderApprovalStatus = 1;
                 }
             }
             $boolIsFromOrderEdit = $this->orderApprovalHelper->getIsFromOrderApprovalEdit();
-            if($boolIsFromOrderEdit){
+            if ($boolIsFromOrderEdit) {
                 $orderApprovalStatus = 1;
             }
             $data['order_approval'] = $orderApprovalStatus;
@@ -94,17 +94,18 @@ class User extends \Magento\Framework\App\Action\Action
         return $resultJson->setData($data);
     }
 
-    public function ThresholdAmountBaseOrderApproval($intTotalAmount){
+    public function ThresholdAmountBaseOrderApproval($intTotalAmount)
+    {
         $tax = $intAdultS = $subTotal = $grandTotal = 0;
-        $tax =  $this->_cart->getQuote()->getShippingAddress()->getData('tax_amount');
+        $tax = $this->_cart->getQuote()->getShippingAddress()->getData('tax_amount');
         $intAdultS = $this->_cart->getQuote()->getShippingAddress()->getData('adult_signature_fee');
         $subTotal = $this->_cart->getQuote()->getShippingAddress()->getData('subtotal_with_discount');
         $grandTotal = $subTotal + $tax + $intAdultS;
-        if($intTotalAmount > $grandTotal){
+        if ($intTotalAmount > $grandTotal) {
             $grandTotal = $intTotalAmount;
         }
         $intThresholdAmount = $this->orderApprovalHelper->isThresholdBasesApprovalAndAmount();
-        if( $intThresholdAmount != false && $intThresholdAmount > 0 && $grandTotal > $intThresholdAmount || $grandTotal == $intThresholdAmount ){
+        if ($intThresholdAmount != false && $intThresholdAmount > 0 && $grandTotal > $intThresholdAmount || $grandTotal == $intThresholdAmount) {
             return 0;
         }
         return 1;

@@ -58,7 +58,7 @@ class Elementpayment extends \Magento\Framework\View\Element\Template
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: text/xml', 'Expect: '));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-type: text/xml', 'Expect: ']);
         curl_setopt($ch, CURLOPT_SSLVERSION, 6);
 
 // Following line is compulsary to add as it is:
@@ -138,7 +138,7 @@ class Elementpayment extends \Magento\Framework\View\Element\Template
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: text/xml', 'Expect: '));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-type: text/xml', 'Expect: ']);
         curl_setopt($ch, CURLOPT_SSLVERSION, 6);
 
 // Following line is compulsary to add as it is:

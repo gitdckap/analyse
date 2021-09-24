@@ -3,7 +3,7 @@ if (is_string($order)) { ?>
     <div class="message info empty"><span><?= __($order) ?></span></div>
 <?php } elseif (isset($order['isValid']) && $order['isValid'] == 'no') { ?>
     <div class="message info empty"><span><?= __($order['errorMessage']) ?></span></div>
-<?php } elseif ($order && count($order) && $order['isValid'] == 'yes') { ?>
+<?php } elseif ($order && !empty($order) && $order['isValid'] == 'yes') { ?>
     <div class="page-title-wrapper">
         <h1 class="page-title">
             <span class="base" data-ui-id="page-title-wrapper">Quote # <?php echo $order['orderNumber']; ?></span></h1>

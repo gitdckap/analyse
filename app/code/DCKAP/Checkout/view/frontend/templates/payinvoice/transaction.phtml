@@ -1,13 +1,13 @@
-<?php $params = $this->getRequest()->getParams(); ?>
+<?php $params = $this->getRequest()->getParams();?>
 <form class="form" id="cc-transaction-result" style="display: none;">
     <fieldset class="fieldset payment items ccard" id="invoice-payment-form">
-        <?php if ($params['Status'] == 'User_Cancelled') { ?>
+        <?php if ($params['Status'] == 'User_Cancelled') {?>
             <div class="field">
                 <label class="label">
                     <span>Status</span>
                 </label>
                 <div class="control">
-                    <input type="text" name="status" class="input-text" value="<?php echo $params['Status']; ?>" id="status" readonly />
+                    <input type="text" name="status" class="input-text" value="<?= $block->escapeHtml($params['Status']); ?>" id="status" readonly />
                 </div>
             </div>
             <div class="field">
@@ -15,16 +15,16 @@
                     <span>ValidationKey</span>
                 </label>
                 <div class="control">
-                    <input type="text" name="validation_key" class="input-text" value="<?php echo $params['ValidationKey']; ?>" id="validation_key" readonly />
+                    <input type="text" name="validation_key" class="input-text" value="<?= $block->escapeHtml($params['ValidationKey']); ?>" id="validation_key" readonly />
                 </div>
             </div>
-        <?php } else { ?>
+        <?php } else {?>
         <div class="field">
             <label class="label">
                 <span>Status</span>
             </label>
             <div class="control">
-                <input type="text" name="status" class="input-text" value="<?php echo $params['Status']; ?>" id="status" readonly />
+                <input type="text" name="status" class="input-text" value="<?= $block->escapeHtml($params['Status']); ?>" id="status" readonly />
             </div>
         </div>
         <div class="field">
@@ -32,7 +32,7 @@
                 <span>Card Holder</span>
             </label>
             <div class="control">
-                <input type="text" name="cc_holder" class="input-text" value="<?php echo $params['Cardholder']; ?>" id="cc_holder" readonly />
+                <input type="text" name="cc_holder" class="input-text" value="<?= $block->escapeHtml($params['Cardholder']); ?>" id="cc_holder" readonly />
             </div>
         </div>
         <div class="field">
@@ -40,7 +40,7 @@
                 <span>Card Number</span>
             </label>
             <div class="control">
-                <input type="text" name="cc_number" class="input-text" value="<?php echo $params['CardNumber']; ?>" id="cc_number" readonly />
+                <input type="text" name="cc_number" class="input-text" value="<?= $block->escapeHtml($params['CardNumber']); ?>" id="cc_number" readonly />
             </div>
         </div>
         <div class="field">
@@ -48,7 +48,7 @@
                 <span>Card Type</span>
             </label>
             <div class="control">
-                <input type="text" name="cc_type" class="input-text" value="<?php echo $params['CardType']; ?>" id="cc_type" readonly />
+                <input type="text" name="cc_type" class="input-text" value="<?= $block->escapeHtml($params['CardType']); ?>" id="cc_type" readonly />
             </div>
         </div>
         <div class="field">
@@ -56,7 +56,7 @@
                 <span>AuthCode</span>
             </label>
             <div class="control">
-                <input type="text" name="cc_auth_code" class="input-text" value="<?php echo $params['AuthCode']; ?>" id="cc_auth_code" readonly />
+                <input type="text" name="cc_auth_code" class="input-text" value="<?= $block->escapeHtml($params['AuthCode']); ?>" id="cc_auth_code" readonly />
             </div>
         </div>
         <div class="field">
@@ -64,7 +64,7 @@
                 <span>Token</span>
             </label>
             <div class="control">
-                <input type="text" name="cc_token" class="input-text" value="<?php echo $params['Token']; ?>" id="cc_token" readonly />
+                <input type="text" name="cc_token" class="input-text" value="<?= $block->escapeHtml($params['Token']); ?>" id="cc_token" readonly />
             </div>
         </div>
         <div class="field">
@@ -72,7 +72,7 @@
                 <span>ExpDate</span>
             </label>
             <div class="control">
-                <input type="text" name="cc_exp_date" class="input-text" value="<?php echo $params['ExpDate']; ?>" id="cc_exp_date" readonly />
+                <input type="text" name="cc_exp_date" class="input-text" value="<?= $block->escapeHtml($params['ExpDate']); ?>" id="cc_exp_date" readonly />
             </div>
         </div>
         <div class="field">
@@ -80,7 +80,7 @@
                 <span>ValidationKey</span>
             </label>
             <div class="control">
-                <input type="text" name="cc_validation_key" class="input-text" value="<?php echo $params['ValidationKey']; ?>" id="cc_validation_key" readonly />
+                <input type="text" name="cc_validation_key" class="input-text" value="<?= $block->escapeHtml($params['ValidationKey']); ?>" id="cc_validation_key" readonly />
             </div>
         </div>
         <div class="field">
@@ -88,10 +88,10 @@
                 <span>AmountApproved</span>
             </label>
             <div class="control">
-                <input type="text" name="cc_amount_approved" class="input-text" value="<?php echo $params['AmountApproved']; ?>" id="cc_amount_approved" readonly />
+                <input type="text" name="cc_amount_approved" class="input-text" value="<?= $block->escapeHtml($params['AmountApproved']); ?>" id="cc_amount_approved" readonly />
             </div>
         </div>
-        <?php } ?>
+        <?php }?>
     </fieldset>
 </form>
 <script>

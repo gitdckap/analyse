@@ -76,13 +76,10 @@ class Index extends \Magento\Framework\App\Action\Action
         $params = $this->getRequest()->getParams();
 
 //        $ddiQuotes = $this->customerSession->getDdiQuotes();
-        if (isset($params['startDate']) && isset($params['endDate'])) {
-            $startDate = $params['startDate'];
-            $endDate = $params['endDate'];
-        } else {
-            $startDate = date('m/d/y', strtotime('-90 day'));
-            $endDate = date('m/d/y');
-        }
+
+        $startDate = (isset($params['startDate'])) ? $params['startDate'] : date('m/d/y', strtotime('-90 day'));
+        $endDate = (isset($params['endDate'])) ? $params['endDate'] : date('m/d/y');
+
         /*$oldStartDate = $ddiQuotes['startDate'];
         $oldEndDate = $ddiQuotes['endDate'];
         if ($startDate == $oldStartDate && $endDate == $oldEndDate) {
@@ -139,7 +136,7 @@ class Index extends \Magento\Framework\App\Action\Action
 
         $lastPage = floor(count($data) / $limit);
 
-        if (fmod(count($data), $limit) > 0) {
+        if (fmod(sizeof($data), $limit) > 0) {
             $lastPage = $lastPage + 1;
         }
         if ($lastPage == $page) {
@@ -203,7 +200,7 @@ class Index extends \Magento\Framework\App\Action\Action
         list($status, $integrationData) = $this->clorasDDIHelper->isServiceEnabled('order_list');
         if ($status) {
             $responseData = $this->clorasDDIHelper->getOrderList($integrationData, $filterData);
-            if ($responseData && isset($responseData['orderList']) && count($responseData['orderList'])) {
+            if ($responseData && isset($responseData['orderList']) && !empty($responseData['orderList'])) {
                 foreach ($responseData['orderList'] as $key => $order) {
                     if ($order['orderStatus'] == 'Requested' || $order['orderStatus'] == 'Quoted') {
                         continue;

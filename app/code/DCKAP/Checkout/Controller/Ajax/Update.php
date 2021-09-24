@@ -51,12 +51,12 @@ class Update extends \Magento\Framework\App\Action\Action
             list($status, $integrationData) = $this->clorasDDIHelper->isServiceEnabled('submit_order');
             if ($status) {
                 $checkoutReview = $this->clorasDDIHelper->UpdateErpPrice($integrationData, $params, $params['review_type']);
-                if ($checkoutReview['data']['isValid']=='yes') {
+                if ($checkoutReview['data']['isValid'] == 'yes') {
                     $checkoutSession = $this->_checkoutSession->create();
-                    $MiscAmt =0;
+                    $MiscAmt = 0;
                     if (isset($checkoutReview['data']['orderDetails']['miscellaneousTotal'])) {
                         $miscamt = $checkoutReview['data']['orderDetails']['miscellaneousTotal'];
-                        $MiscAmt = (float)(str_replace('$', '', str_replace(',', '', $miscamt)));
+                        $MiscAmt = (float) (str_replace('$', '', str_replace(',', '', $miscamt)));
                     }
                     $checkoutSession->setMiscTotal($MiscAmt);
                     $lineItems = $checkoutReview['data']['lineItems']['lineData'];
@@ -69,20 +69,20 @@ class Update extends \Magento\Framework\App\Action\Action
                                 $uom = $additionalOption['custom_uom']['value'];
                             }
                         }
-                        $base_price = (float)$quoteitem->getPrice();
+                        $base_price = (float) $quoteitem->getPrice();
                         foreach ($lineItems as $key => $itemData) {
                             if ($quoteitem->getSku() == $itemData['stockNum'] && $uom == $itemData['uom']) {
                                 $price = $itemData['netPrice'];
                                 $price = str_replace("$", "", $price);
                                 $price = (float) $price;
-                                $custom_price = (float)$quoteitem->getCustomPrice();
-                                if ($custom_price ==" " || $custom_price == null) {
+                                $custom_price = (float) $quoteitem->getCustomPrice();
+                                if ($custom_price == " " || $custom_price == null) {
                                     $custom_price = 0;
                                 }
-                                if ($base_price  < $price || $base_price > $price && $custom_price == 0) {
+                                if ($base_price < $price || $base_price > $price && $custom_price == 0) {
                                     $data['shipto'] = 'changed';
                                 }
-                                if ($custom_price  < $price || $custom_price  > $price && $custom_price != 0) {
+                                if ($custom_price < $price || $custom_price > $price && $custom_price != 0) {
                                     $data['shipto'] = 'changed';
                                 }
                                 $quoteitem->setCustomPrice($price);
@@ -96,40 +96,40 @@ class Update extends \Magento\Framework\App\Action\Action
                 $data['response'] = $checkoutReview['data'];
             }
 
-	        if(isset($params['ship_to']) && $params['ship_to']==1 ) {
-		        if ($status) {
-			        $checkoutReview = $this->clorasDDIHelper->UpdateErpPrice($integrationData, $params, $params['review_type']);
-			        if ($checkoutReview['data']['isValid']=='yes') {
-				        $checkoutSession = $this->_checkoutSession->create();
-				        $MiscAmt = 0;
-				        if (isset($checkoutReview['data']['orderDetails']['miscellaneousTotal'])) {
-					        $miscamt = $checkoutReview['data']['orderDetails']['miscellaneousTotal'];
-					        $MiscAmt = (float) (str_replace('$', '', str_replace(',', '', $miscamt)));
-				        }
-				        $checkoutSession->setMiscTotal($MiscAmt);
-				        $lineItems = $checkoutReview['data']['lineItems']['lineData'];
-				        $data['shipto'] = ' ';
-				        foreach ($quote->getAllItems() as $quoteitem) {
+            if (isset($params['ship_to']) && $params['ship_to'] == 1) {
+                if ($status) {
+                    $checkoutReview = $this->clorasDDIHelper->UpdateErpPrice($integrationData, $params, $params['review_type']);
+                    if ($checkoutReview['data']['isValid'] == 'yes') {
+                        $checkoutSession = $this->_checkoutSession->create();
+                        $MiscAmt = 0;
+                        if (isset($checkoutReview['data']['orderDetails']['miscellaneousTotal'])) {
+                            $miscamt = $checkoutReview['data']['orderDetails']['miscellaneousTotal'];
+                            $MiscAmt = (float) (str_replace('$', '', str_replace(',', '', $miscamt)));
+                        }
+                        $checkoutSession->setMiscTotal($MiscAmt);
+                        $lineItems = $checkoutReview['data']['lineItems']['lineData'];
+                        $data['shipto'] = ' ';
+                        foreach ($quote->getAllItems() as $quoteitem) {
                             if ($quoteitem->getParentItem() == null) {
                                 $uom = 'EA';
                                 if ($additionalOptions = $quoteitem->getOptionByCode('additional_options')) {
-                                    $additionalOption = (array)$this->serializer->unserialize($additionalOptions->getValue());
+                                    $additionalOption = (array) $this->serializer->unserialize($additionalOptions->getValue());
                                     if (isset($additionalOption['custom_uom'])) {
                                         $uom = $additionalOption['custom_uom']['value'];
                                     }
                                 }
-                                $base_price = (float)$quoteitem->getPrice();
+                                $base_price = (float) $quoteitem->getPrice();
                                 foreach ($lineItems as $key => $itemData) {
                                     if ($quoteitem->getSku() == $itemData['stockNum'] && $uom == $itemData['uom']) {
                                         $price = $itemData['netPrice'];
                                         $price = str_replace("$", "", $price);
-                                        $price = (float)$price;
-                                        $custom_price = (float)$quoteitem->getCustomPrice();
+                                        $price = (float) $price;
+                                        $custom_price = (float) $quoteitem->getCustomPrice();
                                         $logger->info("prices");
                                         $logger->info(print_r($base_price, true));
                                         $logger->info(print_r($price, true));
                                         $logger->info(print_r($custom_price, true));
-                                        if ($custom_price == " " || $custom_price == NULL) {
+                                        if ($custom_price == " " || $custom_price == null) {
                                             $custom_price = 0;
                                         }
                                         $logger->info(print_r($custom_price, true));
@@ -149,11 +149,11 @@ class Update extends \Magento\Framework\App\Action\Action
                                     }
                                 }
                             }
-				        }
-			        }
-			        $data['response'] = $checkoutReview['data'];
-		        }
-	        }
+                        }
+                    }
+                    $data['response'] = $checkoutReview['data'];
+                }
+            }
             $data['status'] = 'SUCCESS';
             $data['data'] = $params;
 

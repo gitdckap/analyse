@@ -60,6 +60,9 @@ class Index extends \Magento\Framework\View\Element\Template
      * @var \Magento\Catalog\Helper\ImageFactory
      */
     protected $imageHelperFactory;
+    /**
+     * @var \Dckap\QuickRFQ\Helper\Data
+     */
     protected $quickrfqHelper;
 
     /**
@@ -215,17 +218,20 @@ class Index extends \Magento\Framework\View\Element\Template
         return $productUrl;
     }
 
+    /**
+     * @return array
+     */
     public function getCustomerShipToAddresses(){
 
         $strCustomerAddress = '';
         $arrCustomerAddresses = [];
-        $resArray = array();
+        $resArray = [];
         $customerId = $this->_customerSession->getCustomerId();
         $arrCustomerAddress = $this->quickrfqHelper->getCustomerAddress($customerId);
         $customerSessionData = $this->_customerSession->getCustomData();
         $accountNumber = $customerSessionData['accountNumber'];
         $shiptoItems = $this->shiptoModel->toArray();
-        if ($arrCustomerAddress && count($arrCustomerAddress)) {
+        if ($arrCustomerAddress && !empty($arrCustomerAddress)) {
             foreach ($arrCustomerAddress as $CustomerAddres) {
                 if ( (true == $CustomerAddres['is_active']) && (false == empty($CustomerAddres['ddi_ship_number'])) && ($CustomerAddres['erp_account_number'] == $accountNumber)  && array_key_exists($CustomerAddres['ddi_ship_number'],$shiptoItems)) {
                     $street = trim(preg_replace('/\s+/', ' ', $CustomerAddres['street']));
@@ -239,6 +245,9 @@ class Index extends \Magento\Framework\View\Element\Template
         return $resArray;
     }
 
+    /**
+     * @return bool
+     */
     public function RetainShipTo(){
         $strSelectedShipto = false;
         $CustomerData = $this->_customerSession->getCustomValue();

@@ -226,7 +226,7 @@ if ($permission) {
             $(document).ready(function () {
                 /* sort-by selection */
                 var arrmixShipToLocation = [
-                    <?php if (true == is_array($shiptoItems) && 0 < count($shiptoItems)) { ?>
+                    <?php if (true == is_array($shiptoItems) && 0 < !empty($shiptoItems)) { ?>
                     {
                         id: "",
                         text: "All ShipTo’s"

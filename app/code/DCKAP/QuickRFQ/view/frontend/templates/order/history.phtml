@@ -8,16 +8,9 @@ if ($permission) {
         'orderNumber' => 'Order #',
         'orderTotal' => 'Order Total'
     ];
-    if (isset($orderHandle['start_date'])) {
-        $startDate = $orderHandle['start_date'];
-    } else {
-        $startDate = date('m/d/y', strtotime('-90 day'));
-    }
-    if (isset($orderHandle['end_date'])) {
-        $endDate = $orderHandle['end_date'];
-    } else {
-        $endDate = date('m/d/y');
-    }
+    $startDate = (isset($orderHandle['start_date'])) ? $orderHandle['start_date'] : date('m/d/y', strtotime('-90 day'));
+    $endDate = (isset($orderHandle['end_date'])) ? $orderHandle['end_date'] : date('m/d/y');
+
     if (!(bool)strtotime($startDate)) {
         $error = 1;
         $error_msg = "Invalid start date.";
@@ -40,7 +33,7 @@ if ($permission) {
             </div>
             <a class="btn btn-default search-by-date" href="#" title="Filter by Date">Search</a>
         </div>
-        <?php if (count($orderList)) { ?>
+        <?php if (!empty($orderList)) { ?>
             <div class="toolbar-sorter sorter">
                 <label class="sorter-label" for="sorter">Sort By</label>
                 <select id="sorter" data-role="sorter" class="sorter-options">

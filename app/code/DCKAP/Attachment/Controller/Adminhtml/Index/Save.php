@@ -141,7 +141,7 @@ class Save extends \Magento\Backend\App\Action
                                         ->addFieldToFilter('sku', ['eq' => $data['sku']])
                                         ->addFieldToFilter('section_id', ['eq' => $data['section_id']]);
                                     foreach ($collections as $item) {
-                                        $item->delete();
+                                        $this->itemDelete($item);
                                     }
                                 }
                                 $this->setDataEach($data);
@@ -170,5 +170,9 @@ class Save extends \Magento\Backend\App\Action
         $model = $this->pdfattachmentFactory->create();
         $model->setData($data);
         $model->save();
+    }
+    public function itemDelete($item)
+    {
+        $item->delete();
     }
 }

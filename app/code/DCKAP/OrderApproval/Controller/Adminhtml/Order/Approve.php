@@ -4,12 +4,28 @@ namespace DCKAP\OrderApproval\Controller\Adminhtml\Order;
 
 use Magento\Backend\Model\Auth\Session;
 
+/**
+ * Class Approve
+ * @package DCKAP\OrderApproval\Controller\Adminhtml\Order
+ */
 class Approve extends \Magento\Framework\App\Action\Action
 {
+    /**
+     *
+     */
     const DEFAULT_SHIP_TO_NUMBER = '999999999';
 
+    /**
+     * @var \Magento\Framework\View\Result\PageFactory
+     */
     protected $_pageFactory;
+    /**
+     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     */
     protected $orderRepository;
+    /**
+     * @var \Magento\Framework\Controller\Result\JsonFactory
+     */
     protected $jsonFactory;
 
     /**
@@ -32,16 +48,41 @@ class Approve extends \Magento\Framework\App\Action\Action
      */
     protected $serializer;
 
+    /**
+     * @var \DCKAP\OrderApproval\Helper\Data
+     */
     protected $_orderApprovalHelper;
 
+    /**
+     * @var Session
+     */
     protected $authSession;
 
+    /**
+     * @var \DCKAP\Extension\Helper\Data
+     */
     protected $extensionHelper;
 
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $scopeConfig;
+
+    /**
+     * Approve constructor.
+     * @param \Magento\Framework\Controller\Result\JsonFactory $jsonFactory
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\View\Result\PageFactory $pageFactory
+     * @param \Cloras\DDI\Helper\Data $clorasDDIHelper
+     * @param \Dckap\ShippingAdditionalFields\Helper\Data $storePickupHelper
+     * @param \Magento\Quote\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Framework\Serialize\Serializer\Json $serializer
+     * @param \DCKAP\OrderApproval\Helper\Data $orderApprovalHelper
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param Session $authSession
+     * @param \DCKAP\Extension\Helper\Data $extensionHelper
+     */
     public function __construct(
         \Magento\Framework\Controller\Result\JsonFactory $jsonFactory,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
@@ -79,6 +120,9 @@ class Approve extends \Magento\Framework\App\Action\Action
         return $this->_authorization->isAllowed('DCKAP_OrderApproval::order');
     }
 
+    /**
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface
+     */
     public function execute()
     {
         $params = $this->getRequest()->getParams();
@@ -92,10 +136,9 @@ class Approve extends \Magento\Framework\App\Action\Action
                 $lineItemData = [];
                 foreach ($order->getAllVisibleItems() as $item) {
                     $itemData = [];
-                    $uom = 'EA';
-                    if (isset($item->getProductOptions()['info_buyRequest'])) {
-                        $uom = isset($item->getProductOptions()['info_buyRequest']['custom_uom']) ? $item->getProductOptions()['info_buyRequest']['custom_uom']:'EA';
-                    }
+                    $uom = (isset($item->getProductOptions()['info_buyRequest']) && (isset($item->getProductOptions()['info_buyRequest']['custom_uom'])))?
+                            $item->getProductOptions()['info_buyRequest']['custom_uom']:'EA';
+
                     $itemData['stockNum'] = $item->getSku();
                     $itemData['qty'] = (string) $item->getQtyOrdered();
                     $itemData['uom'] = $uom;
@@ -180,25 +223,16 @@ class Approve extends \Magento\Framework\App\Action\Action
                 if ($quote->getBssCustomfield()) {
                     $customCheckoutField = $this->serializer->unserialize($quote->getBssCustomfield());
                     if (isset($customCheckoutField['special_instructions'])) {
-                        if (isset($customCheckoutField['special_instructions']['value'])) {
-                            $orderData['special_instructions'] = $customCheckoutField['special_instructions']['value'];
-                        } else {
-                            $orderData['special_instructions'] = $customCheckoutField['special_instructions'];
-                        }
+                        $orderData['special_instructions'] = (isset($customCheckoutField['special_instructions']['value'])) ?
+                            $customCheckoutField['special_instructions']['value'] : $customCheckoutField['special_instructions'];
                     }
                     if (isset($customCheckoutField['purchase_order_number'])) {
-                        if (isset($customCheckoutField['purchase_order_number']['value'])) {
-                            $orderData['purchase_order_number'] = $customCheckoutField['purchase_order_number']['value'];
-                        } else {
-                            $orderData['purchase_order_number'] = $customCheckoutField['purchase_order_number'];
-                        }
+                        $orderData['purchase_order_number'] = (isset($customCheckoutField['purchase_order_number']['value'])) ?
+                            $customCheckoutField['purchase_order_number']['value'] : $customCheckoutField['purchase_order_number'];
                     }
                     if (isset($customCheckoutField['expected_delivery_date'])) {
-                        if (isset($customCheckoutField['expected_delivery_date']['value'])) {
-                            $orderData['expected_delivery_date'] = $customCheckoutField['expected_delivery_date']['value'];
-                        } else {
-                            $orderData['expected_delivery_date'] = $customCheckoutField['expected_delivery_date'];
-                        }
+                        $orderData['expected_delivery_date'] = (isset($customCheckoutField['expected_delivery_date']['value'])) ?
+                            $customCheckoutField['expected_delivery_date']['value'] : $customCheckoutField['expected_delivery_date'];
                     }
                 }
                 $orderData['delivery_contact_email'] = ($order->getDdiDeliveryContactEmail()) ? $order->getDdiDeliveryContactEmail():"";
@@ -276,6 +310,9 @@ class Approve extends \Magento\Framework\App\Action\Action
         }
     }
 
+    /**
+     * @return \Magento\User\Model\User|null
+     */
     protected function getCurrentUser()
     {
         return $this->authSession->getUser();

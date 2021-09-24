@@ -61,9 +61,6 @@ class AdultSignatureFee extends \Magento\Quote\Model\Quote\Address\Total\Abstrac
 				\Magento\Quote\Api\Data\ShippingAssignmentInterface $shippingAssignment,
 				\Magento\Quote\Model\Quote\Address\Total $total
 		) {
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/miscamt.log');
-            $logger = new \Zend\Log\Logger();
-            $logger->addWriter($writer);
 			parent::collect($quote, $shippingAssignment, $total);
 			if (!count($shippingAssignment->getItems())) {
 				return $this;
@@ -73,10 +70,8 @@ class AdultSignatureFee extends \Magento\Quote\Model\Quote\Address\Total\Abstrac
 			if($miscTotal==0){
 				$miscTotal = $checkoutSession->getMiscTotal();
 			}
-            $logger->info("miscTotal - ". print_r($miscTotal, true));
             if ($miscTotal && $miscTotal > 0 ) {
                 $enabled = $this->dataHelper->isModuleEnabled();
-                $logger->info('config status - '.print_r($enabled, true));
                 if ($enabled) {
                     if ($quote->getShippingAddress()) {
 //                        $adultSignatureFee = $this->dataHelper->getAdultSignatureFee($quote->getId());

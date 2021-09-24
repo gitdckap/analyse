@@ -39,7 +39,7 @@ $title = $block->getTitle() ? __($block->getTitle()) : 'Featured Categories';
                                     <a href="<?= $block->escapeUrl($parentCategoryUrl); ?>" class="product-item-photo">
                                         <span class="product-image-container" style="width:300px;">
                                             <span class="product-image-wrapper" style="padding-bottom: 100%;">
-                                                <img class="product-image-photo" src="<?= $block->escapeUrl($image_url); ?>" width="155" height="155" alt="<?= $block->escapeHtml($parentCategory->getName());?>">
+                                            <img class="product-image-photo" src="<?= $block->escapeUrl($image_url); ?>" width="155" height="155" alt="<?= $block->escapeHtml($parentCategory->getName());?>">
                                             </span>
                                         </span>
                                     </a>
@@ -47,7 +47,8 @@ $title = $block->getTitle() ? __($block->getTitle()) : 'Featured Categories';
                                 </div>
                                 <div class="product-item-details">
                                     <ul class="productsub-categories">
-                                       <a href="<?= $block->escapeUrl($parentCategoryUrl); ?>" class="product-item-name-link">
+                                       <a href="<?= $block->escapeUrl($parentCategoryUrl); ?>" 
+                                       class="product-item-name-link">
                                             <strong class="product name product-item-name">
                                                 <?= $block->escapeHtml($parentCategory->getName()); ?>
                                             </strong>

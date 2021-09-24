@@ -112,7 +112,7 @@ class Index extends \Magento\Framework\App\Action\Action
             $oldShipto = ($this->customerSession->getShipto()) ? $this->customerSession->getShipto() : '';
             if ($oldShipto == $shipto) {
                 $orderPadItems = $this->customerSession->getReportsOrders();
-                if (isset($orderPadItems['orderPad']) && count($orderPadItems['orderPad']) > 0) {
+                if (isset($orderPadItems['orderPad']) && !empty($orderPadItems['orderPad'])) {
                     $formatedOrderHitory = $this->getFormatedReportData($orderPadItems['orderPad'], $orderPadItems['pagination']);
                     $this->_registry->unregister('orderpad_items');
                     $this->_registry->register('orderpad_items', $formatedOrderHitory);
@@ -136,7 +136,7 @@ class Index extends \Magento\Framework\App\Action\Action
             } elseif (isset($orderPadItems['isValid']) && $orderPadItems['isValid'] == 'yes') {
                 $this->customerSession->setReportsOrders($orderPadItems);
                 $formatedData =[];
-                if (isset($orderPadItems['orderPad']) && count($orderPadItems['orderPad']) > 0) {
+                if (isset($orderPadItems['orderPad']) && !empty($orderPadItems['orderPad'])) {
                     $formatedData = $this->getFormatedReportData($orderPadItems['orderPad'], $orderPadItems['pagination']);
                 }
                 $this->_registry->register('orderpad_items', $formatedData);
@@ -169,7 +169,7 @@ class Index extends \Magento\Framework\App\Action\Action
 
         $lastPage = floor(count($data) / $limit);
 
-        if (fmod(count($data), $limit) > 0) {
+        if (fmod(sizeof($data), $limit) > 0) {
             $lastPage = $lastPage + 1;
         }
         if ($lastPage == $page) {

@@ -269,7 +269,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getShiptoItems()
     {
         $shiptoItems = $this->shipToModel->toOptionArray();
-        if ($shiptoItems && count($shiptoItems)) {
+        if ($shiptoItems && !empty($shiptoItems)) {
             return $shiptoItems;
         }
         return false;
@@ -433,7 +433,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     ->getTransport();
                 $transport->sendMessage();
             } else if($boolIsFromCancelOrder){
-		        if($boolCCApproverCancelOrder && count($arrApprovers) ) {
+		        if($boolCCApproverCancelOrder && !empty($arrApprovers) ) {
                     foreach ($arrApprovers as $strEmailApprover) {
                         $transport = $this->_transportBuilder->setTemplateIdentifier($templateId)
                             ->setTemplateOptions($templateOptions)

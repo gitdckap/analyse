@@ -39,7 +39,7 @@ class ConfigProvider implements ConfigProviderInterface
             'pickup_option'=>$this->getPickupDeliveryOption(),
             'is_shipto_based_price_enable' => $this->getisShiptoBasedPrice(),
             'is_edit_order' => $this->isEditOrder(),
-	        'is_misc_amount'=>$this->getisMiscAmount()
+            'is_misc_amount'=>$this->getisMiscAmount()
         ];
     }
 
@@ -70,13 +70,15 @@ class ConfigProvider implements ConfigProviderInterface
         return $this->_checkoutCustomisationHelper->getShippingMethods();
     }
 
-    public function getisShiptoBasedPrice(){
+    public function getisShiptoBasedPrice()
+    {
         return 1;
 //        return $this->extenstionhelper->getIsShiptoBasedPrice();
     }
-	public function getisMiscAmount(){
-		return $this->extenstionhelper->getIsMiscamt();
-	}
+    public function getisMiscAmount()
+    {
+        return $this->extenstionhelper->getIsMiscamt();
+    }
 
     /* get order edit details */
     public function isEditOrder()

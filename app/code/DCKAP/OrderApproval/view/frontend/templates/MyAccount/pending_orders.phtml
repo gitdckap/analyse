@@ -25,7 +25,7 @@ $arrCustomerShipToAddress = $block->getCustomerShipToAddresses();
             <button class="action primary reset-btn-filter" onclick="location.href='<?php echo $block->getPendingOrderApprovalListUrl(); ?>'">Reset Filter
             </button>
         </div><br>
-        <?php if ($_orders && count($_orders)) : ?>
+        <?php if ($_orders && !empty($_orders)) : ?>
         <div class="table-responsive">
             <table class="data table table-order-items history" id="my-orders-table">
                 <caption class="table-caption"><?= $block->escapeHtml(__('Orders')) ?></caption>
@@ -121,7 +121,7 @@ $arrCustomerShipToAddress = $block->getCustomerShipToAddresses();
                     text: "<?php echo $intDefaultShipTo;?>"
                 },
                 <?php
-                if (true == is_array($arrShipToDetails) && 0 < count($arrShipToDetails)) {
+                if (true == is_array($arrShipToDetails) && !empty($arrShipToDetails)) {
                 foreach ($arrShipToDetails as $arrShipToAddressAndNumber) {
                 if(true == is_array($arrCustomerShipToAddress) && false == empty($arrCustomerShipToAddress) && true == array_key_exists($arrShipToAddressAndNumber['value'], $arrCustomerShipToAddress)) { ?>
                 {

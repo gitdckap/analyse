@@ -41,7 +41,7 @@ class CustomerAddressDataProvider
         $accountNumber = $customerSessionData['accountNumber'];
         $addressId = $this->_orderApprovalHelper->getExistingShipto();
         $arrCustomerData = $this->_customerSession->getCustomerShipto();
-        if ($result && count($result)) {
+        if ($result && !empty($result)) {
             foreach ($result as $key => $address) {
                 if (isset($address['custom_attributes'])) {
                     if (isset($address['custom_attributes']['erp_account_number']) && $address['custom_attributes']['erp_account_number']['value'] != $accountNumber) {
@@ -49,7 +49,7 @@ class CustomerAddressDataProvider
                     }
                 }
                 if (isset($result[$key])) {
-                    if( isset($address['custom_attributes']['ddi_ship_number']) && isset($arrCustomerData['is_from_order_pad']) && isset($arrCustomerData['SelectedShipTo']) && $address['custom_attributes']['ddi_ship_number']['value'] == $arrCustomerData['SelectedShipTo'] ){
+                    if (isset($address['custom_attributes']['ddi_ship_number']) && isset($arrCustomerData['is_from_order_pad']) && isset($arrCustomerData['SelectedShipTo']) && $address['custom_attributes']['ddi_ship_number']['value'] == $arrCustomerData['SelectedShipTo']) {
                         $new_value = $result[$key];
                         unset($result[$key]);
                         array_unshift($result, $new_value);

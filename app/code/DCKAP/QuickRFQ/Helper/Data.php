@@ -256,7 +256,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         list($status, $integrationData) = $this->clorasDDIHelper->isServiceEnabled('order_list');
         if ($status) {
             $responseData = $this->clorasDDIHelper->getOrderList($integrationData, $filterData);
-            if ($responseData && isset($responseData) && count($responseData['orderList'])) {
+            if ($responseData && isset($responseData) && isset($responseData['orderList'])) {
                 foreach ($responseData['orderList'] as $key => $order) {
                     if ($order['orderStatus'] == 'Requested' || $order['orderStatus'] == 'Quoted') {
                         unset($responseData['orderList'][$key]);

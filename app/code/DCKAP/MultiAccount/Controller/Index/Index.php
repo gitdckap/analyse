@@ -63,7 +63,7 @@ class Index extends \Magento\Framework\App\Action\Action
     {
 
         $resultJson = $this->resultJsonFactory->create();
-        $data = array();
+        $data = [];
         try {
             $params = $this->getRequest()->getParams();
             $userData = '';
@@ -108,10 +108,10 @@ class Index extends \Magento\Framework\App\Action\Action
                                 $data['status'] = 'SUCCESS';
                                 $data['data'] = "";
                             }
-                        } elseif (isset($user['isValid']) && $user['isValid'] == 'no') {
+                        } elseif (isset($users['isValid']) && $users['isValid'] == 'no') {
                             
                             $this->_customerSession->setIsEcommUservalid($users['isValid']);
-                            $this->_customerSession->setEcommUserErrorMessage($user['errorMessage']);
+                            $this->_customerSession->setEcommUserErrorMessage($users['errorMessage']);
                         }
                     }
                 } else {

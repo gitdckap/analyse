@@ -4,7 +4,7 @@ if ($product->getTypeId() == 'simple') {
     $tierPriceData = $block->getTierPriceData();
     $guestPriceDisplay = $block->getGuestPriceDisplay();
     if ($guestPriceDisplay) {
-        if ($tierPriceData && isset($tierPriceData['priceBreak']['breakLines']) && count($tierPriceData['priceBreak']['breakLines'])) { ?>
+        if ($tierPriceData && isset($tierPriceData['priceBreak']['breakLines']) && !empty($tierPriceData['priceBreak']['breakLines'])) { ?>
             <div class="custom-qty-break">
                 <div class="qty-price-breaks">
                     <ul>

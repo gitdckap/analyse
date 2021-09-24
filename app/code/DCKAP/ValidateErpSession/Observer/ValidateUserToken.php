@@ -1,7 +1,6 @@
 <?php
-
-
 namespace DCKAP\ValidateErpSession\Observer;
+
 use Magento\Framework\Event\ObserverInterface;
 
 class ValidateUserToken implements ObserverInterface
@@ -24,8 +23,7 @@ class ValidateUserToken implements ObserverInterface
         \Magento\Framework\App\ResponseFactory $responseFactory,
         \Magento\Framework\App\ActionFlag $actionFlag,
         \Magento\Framework\App\RequestInterface $request
-    )
-    {
+    ) {
         $this->logger = $logger;
         $this->actionFlag = $actionFlag;
         $this->customerSession = $customerSession;
@@ -36,11 +34,11 @@ class ValidateUserToken implements ObserverInterface
         $this->_request = $request;
     }
 
-    public function execute(\Magento\Framework\Event\Observer $observer )
+    public function execute(\Magento\Framework\Event\Observer $observer)
     {
         try {
             $this->logger->info('add to cart before observer working fine');
-            $arrmixCustomerData = ( array )$this->customerSession->getCustomData();
+            $arrmixCustomerData = (array) $this->customerSession->getCustomData();
 
             list($status, $integrationData) = $this->ClorasDDIHelper->isServiceEnabled('validate_session');
 
@@ -58,10 +56,9 @@ class ValidateUserToken implements ObserverInterface
                         $this->actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
                         $this->messageManager->addNotice(__('Your session has expired due to inactivity. You have now been redirected to the account log in page. Please re-enter your email address and password.'));
                         if ($this->_request->isXmlHttpRequest()) {
-                            exit();
+
                         }
                         $this->_responseFactory->create()->setRedirect($loginUrl, 302)->sendResponse();
-                        exit();
                     } else if ('yes' == $strIsValidSession) {
                         $this->logger->info('Customer validate session response is - ' . $strIsValidSession);
                         return true;
@@ -74,10 +71,8 @@ class ValidateUserToken implements ObserverInterface
                     $this->actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
                     $this->messageManager->addNotice(__('Your session has expired due to inactivity. You have now been redirected to the account log in page. Please re-enter your email address and password.'));
                     if ($this->_request->isXmlHttpRequest()) {
-                        exit();
                     }
                     $this->_responseFactory->create()->setRedirect($loginUrl, 302)->sendResponse();
-                    exit();
                 }
             }
         } catch (\Exception $e) {
