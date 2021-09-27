@@ -31,9 +31,9 @@
     <preference for="Cloras\Base\Api\ProductResultsInterface" type="Cloras\Base\Repo\Products" />
     
     <preference for="Cloras\Base\Api\ProductIndexRepositoryInterface" type="Cloras\Base\Repo\ProductIndex" />
-    <!--<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <plugin name="sales_order_additional_columns" type="Cloras\Base\Plugin\SalesOrderCustomColumn" sortOrder="10" disabled="false" />
-    </type>-->
+    </type>
 
     <!--<type name="Cloras\Base\Model\Fields\Orders">
         <arguments>
