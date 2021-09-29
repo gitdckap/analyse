@@ -160,8 +160,8 @@ class Payflow extends \Magento\Framework\App\Action\Action
 
                 // If you get connection errors, it may be necessary to uncomment
                 // the following two lines:
-                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
 
                 curl_setopt($curl, CURLOPT_POST, true);
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $apiStr);
