@@ -3,7 +3,7 @@
     <body>
         <referenceBlock name="order_info">
             <action method="setTemplate">
-                <argument name="template" xsi:type="string">Dckap_Checkout::order/view/info.phtml</argument>
+                <argument name="template" xsi:type="string">DCKAP_Checkout::order/view/info.phtml</argument>
             </action>
         </referenceBlock>
     </body>

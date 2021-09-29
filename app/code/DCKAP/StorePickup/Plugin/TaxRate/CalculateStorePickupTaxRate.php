@@ -1,12 +1,12 @@
 <?php
-namespace Dckap\StorePickup\Plugin\TaxRate;
+namespace DCKAP\StorePickup\Plugin\TaxRate;
 
 //use FME\GoogleMapsStoreLocator\Block\Storelocator;
 use Magento\Checkout\Model\Session;
 
 /**
  * Class CalculateStorePickupTaxRate
- * package Dckap\StorePickup\Plugin\TaxRate
+ * package DCKAP\StorePickup\Plugin\TaxRate
  */
 class CalculateStorePickupTaxRate
 {

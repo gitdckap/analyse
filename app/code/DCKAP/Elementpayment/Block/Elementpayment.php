@@ -10,7 +10,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Dckap\Elementpayment\Block;
+namespace DCKAP\Elementpayment\Block;
 class Elementpayment extends \Magento\Framework\View\Element\Template
 {
     protected $scopeConfig;

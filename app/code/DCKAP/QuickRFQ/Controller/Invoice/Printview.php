@@ -1,10 +1,10 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Invoice;
+namespace DCKAP\QuickRFQ\Controller\Invoice;
 
 /**
  * Class Printview
- * @package Dckap\QuickRFQ\Controller\Invoice
+ * @package DCKAP\QuickRFQ\Controller\Invoice
  */
 class Printview extends \Magento\Framework\App\Action\Action
 {

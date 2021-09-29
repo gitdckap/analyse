@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\StorePickup\Plugin\Checkout;
+namespace DCKAP\StorePickup\Plugin\Checkout;
 
 //use FME\GoogleMapsStoreLocator\Block\Storelocator;
 use Magento\Checkout\Block\Checkout\LayoutProcessor;
@@ -12,7 +12,7 @@ use Magento\Store\Model\StoreManagerInterface;
 /**
  * Class LayoutProcessorPlugin
  *
- * package Dckap\StorePickup\Plugin\Checkout
+ * package DCKAP\StorePickup\Plugin\Checkout
  */
 class LayoutProcessorPlugin
 {
@@ -65,7 +65,7 @@ class LayoutProcessorPlugin
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['ddi-store-pickup']['children']['ddi_pref_warehouse'] = [
-            'component' => "Dckap_StorePickup/js/form/element/select",
+            'component' => "DCKAP_StorePickup/js/form/element/select",
             'config' => [
                 'customScope' => 'ddiStorePickupShippingMethod',
                 'template' => 'ui/form/field',

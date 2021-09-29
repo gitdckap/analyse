@@ -7,7 +7,7 @@
             </action>
         </referenceBlock>-->
         <referenceContainer name="content">
-            <block class="Dckap\QuickRFQ\Block\Quote\Success" name="price_quote_success" template="Dckap_QuickRFQ::price_quote_success.phtml">
+            <block class="DCKAP\QuickRFQ\Block\Quote\Success" name="price_quote_success" template="DCKAP_QuickRFQ::price_quote_success.phtml">
             </block>
         </referenceContainer>
     </body>

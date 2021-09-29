@@ -17,7 +17,7 @@ define(
         rendererList.push(
             {
                 type: 'elementpayment',
-                component: 'Dckap_Elementpayment/js/view/payment/method-renderer/elementpayment-method'
+                component: 'DCKAP_Elementpayment/js/view/payment/method-renderer/elementpayment-method'
             }
         );
         /** Add view logic here if needed */

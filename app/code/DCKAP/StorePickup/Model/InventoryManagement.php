@@ -1,5 +1,5 @@
 <?php
-namespace Dckap\StorePickup\Model;
+namespace DCKAP\StorePickup\Model;
 
 //use FME\GoogleMapsStoreLocator\Block\Storelocator;
 use Magento\Catalog\Api\ProductRepositoryInterface;
@@ -7,7 +7,7 @@ use Magento\Checkout\Model\Cart;
 
 /**
  * Class InventoryManagement
- * package Dckap\StorePickup\Model
+ * package DCKAP\StorePickup\Model
  */
 
 class InventoryManagement

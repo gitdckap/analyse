@@ -1,9 +1,9 @@
 <?php
 
-namespace Dckap\Theme\Plugin;
+namespace DCKAP\Theme\Plugin;
 
 use Magento\Framework\App\ResponseInterface;
-use Dckap\Theme\Helper\Data;
+use DCKAP\Theme\Helper\Data;
 
 class BodyClass
 {

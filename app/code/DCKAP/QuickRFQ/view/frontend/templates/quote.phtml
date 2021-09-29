@@ -7,7 +7,7 @@
 $ecommUserLogin = $block->isLogIn();
 if ($ecommUserPermission) { ?>
 	<button type="button" title="<?= __('Request a Quote') ?>" class="action secondary"
-	        data-mage-init='{"Dckap_QuickRFQ/js/proceed-to-quote":{"quoteUrl":"<?= $block->getUrl('checkout') ?>"}}'>
+	        data-mage-init='{"DCKAP_QuickRFQ/js/proceed-to-quote":{"quoteUrl":"<?= $block->getUrl('checkout') ?>"}}'>
 	    <span><?= __('Request a Quote') ?></span>
 	</button>
 <?php } else { ?>

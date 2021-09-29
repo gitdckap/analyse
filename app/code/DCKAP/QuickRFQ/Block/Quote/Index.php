@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Dckap\QuickRFQ\Block\Quote;
+namespace DCKAP\QuickRFQ\Block\Quote;
 
 /**
  * Sales order history block
@@ -20,7 +20,7 @@ class Index extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Dckap\Theme\Helper\Data $themeHelper,
+        \DCKAP\Theme\Helper\Data $themeHelper,
         \Magento\Framework\Registry $registry,
         array $data = []
     ) {

@@ -9,7 +9,7 @@
  * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
  */
 
-namespace Dckap\Checkout\Helper;
+namespace DCKAP\Checkout\Helper;
 
 use Cayan\Payment\Gateway\Config\Credit\Config as CayanConfig;
 use Cayan\Payment\Helper\Data as CayanHelper;

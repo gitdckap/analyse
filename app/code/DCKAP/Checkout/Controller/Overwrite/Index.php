@@ -1,5 +1,5 @@
 <?php
-namespace Dckap\Checkout\Controller\Overwrite;
+namespace DCKAP\Checkout\Controller\Overwrite;
 
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;

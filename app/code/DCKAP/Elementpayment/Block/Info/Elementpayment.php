@@ -2,7 +2,7 @@
 /**
  * @author DCKAP Team
  * @copyright Copyright (c) 2017 DCKAP (https://www.dckap.com)
- * @package Dckap_Elementpayment
+ * @package DCKAP_Elementpayment
  */
 
 /**
@@ -10,25 +10,25 @@
  * See COPYING.txt for license details.
  */
 
-namespace Dckap\Elementpayment\Block\Info;
+namespace DCKAP\Elementpayment\Block\Info;
 
 class Elementpayment extends \Magento\Payment\Block\Info
 {
     /**
      * @var string
      */
-    protected $_template = 'Dckap_Elementpayment::form/elementpayment.phtml';
+    protected $_template = 'DCKAP_Elementpayment::form/elementpayment.phtml';
     /**
      * @var string
      */
-    protected $_infoBlockType = 'Dckap\Elementpayment\Block\Info\Elementpayment';
+    protected $_infoBlockType = 'DCKAP\Elementpayment\Block\Info\Elementpayment';
 
     /**
      * @return string
      */
     public function toPdf()
     {
-        $this->setTemplate('Dckap_Elementpayment::info/pdf/elementpayment.phtml');
+        $this->setTemplate('DCKAP_Elementpayment::info/pdf/elementpayment.phtml');
         return $this->toHtml();
     }
 }

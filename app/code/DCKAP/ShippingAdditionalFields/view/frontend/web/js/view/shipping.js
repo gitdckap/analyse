@@ -20,7 +20,7 @@ define(
         'Magento_Ui/js/modal/modal',
         'Magento_Checkout/js/model/checkout-data-resolver',
         'Magento_Checkout/js/checkout-data',
-        'Dckap_ShippingAdditionalFields/js/warehouse/service/warehouse-service',
+        'DCKAP_ShippingAdditionalFields/js/warehouse/service/warehouse-service',
         'mage/url',
         'Magento_Checkout/js/model/totals',
         'Magento_Checkout/js/action/get-payment-information',
@@ -74,7 +74,7 @@ define(
         var mixin = {
 
             defaults: {
-                template: 'Dckap_ShippingAdditionalFields/shipping',
+                template: 'DCKAP_ShippingAdditionalFields/shipping',
                 mdsStartTime: [],
                 mdsCloseTime: [],
                 storePickupStartTime: [],

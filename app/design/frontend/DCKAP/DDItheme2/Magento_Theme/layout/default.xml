@@ -14,7 +14,7 @@
         <referenceBlock name="register-link" remove="true" />
     </body>
     <referenceBlock name="head.additional">
-        <block class="Dckap\Theme\Block\Template" name="custom-head-components" template="Magento_Theme::html/head.phtml"/>
+        <block class="DCKAP\Theme\Block\Template" name="custom-head-components" template="Magento_Theme::html/head.phtml"/>
     </referenceBlock>
     <referenceContainer name="before.body.end">
         <block class="DCKAP\Catalog\Block\Price" name="custom_before_body_end" template="Magento_Theme::html/before-body-end.phtml" />

@@ -4,7 +4,7 @@ if ($tagLine && $tagLine != '') { ?>
     <p><?php echo $tagLine; ?></p>
 </div>
 <?php } ?>
-<?php $getData = $this->helper('Dckap\MultiAccount\Helper\Data');
+<?php $getData = $this->helper('DCKAP\MultiAccount\Helper\Data');
     if($getData->IsCustomerLogged() && $getData->IsMultiAccount()==2){
     ?>
     <div class="multi-user-company">

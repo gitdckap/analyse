@@ -1,10 +1,10 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Quote;
+namespace DCKAP\QuickRFQ\Controller\Quote;
 
 /**
  * Class Printview
- * @package Dckap\QuickRFQ\Controller\Quote
+ * @package DCKAP\QuickRFQ\Controller\Quote
  */
 class Printview extends \Magento\Framework\App\Action\Action
 {

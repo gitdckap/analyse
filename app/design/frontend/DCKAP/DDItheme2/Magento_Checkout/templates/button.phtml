@@ -8,7 +8,7 @@
 
 ?>
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
-<?php $dckapCheckoutHelper = $this->helper('Dckap\Checkout\Helper\Data');
+<?php $dckapCheckoutHelper = $this->helper('DCKAP\Checkout\Helper\Data');
 $order = $dckapCheckoutHelper->getOrder($block->getOrderId());
 if ($order->getStatus() != 'pending_approval') {
 $orderPrintUrl = $block->getUrl('quickrfq/order/printview/'); ?>

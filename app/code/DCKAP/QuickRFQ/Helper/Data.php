@@ -1,13 +1,13 @@
 <?php
 
-namespace Dckap\QuickRFQ\Helper;
+namespace DCKAP\QuickRFQ\Helper;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 
 /**
  * Class Data
- * @package Dckap\QuickRFQ\Helper
+ * @package DCKAP\QuickRFQ\Helper
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {

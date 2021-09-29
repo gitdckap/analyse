@@ -19,7 +19,7 @@ if (!$offline || $offline == "0"):
         $extensionHelper = $this->helper('DCKAP\Extension\Helper\Data');
         $stockConfig = $extensionHelper->getViewInventoryByLocation();
         $guestStockConfig = $extensionHelper->getGuestStockDisplay();
-        $_helpertheme = $this->helper('Dckap\Theme\Helper\Data');
+        $_helpertheme = $this->helper('DCKAP\Theme\Helper\Data');
         $sessionProductData = $this->helper('DCKAP\Catalog\Helper\Data')->getSessionProductData($_product->getSku());
 
         if (isset($sessionProductData['lineItem'])) {

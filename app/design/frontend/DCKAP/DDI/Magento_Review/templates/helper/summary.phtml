@@ -10,7 +10,7 @@ $url = $block->getReviewsUrl() . '#reviews';
 $urlForm = $block->getReviewsUrl() . '#review-form';
 ?>
 <?php $dckapHelper = $this->helper('DCKAP\Extension\Helper\Data');
-$themeHelper = $this->helper('Dckap\Theme\Helper\Data');
+$themeHelper = $this->helper('DCKAP\Theme\Helper\Data');
 $displayReview = $dckapHelper->getDisplayReviews();
 $checkMode = $themeHelper->getWebsiteMode();?>
 <?php if ($block->isReviewEnabled() && $block->getReviewsCount()) : ?>

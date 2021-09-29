@@ -1,10 +1,10 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Customer;
+namespace DCKAP\QuickRFQ\Controller\Customer;
 
 /**
  * Class Index
- * @package Dckap\QuickRFQ\Controller\Customer
+ * @package DCKAP\QuickRFQ\Controller\Customer
  */
 class Index extends \Magento\Framework\App\Action\Action
 {
@@ -61,7 +61,7 @@ class Index extends \Magento\Framework\App\Action\Action
         \DCKAP\Extension\Helper\Data $extensionHelper,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Dckap\QuickRFQ\Helper\Data $QuickRFQHelper
+        \DCKAP\QuickRFQ\Helper\Data $QuickRFQHelper
     )
     {
         parent::__construct($context);

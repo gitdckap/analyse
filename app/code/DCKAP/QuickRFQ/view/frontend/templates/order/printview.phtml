@@ -1,6 +1,6 @@
 <?php $order = $block->getDdiOrder();
 if ($order && !empty($order) && $order['isValid'] == 'yes'): ?>
-    <?php $orderpaymentData = $this->helper('Dckap\QuickRFQ\Helper\Data')->getMagentoPaymentDetails($order['orderNumber']);
+    <?php $orderpaymentData = $this->helper('DCKAP\QuickRFQ\Helper\Data')->getMagentoPaymentDetails($order['orderNumber']);
     $formattedPrice = $this->helper('Magento\Framework\Pricing\Helper\Data'); ?>
     <div class="page-title-wrapper">
         <h1 class="page-title">

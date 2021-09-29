@@ -10,7 +10,7 @@
 		<referenceBlock name="order_tab_info">
 			<referenceBlock name="order_shipping_view">
 				<action method="setTemplate">
-					<argument name="template" xsi:type="string">Dckap_ShippingAdditionalFields::order/view/info.phtml</argument>
+					<argument name="template" xsi:type="string">DCKAP_ShippingAdditionalFields::order/view/info.phtml</argument>
 				</action>
 			</referenceBlock>
 		</referenceBlock>

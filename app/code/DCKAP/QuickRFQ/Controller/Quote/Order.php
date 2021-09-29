@@ -1,10 +1,10 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Quote;
+namespace DCKAP\QuickRFQ\Controller\Quote;
 
 /**
  * Class Order
- * @package Dckap\QuickRFQ\Controller\Quote
+ * @package DCKAP\QuickRFQ\Controller\Quote
  */
 class Order extends \Magento\Framework\App\Action\Action
 {

@@ -2,12 +2,12 @@
 <!--
 /**
  * @category   Dckap
- * @package    Dckap_ShippingAdditionalFields
+ * @package    DCKAP_ShippingAdditionalFields
  * @website    http://www.dckap.com
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Dckap_ShippingAdditionalFields" setup_version="1.0.3">
+    <module name="DCKAP_ShippingAdditionalFields" setup_version="1.0.3">
     </module>
 </config>

@@ -1,5 +1,5 @@
 <?php 
-namespace Dckap\MultiAccount\Observer;
+namespace DCKAP\MultiAccount\Observer;
 
 use Magento\Customer\Model\SessionFactory;
 use Magento\Checkout\Model\Cart;
@@ -9,7 +9,7 @@ use Magento\Checkout\Model\Session;
 
 /**
  * Class Logout
- * @package Dckap\MultiAccount\Observer
+ * @package DCKAP\MultiAccount\Observer
  */
 class Logout implements ObserverInterface
 {

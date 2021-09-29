@@ -77,7 +77,7 @@ if ($items = $block->getProductCollection()) : ?>
                                             <?php endif; ?>
                                                 <?php if ($_item->isSaleable()) : 
                                                 	$cartHelper = $this->helper('Magento\Checkout\Helper\Cart');
-                                                    $themeHelper = $this->helper('Dckap\Theme\Helper\Data');
+                                                    $themeHelper = $this->helper('DCKAP\Theme\Helper\Data');
                                                 	?>
                                                     <?php $postParams = $block->getAddToCartPostParams($_item); ?>
                                                     <form action="<?php echo $cartHelper->getAddUrl($_item);?>" method="post" data-role="tocart-form">

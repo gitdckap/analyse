@@ -2,14 +2,14 @@
 /**
  * Copyright © DCKAP Inc. All rights reserved.
  */
-namespace Dckap\Checkout\Observer;
+namespace DCKAP\Checkout\Observer;
 
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\Event\ObserverInterface;
 
 /**
  * Class PlaceOrder
- * package Dckap\Checkout\Observer
+ * package DCKAP\Checkout\Observer
  */
 class PlaceOrder implements ObserverInterface
 {
@@ -39,7 +39,7 @@ class PlaceOrder implements ObserverInterface
     protected $serializer;
 
     /**
-     * @var \Dckap\ShippingAdditionalFields\Helper\Data
+     * @var \DCKAP\ShippingAdditionalFields\Helper\Data
      */
     protected $storePickupHelper;
 
@@ -77,7 +77,7 @@ class PlaceOrder implements ObserverInterface
      * @param \Cloras\DDI\Helper\Data $clorasDDIHelper
      * @param \Cloras\Base\Helper\Data $clorasHelper
      * @param \Magento\Framework\Serialize\Serializer\Json $serializer
-     * @param \Dckap\ShippingAdditionalFields\Helper\Data $storePickupHelper
+     * @param \DCKAP\ShippingAdditionalFields\Helper\Data $storePickupHelper
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
      * @param \Magento\Customer\Model\SessionFactory $customerSession
      * @param \Magento\Checkout\Model\Session $_checkoutSession
@@ -88,7 +88,7 @@ class PlaceOrder implements ObserverInterface
         \Cloras\DDI\Helper\Data $clorasDDIHelper,
         \Cloras\Base\Helper\Data $clorasHelper,
         \Magento\Framework\Serialize\Serializer\Json $serializer,
-        \Dckap\ShippingAdditionalFields\Helper\Data $storePickupHelper,
+        \DCKAP\ShippingAdditionalFields\Helper\Data $storePickupHelper,
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
         \Magento\Customer\Model\SessionFactory $customerSession,
         \Magento\Checkout\Model\Session $_checkoutSession,

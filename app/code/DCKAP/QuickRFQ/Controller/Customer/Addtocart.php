@@ -1,10 +1,10 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Customer;
+namespace DCKAP\QuickRFQ\Controller\Customer;
 
 /**
  * Class Addtocart
- * @package Dckap\QuickRFQ\Controller\Customer
+ * @package DCKAP\QuickRFQ\Controller\Customer
  */
 class Addtocart extends \Magento\Framework\App\Action\Action
 {

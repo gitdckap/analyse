@@ -10,6 +10,6 @@ use Magento\Framework\Component\ComponentRegistrar;
 
 ComponentRegistrar::register(
     ComponentRegistrar::MODULE,
-    'Dckap_Footer',
+    'DCKAP_Footer',
     __DIR__
 );

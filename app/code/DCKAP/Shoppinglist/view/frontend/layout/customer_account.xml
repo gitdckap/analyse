@@ -10,7 +10,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
    <body>
       <referenceBlock name="customer_account_navigation">
-         <block class="Dckap\Theme\Block\Menu" ifconfig="shoppinglist_section/general/enabled" name="customer-account-navigation-shopping-list-link" after="customer-account-navigation-downloadable-products-link">
+         <block class="DCKAP\Theme\Block\Menu" ifconfig="shoppinglist_section/general/enabled" name="customer-account-navigation-shopping-list-link" after="customer-account-navigation-downloadable-products-link">
             <arguments>
               <argument name="path" xsi:type="string">shoppinglist</argument>
               <argument name="label" xsi:type="string">Shopping List</argument>

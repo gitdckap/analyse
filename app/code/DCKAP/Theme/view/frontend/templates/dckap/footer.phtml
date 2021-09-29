@@ -1,6 +1,6 @@
 <?php //echo $block->getChildHtml(); ?>
 <?php
-$themeHelper = $this->helper('Dckap\Theme\Helper\Data');
+$themeHelper = $this->helper('DCKAP\Theme\Helper\Data');
 $footerBlock = $themeHelper->getFooterBlockId();
 if ($footerBlock && $footerBlock != '') {
     echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($footerBlock)->toHtml();

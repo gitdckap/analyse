@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Theme\Model\Cssconfig;
+namespace DCKAP\Theme\Model\Cssconfig;
 
 class Generator
 {
@@ -13,7 +13,7 @@ class Generator
     protected $themeProvider;
 
     public function __construct(
-        \Dckap\Theme\Helper\Cssconfig $cssconfigData,
+        \DCKAP\Theme\Helper\Cssconfig $cssconfigData,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\LayoutInterface $layoutManager,
@@ -75,7 +75,7 @@ class Generator
         }
         $this->_coreRegistry->register('cssgen_store', $storeCode);
         try {
-            $block = $this->_layoutManager->createBlock('Dckap\Theme\Block\Template')->setData('area', 'frontend')->setTemplate($str4)->toHtml();
+            $block = $this->_layoutManager->createBlock('DCKAP\Theme\Block\Template')->setData('area', 'frontend')->setTemplate($str4)->toHtml();
             if (!file_exists($this->_cssconfigData->getCssConfigDir())) {
                 @mkdir($this->_cssconfigData->getCssConfigDir(), 0777);
             }

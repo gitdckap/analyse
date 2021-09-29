@@ -2,7 +2,7 @@
 <!--
 /**
  * @category   Dckap
- * @package    Dckap_Theme
+ * @package    DCKAP_Theme
  * @website    http://www.Dckap.com
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -20,47 +20,47 @@
                 <label>DDI Color Configuration</label>
                 <field id="primary_bg_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Theme Color</label>
-                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Color</frontend_model>
                 </field>
                 <field id="secondary_bg_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Theme Secondary Color</label>
-                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Color</frontend_model>
                 </field>
                 <field id="primary_font_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Theme Background Text Color</label>
-                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Color</frontend_model>
                 </field>
                 <field id="body_bg_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Body Background Color</label>
-                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Color</frontend_model>
                 </field>
                 <field id="theme_font" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Body Font Color</label>
-                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Color</frontend_model>
                 </field>
                 <field id="action_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Action Color</label>
-                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Color</frontend_model>
                 </field>
                 <field id="nav_bg_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Navigation Background Color</label>
-                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Color</frontend_model>
                 </field>
                 <field id="nav_font_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Navigation Font Color</label>
-                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Color</frontend_model>
                 </field>
                 <field id="cart_btn_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Add to Cart Button Color</label>
-                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Color</frontend_model>
                 </field>
                 <field id="footer_bg_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Footer Background Color</label>
-                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Color</frontend_model>
                 </field>
                 <field id="footer_font_color" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Footer Font Color</label>
-                    <frontend_model>Dckap\Theme\Block\Color</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Color</frontend_model>
                 </field>
             </group>
             <group id="customcss" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -85,7 +85,7 @@
                 <label>Website mode</label>
                 <field id="website_mode" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Website mode</label>
-                    <source_model>Dckap\Theme\Model\Config\Mode</source_model>
+                    <source_model>DCKAP\Theme\Model\Config\Mode</source_model>
                     <!--  <comment>If the mode is B2C, please make sure System-> Configuration-> Customers-> Customer Configuration-> Require Emails Confirmation set to be "Yes"</comment> -->
                 </field>
 
@@ -100,18 +100,18 @@
                 <field id="links_list" translate="label" sortOrder="1"  showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Links to be shown in Footer</label>
                     <comment>Only 6 links will be displayed on the footer</comment>
-                    <frontend_model>Dckap\Theme\Block\Adminhtml\Form\Field\UsefulLinksList</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Adminhtml\Form\Field\UsefulLinksList</frontend_model>
                     <backend_model>\Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                 </field>
                 <field id="footer_bottom_links_list" translate="label" sortOrder="1"  showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Footer Bottom Links</label>
                     <comment>Only 6 links will be displayed on the footer</comment>
-                    <frontend_model>Dckap\Theme\Block\Adminhtml\Form\Field\FooterBottomLinksList</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Adminhtml\Form\Field\FooterBottomLinksList</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                 </field>
                 <field id="follow_us_links_list" translate="label" sortOrder="1"  showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Follow us(Social Media Links)</label>
-                    <frontend_model>Dckap\Theme\Block\Adminhtml\Form\Field\FollowUsList</frontend_model>
+                    <frontend_model>DCKAP\Theme\Block\Adminhtml\Form\Field\FollowUsList</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                 </field>
             </group>

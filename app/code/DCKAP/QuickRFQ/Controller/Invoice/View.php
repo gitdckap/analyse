@@ -1,12 +1,12 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Invoice;
+namespace DCKAP\QuickRFQ\Controller\Invoice;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Class View
- * @package Dckap\QuickRFQ\Controller\Invoice
+ * @package DCKAP\QuickRFQ\Controller\Invoice
  */
 class View extends \Magento\Framework\App\Action\Action
 {

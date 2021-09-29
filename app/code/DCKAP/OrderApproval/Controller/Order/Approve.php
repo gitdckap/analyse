@@ -36,7 +36,7 @@ class Approve extends \Magento\Framework\App\Action\Action {
 	protected $serializer;
 
 	/**
-	 * @var \Dckap\ShippingAdditionalFields\Helper\Data
+	 * @var \DCKAP\ShippingAdditionalFields\Helper\Data
 	 */
 	protected $storePickupHelper;
 
@@ -62,7 +62,7 @@ class Approve extends \Magento\Framework\App\Action\Action {
 	 * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
 	 * @param \Cloras\DDI\Helper\Data $clorasDDIHelper
 	 * @param \Magento\Framework\Serialize\Serializer\Json $serializer
-	 * @param \Dckap\ShippingAdditionalFields\Helper\Data $storePickupHelper
+	 * @param \DCKAP\ShippingAdditionalFields\Helper\Data $storePickupHelper
 	 * @param \Magento\Quote\Model\QuoteFactory $quoteFactory
 	 * @param \Magento\Customer\Model\Session $customerSession
 	 * @param \DCKAP\OrderApproval\Helper\Data $orderApprovalHelper
@@ -74,7 +74,7 @@ class Approve extends \Magento\Framework\App\Action\Action {
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Cloras\DDI\Helper\Data $clorasDDIHelper,
         \Magento\Framework\Serialize\Serializer\Json $serializer,
-        \Dckap\ShippingAdditionalFields\Helper\Data $storePickupHelper,
+        \DCKAP\ShippingAdditionalFields\Helper\Data $storePickupHelper,
         \Magento\Quote\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Model\Session $customerSession,
         \DCKAP\OrderApproval\Helper\Data $orderApprovalHelper,

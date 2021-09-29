@@ -4,17 +4,17 @@
  * Date: 01/08/2017
  * Time: 11:29
  */
-namespace Dckap\AccountCreation\Observer;
+namespace DCKAP\AccountCreation\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
-use Dckap\AccountCreation\Setup\InstallData;
+use DCKAP\AccountCreation\Setup\InstallData;
 use Psr\Log\LoggerInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Message\ManagerInterface;
-use Dckap\AccountCreation\Model\ActivationEmail;
+use DCKAP\AccountCreation\Model\ActivationEmail;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\MailException;
@@ -42,7 +42,7 @@ class UserEdition implements ObserverInterface
     protected $messageManager;
 
     /**
-     * @var \Dckap\AccountCreation\Model\ActivationEmail
+     * @var \DCKAP\AccountCreation\Model\ActivationEmail
      */
     protected $activationEmail;
 

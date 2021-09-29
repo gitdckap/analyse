@@ -1,10 +1,10 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Invoice;
+namespace DCKAP\QuickRFQ\Controller\Invoice;
 
 /**
  * Class History
- * @package Dckap\QuickRFQ\Controller\Invoice
+ * @package DCKAP\QuickRFQ\Controller\Invoice
  */
 class History extends \Magento\Framework\App\Action\Action
 {

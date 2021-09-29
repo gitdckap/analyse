@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Quote;
+namespace DCKAP\QuickRFQ\Controller\Quote;
 
 class Success extends \Magento\Framework\App\Action\Action
 {

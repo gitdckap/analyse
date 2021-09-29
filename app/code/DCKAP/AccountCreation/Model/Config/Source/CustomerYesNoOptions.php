@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dckap\AccountCreation\Model\Config\Source;
+namespace DCKAP\AccountCreation\Model\Config\Source;
 
 use Magento\Eav\Model\ResourceModel\Entity\Attribute\OptionFactory;
 

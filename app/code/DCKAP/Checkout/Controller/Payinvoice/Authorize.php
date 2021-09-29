@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Checkout\Controller\Payinvoice;
+namespace DCKAP\Checkout\Controller\Payinvoice;
 
 class Authorize extends \Magento\Framework\App\Action\Action
 {
@@ -18,8 +18,8 @@ class Authorize extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Dckap\Checkout\Helper\TransactionSale $tansactionSaleHelper,
-        \Dckap\Checkout\Helper\Data $dckapCheckoutHelper,
+        \DCKAP\Checkout\Helper\TransactionSale $tansactionSaleHelper,
+        \DCKAP\Checkout\Helper\Data $dckapCheckoutHelper,
         \Cloras\Base\Helper\Data $clorasHelper,
         \Cloras\DDI\Helper\Data $clorasDDIHelper,
         \DCKAP\Extension\Helper\Data $extensionHelper,

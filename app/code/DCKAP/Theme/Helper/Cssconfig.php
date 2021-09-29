@@ -3,7 +3,7 @@
  * Copyright © 2015 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Dckap\Theme\Helper;
+namespace DCKAP\Theme\Helper;
 
 class Cssconfig extends \Magento\Framework\App\Helper\AbstractHelper
 {

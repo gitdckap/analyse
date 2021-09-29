@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Checkout\Controller\Ajax;
+namespace DCKAP\Checkout\Controller\Ajax;
 
 class Details extends \Magento\Framework\App\Action\Action
 {

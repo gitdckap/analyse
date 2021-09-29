@@ -1,8 +1,8 @@
 <?php
-namespace Dckap\Theme\Block;
+namespace DCKAP\Theme\Block;
 
 use \Magento\Framework\View\Element\Template;
-use Dckap\Theme\Helper\Data;
+use DCKAP\Theme\Helper\Data;
 
 class FollowUsLinks extends Template
 {

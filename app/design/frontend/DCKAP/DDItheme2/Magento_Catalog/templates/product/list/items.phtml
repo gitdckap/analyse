@@ -233,7 +233,7 @@ $guestStockConfig = $extensionHelper->getGuestStockDisplay();
                                                 <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)):
                                                     if (!$offline || $offline == "0") {
                                                     $cartHelper = $this->helper('Magento\Checkout\Helper\Cart');
-                                                    $themeHelper = $this->helper('Dckap\Theme\Helper\Data');
+                                                    $themeHelper = $this->helper('DCKAP\Theme\Helper\Data');
                                                     $defaultUom="EA";
                                                     $uom=$_item->hasData('uom')?$_item->getData('uom'): $defaultUom;
                                                     ?>

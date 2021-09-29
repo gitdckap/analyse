@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\QuickRFQ\Block\Index;
+namespace DCKAP\QuickRFQ\Block\Index;
 
 class Quote extends \Magento\Framework\View\Element\Template
 {
@@ -9,7 +9,7 @@ class Quote extends \Magento\Framework\View\Element\Template
 
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Dckap\Theme\Helper\Data $themeHelper,
+        \DCKAP\Theme\Helper\Data $themeHelper,
         \Magento\Customer\Model\SessionFactory $customerSession,
         array $data = []
     ) {

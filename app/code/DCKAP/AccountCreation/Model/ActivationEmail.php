@@ -6,7 +6,7 @@
  *
  * Copyright © 2017 Dckap. All rights reserved.
  */
-namespace Dckap\AccountCreation\Model;
+namespace DCKAP\AccountCreation\Model;
 
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Framework\App\Area;
@@ -14,7 +14,7 @@ use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
-use Dckap\AccountCreation\Setup\InstallData;
+use DCKAP\AccountCreation\Setup\InstallData;
 
 class ActivationEmail
 {

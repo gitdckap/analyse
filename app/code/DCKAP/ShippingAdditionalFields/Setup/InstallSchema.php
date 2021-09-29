@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\ShippingAdditionalFields\Setup;
+namespace DCKAP\ShippingAdditionalFields\Setup;
 
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
@@ -9,7 +9,7 @@ use Magento\Framework\Setup\SchemaSetupInterface;
 /**
  * Class InstallSchema
  *
- * @package Dckap\ShippingAdditionalFields\Setup
+ * @package DCKAP\ShippingAdditionalFields\Setup
  */
 class InstallSchema implements InstallSchemaInterface
 {

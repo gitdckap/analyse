@@ -3,6 +3,6 @@
         xsi:noNamespaceSchemaLocation='urn:magento:framework/Event/etc/events.xsd'>
     <event name="adminhtml_customer_prepare_save">
         <observer name="customer_customer_edit_save"
-                  instance="Dckap\AccountCreation\Observer\UserEdition" disabled="true"/>
+                  instance="DCKAP\AccountCreation\Observer\UserEdition" disabled="true"/>
     </event>
 </config>

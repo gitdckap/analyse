@@ -1,5 +1,5 @@
 <?php
-namespace Dckap\Theme\Controller\Website;
+namespace DCKAP\Theme\Controller\Website;
 
 class Mode extends \Magento\Framework\App\Action\Action
 {

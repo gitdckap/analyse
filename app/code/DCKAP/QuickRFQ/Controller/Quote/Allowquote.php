@@ -1,10 +1,10 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Quote;
+namespace DCKAP\QuickRFQ\Controller\Quote;
 
 /**
  * Class Allowquote
- * @package Dckap\QuickRFQ\Controller\Quote
+ * @package DCKAP\QuickRFQ\Controller\Quote
  */
 class Allowquote extends \Magento\Framework\App\Action\Action
 {
@@ -18,7 +18,7 @@ class Allowquote extends \Magento\Framework\App\Action\Action
      */
     protected $resultJsonFactory;
     /**
-     * @var \Dckap\Theme\Helper\Data
+     * @var \DCKAP\Theme\Helper\Data
      */
     protected $themeHelper;
 
@@ -27,13 +27,13 @@ class Allowquote extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\SessionFactory $customerSession
      * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
-     * @param \Dckap\Theme\Helper\Data $themeHelper
+     * @param \DCKAP\Theme\Helper\Data $themeHelper
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\SessionFactory $customerSession,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-        \Dckap\Theme\Helper\Data $themeHelper
+        \DCKAP\Theme\Helper\Data $themeHelper
     ) {
         parent::__construct($context);
         $this->customerSession = $customerSession;

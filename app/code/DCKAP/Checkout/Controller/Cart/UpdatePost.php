@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Dckap\Checkout\Controller\Cart;
+namespace DCKAP\Checkout\Controller\Cart;
 
 use Magento\Checkout\Model\Cart\RequestQuantityProcessor;
 use Magento\Framework\App\Action\HttpPostActionInterface;

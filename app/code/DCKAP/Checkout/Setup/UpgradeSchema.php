@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Checkout\Setup;
+namespace DCKAP\Checkout\Setup;
 
 use Magento\Framework\Setup\UpgradeSchemaInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;

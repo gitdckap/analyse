@@ -2,7 +2,7 @@
 /**
  * @author DCKAP Team
  * @copyright Copyright (c) 2017 DCKAP (https://www.dckap.com)
- * @package Dckap_Elementpayment
+ * @package DCKAP_Elementpayment
  */
 
 /**
@@ -10,7 +10,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Dckap\Elementpayment\Model\Config\Source\Order\Status;
+namespace DCKAP\Elementpayment\Model\Config\Source\Order\Status;
 
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Config\Source\Order\Status;

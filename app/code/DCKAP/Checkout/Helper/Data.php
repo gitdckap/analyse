@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Checkout\Helper;
+namespace DCKAP\Checkout\Helper;
 
 use Magento\Framework\App\Helper\Context;
 

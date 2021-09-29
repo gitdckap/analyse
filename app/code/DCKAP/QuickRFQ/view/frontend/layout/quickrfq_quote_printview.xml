@@ -8,7 +8,7 @@
         <referenceBlock name="store.menu" remove="true" />
         <referenceBlock name="copyright" remove="true" />
         <referenceContainer name="content">
-            <block class="Dckap\QuickRFQ\Block\Quote\View" name="erp_quote_printview" template="Dckap_QuickRFQ::quote/printview.phtml">
+            <block class="DCKAP\QuickRFQ\Block\Quote\View" name="erp_quote_printview" template="DCKAP_QuickRFQ::quote/printview.phtml">
             </block>
         </referenceContainer>
     </body>

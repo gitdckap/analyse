@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Dckap\QuickRFQ\Block\Customer;
+namespace DCKAP\QuickRFQ\Block\Customer;
 
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 use \Magento\Framework\App\ObjectManager;
@@ -20,7 +20,7 @@ class Index extends \Magento\Framework\View\Element\Template
     /**
      * @var string
      */
-    protected $_template = 'Dckap_QuickRFQ::orderpad.phtml';
+    protected $_template = 'DCKAP_QuickRFQ::orderpad.phtml';
 
     /**
      * @var \Magento\Sales\Model\ResourceModel\Order\CollectionFactory
@@ -71,7 +71,7 @@ class Index extends \Magento\Framework\View\Element\Template
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categorycollectionFactory,
-        \Dckap\Theme\Helper\Data $themeHelper,
+        \DCKAP\Theme\Helper\Data $themeHelper,
         array $data = []
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\MultiAccount\Helper;
+namespace DCKAP\MultiAccount\Helper;
 
 use Magento\Framework\App\Helper\Context;
 use Magento\Customer\Model\Session;

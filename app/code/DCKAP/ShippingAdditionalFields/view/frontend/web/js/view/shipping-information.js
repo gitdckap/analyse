@@ -9,7 +9,7 @@ define([
 
     var mixin = {
         defaults: {
-            template: 'Dckap_ShippingAdditionalFields/shipping-information'
+            template: 'DCKAP_ShippingAdditionalFields/shipping-information'
         },
         isStorePickup: function () {
             return quote.shippingMethod().method_code == "ddistorepickup";

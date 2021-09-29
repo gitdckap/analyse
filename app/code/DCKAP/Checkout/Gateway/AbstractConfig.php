@@ -9,7 +9,7 @@
  * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
  */
 
-namespace Dckap\Checkout\Gateway;
+namespace DCKAP\Checkout\Gateway;
 
 use Magento\Payment\Gateway\Config\Config as GatewayConfig;
 use Magento\Framework\App\Config\ScopeConfigInterface;

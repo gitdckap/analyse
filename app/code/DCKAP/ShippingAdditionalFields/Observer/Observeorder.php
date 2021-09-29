@@ -1,11 +1,11 @@
 <?php
 
-namespace Dckap\ShippingAdditionalFields\Observer;
+namespace DCKAP\ShippingAdditionalFields\Observer;
 
 /**
  * Class Observeorder
  *
- * @package Dckap\ShippingAdditionalFields\Observer
+ * @package DCKAP\ShippingAdditionalFields\Observer
  */
 class Observeorder implements \Magento\Framework\Event\ObserverInterface
 {

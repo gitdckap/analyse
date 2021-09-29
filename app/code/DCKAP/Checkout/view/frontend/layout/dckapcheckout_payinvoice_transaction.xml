@@ -10,7 +10,7 @@
         <referenceContainer name="copyright" remove="true"/>
         <referenceBlock name="navigation.sections" remove="true" />
         <referenceContainer name="content">
-            <block class="Dckap\Checkout\Block\Index\Index" name="payinvoice_transaction_form" template="Dckap_Checkout::payinvoice/transaction.phtml">
+            <block class="DCKAP\Checkout\Block\Index\Index" name="payinvoice_transaction_form" template="DCKAP_Checkout::payinvoice/transaction.phtml">
             </block>
         </referenceContainer>
     </body>

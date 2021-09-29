@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Dckap\QuickRFQ\Block\Order;
+namespace DCKAP\QuickRFQ\Block\Order;
 
 /**
  * Sales order history block
@@ -23,7 +23,7 @@ class View extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-        \Dckap\Theme\Helper\Data $themeHelper,
+        \DCKAP\Theme\Helper\Data $themeHelper,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Helper\ImageFactory $imageHelperFactory,
         array $data = []

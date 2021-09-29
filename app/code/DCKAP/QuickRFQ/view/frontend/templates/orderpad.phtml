@@ -1,10 +1,10 @@
 <?php $permission = $block->isDisplayed();
 $dckapHelper = $this->helper('DCKAP\Extension\Helper\Data');
-$QuickRFQHelper = $this->helper('Dckap\QuickRFQ\Helper\Data');
+$QuickRFQHelper = $this->helper('DCKAP\QuickRFQ\Helper\Data');
 $callUs = $dckapHelper->getCallUs();
 // $permission = false;
 
-$themeHelper = $this->helper('Dckap\Theme\Helper\Data');
+$themeHelper = $this->helper('DCKAP\Theme\Helper\Data');
 if ($permission) {
     $orderPadItems = $block->getOrderpadItems();
     $orderHandle = $block->getHandle();

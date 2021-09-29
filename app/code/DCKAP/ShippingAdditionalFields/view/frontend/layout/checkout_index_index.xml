@@ -13,7 +13,7 @@
                                             <item name="children" xsi:type="array">
                                                 <item name="shippingAddress" xsi:type="array">
                                                     <item name="config" xsi:type="array">
-                                                        <item name="shippingMethodItemTemplate" xsi:type="string">Dckap_ShippingAdditionalFields/shipping-address/shipping-method-item</item>
+                                                        <item name="shippingMethodItemTemplate" xsi:type="string">DCKAP_ShippingAdditionalFields/shipping-address/shipping-method-item</item>
                                                     </item>                  
                                                     <item name="children" xsi:type="array">
                                                         <item name="ddi-store-pickup" xsi:type="array">

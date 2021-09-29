@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Index;
+namespace DCKAP\QuickRFQ\Controller\Index;
 
 class Index extends \Magento\Framework\App\Action\Action
 {

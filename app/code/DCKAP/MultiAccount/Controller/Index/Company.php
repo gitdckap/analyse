@@ -1,12 +1,12 @@
 <?php
 
-namespace Dckap\MultiAccount\Controller\Index;
+namespace DCKAP\MultiAccount\Controller\Index;
 
 use Magento\Customer\Model\Session as CustomerSession;
 
 /**
  * Class Index
- * @package Dckap\MultiAccount\Controller\Index
+ * @package DCKAP\MultiAccount\Controller\Index
  */
 class Company extends \Magento\Framework\App\Action\Action
 {

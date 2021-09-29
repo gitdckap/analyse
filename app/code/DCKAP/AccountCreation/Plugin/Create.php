@@ -8,7 +8,7 @@
  * Date: 01/08/2017
  * Time: 11:33
  */
-namespace Dckap\AccountCreation\Plugin;
+namespace DCKAP\AccountCreation\Plugin;
 
 use Magento\Customer\Controller\Account\CreatePost;
 use Magento\Framework\Controller\Result\RedirectFactory;

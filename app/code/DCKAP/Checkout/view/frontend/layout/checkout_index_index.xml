@@ -11,7 +11,7 @@
                                     <item name="children" xsi:type="array">
                                         <!-- The new step you add -->
                                         <item name="confirmation-step" xsi:type="array">
-                                            <item name="component" xsi:type="string">Dckap_Checkout/js/view/confirmation-step</item>
+                                            <item name="component" xsi:type="string">DCKAP_Checkout/js/view/confirmation-step</item>
                                             <!--To display step content before shipping step "sortOrder" value should be < 1-->
                                             <!--To display step content between shipping step and payment step  1 < "sortOrder" < 2 -->
                                             <!--To display step content after payment step "sortOrder" > 2 -->
@@ -19,7 +19,7 @@
                                             <item name="children" xsi:type="array">
                                                 <!--add here child component declaration for your step-->
                                                 <item name="cart_items" xsi:type="array">
-                                                    <item name="component" xsi:type="string">Dckap_Checkout/js/view/summary/cart-items</item>
+                                                    <item name="component" xsi:type="string">DCKAP_Checkout/js/view/summary/cart-items</item>
                                                     <item name="children" xsi:type="array">
                                                         <item name="details" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Checkout/js/view/summary/item/details</item>
@@ -41,7 +41,7 @@
                                         <item name="billing-step" xsi:type="array">
                                             <item name="children" xsi:type="array">
                                                 <item name="payment" xsi:type="array">
-                                                    <item name="component" xsi:type="string">Dckap_Checkout/js/view/payment</item>
+                                                    <item name="component" xsi:type="string">DCKAP_Checkout/js/view/payment</item>
                                                     <!-- remove discount code -->
                                                     <item name="children" xsi:type="array">
                                                         <item name="afterMethods" xsi:type="array">
@@ -69,7 +69,7 @@
                                         <item name="summary" xsi:type="array">
                                             <item name="children" xsi:type="array">
                                                 <item name="cart_items" xsi:type="array">
-                                                    <item name="component" xsi:type="string">Dckap_Checkout/js/view/summary/cart-items</item>
+                                                    <item name="component" xsi:type="string">DCKAP_Checkout/js/view/summary/cart-items</item>
                                                 </item>
                                             </item>
                                         </item>

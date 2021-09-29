@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dckap\Theme\Block\Adminhtml\Form\Field;
+namespace DCKAP\Theme\Block\Adminhtml\Form\Field;
 
 use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
 

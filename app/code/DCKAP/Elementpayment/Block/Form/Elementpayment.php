@@ -2,7 +2,7 @@
 /**
  * @author DCKAP Team
  * @copyright Copyright (c) 2017 DCKAP (https://www.dckap.com)
- * @package Dckap_Elementpayment
+ * @package DCKAP_Elementpayment
  */
 
 /**
@@ -10,7 +10,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Dckap\Elementpayment\Block\Form;
+namespace DCKAP\Elementpayment\Block\Form;
 
 class Elementpayment extends \Magento\Payment\Block\Form
 {
@@ -19,5 +19,5 @@ class Elementpayment extends \Magento\Payment\Block\Form
      *
      * @var string
      */
-    protected $_template = 'Dckap_Elementpayment::form/elementpayment.phtml';
+    protected $_template = 'DCKAP_Elementpayment::form/elementpayment.phtml';
 }

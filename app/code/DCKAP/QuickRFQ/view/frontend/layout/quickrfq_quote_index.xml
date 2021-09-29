@@ -3,7 +3,7 @@
     <update handle="customer_account"/>
     <body>
         <referenceContainer name="content">
-            <block class="Dckap\QuickRFQ\Block\Quote\Index" name="price_quotes" template="Dckap_QuickRFQ::quote/price_quotes.phtml">
+            <block class="DCKAP\QuickRFQ\Block\Quote\Index" name="price_quotes" template="DCKAP_QuickRFQ::quote/price_quotes.phtml">
             </block>
         </referenceContainer>
     </body>

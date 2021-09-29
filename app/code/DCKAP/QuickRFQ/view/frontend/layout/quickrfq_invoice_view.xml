@@ -4,7 +4,7 @@
     <body>
         <referenceBlock name="page.main.title" remove="true" />
         <referenceContainer name="content">
-            <block class="Dckap\QuickRFQ\Block\Invoice\View" name="erp_invoice_view" template="Dckap_QuickRFQ::invoice/view.phtml">
+            <block class="DCKAP\QuickRFQ\Block\Invoice\View" name="erp_invoice_view" template="DCKAP_QuickRFQ::invoice/view.phtml">
             </block>
         </referenceContainer>
     </body>

@@ -29,7 +29,7 @@ define(
          */
         return Component.extend({
             defaults: {
-                template: 'Dckap_Checkout/confirmation-step'
+                template: 'DCKAP_Checkout/confirmation-step'
             },
 
             //add here your logic to display step,

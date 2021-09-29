@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\MultiAccount\Block\Overwrite\Address;
+namespace DCKAP\MultiAccount\Block\Overwrite\Address;
 
 use Magento\Customer\Model\ResourceModel\Address\CollectionFactory as AddressCollectionFactory;
 use Magento\Directory\Model\CountryFactory;

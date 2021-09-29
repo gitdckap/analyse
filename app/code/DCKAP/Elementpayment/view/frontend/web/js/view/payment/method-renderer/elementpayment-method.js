@@ -19,7 +19,7 @@ define(
 
         return Component.extend({
             defaults: {
-                template: 'Dckap_Elementpayment/payment/elementpayment',
+                template: 'DCKAP_Elementpayment/payment/elementpayment',
                 purchaseOrderNumber: ''
             },
 

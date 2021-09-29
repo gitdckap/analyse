@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\AccountCreation\Pricing\Render;
+namespace DCKAP\AccountCreation\Pricing\Render;
 
 use Magento\Catalog\Pricing\Price;
 use Magento\Framework\Pricing\Render\PriceBox as BasePriceBox;

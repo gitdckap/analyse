@@ -1,10 +1,10 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Invoice;
+namespace DCKAP\QuickRFQ\Controller\Invoice;
 
 /**
  * Class Summary
- * @package Dckap\QuickRFQ\Controller\Invoice
+ * @package DCKAP\QuickRFQ\Controller\Invoice
  */
 class Summary extends \Magento\Framework\App\Action\Action
 {

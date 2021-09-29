@@ -1,5 +1,5 @@
 <?php
-namespace Dckap\Theme\Block;
+namespace DCKAP\Theme\Block;
  
 class Color extends \Magento\Config\Block\System\Config\Form\Field
 {

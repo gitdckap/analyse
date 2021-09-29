@@ -12,7 +12,7 @@
  * /
  */
 
-namespace Dckap\ShippingAdditionalFields\Setup;
+namespace DCKAP\ShippingAdditionalFields\Setup;
 
 use Magento\Framework\Setup\UpgradeSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;

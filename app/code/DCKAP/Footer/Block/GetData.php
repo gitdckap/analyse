@@ -1,5 +1,5 @@
 <?php
-namespace Dckap\Footer\Block;
+namespace DCKAP\Footer\Block;
 
 class GetData extends \Magento\Framework\View\Element\Template
 {

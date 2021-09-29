@@ -10,6 +10,6 @@ use Magento\Framework\Component\ComponentRegistrar;
 
 ComponentRegistrar::register(
     ComponentRegistrar::MODULE,
-    'Dckap_Theme',
+    'DCKAP_Theme',
     __DIR__
 );

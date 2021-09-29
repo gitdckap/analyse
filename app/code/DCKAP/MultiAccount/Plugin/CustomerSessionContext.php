@@ -1,5 +1,5 @@
 <?php
-namespace Dckap\MultiAccount\Plugin;
+namespace DCKAP\MultiAccount\Plugin;
 
 class CustomerSessionContext
 {

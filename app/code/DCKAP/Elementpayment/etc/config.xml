@@ -13,7 +13,7 @@
                 <order_status>pending</order_status>
                 <instructions>Instruction.</instructions>
                 <payment_action>true</payment_action>
-                <model>Dckap\Elementpayment\Model\Elementpayment</model>
+                <model>DCKAP\Elementpayment\Model\Elementpayment</model>
                 <group>offline</group>
             </elementpayment>
         </payment>

@@ -1,10 +1,10 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Order;
+namespace DCKAP\QuickRFQ\Controller\Order;
 
 /**
  * Class View
- * @package Dckap\QuickRFQ\Controller\Order
+ * @package DCKAP\QuickRFQ\Controller\Order
  */
 class View extends \Magento\Framework\App\Action\Action
 {

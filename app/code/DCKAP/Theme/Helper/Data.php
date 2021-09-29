@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Theme\Helper;
+namespace DCKAP\Theme\Helper;
 
 use Magento\Framework\App\Helper\Context;
 use \Magento\Framework\App\Helper\AbstractHelper;

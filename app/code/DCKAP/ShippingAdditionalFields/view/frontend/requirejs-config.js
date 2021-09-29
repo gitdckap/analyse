@@ -1,19 +1,19 @@
 var config = {
     "map": {
         "*": {
-            "Magento_Checkout/js/model/shipping-save-processor/default" : "Dckap_ShippingAdditionalFields/js/shipping-save-processor"
+            "Magento_Checkout/js/model/shipping-save-processor/default" : "DCKAP_ShippingAdditionalFields/js/shipping-save-processor"
         }
     },
     config: {
         mixins: {
             'Magento_Checkout/js/view/shipping': {
-                'Dckap_ShippingAdditionalFields/js/view/shipping': true
+                'DCKAP_ShippingAdditionalFields/js/view/shipping': true
             },
             'Magento_Checkout/js/view/shipping-information': {
-                'Dckap_ShippingAdditionalFields/js/view/shipping-information': true
+                'DCKAP_ShippingAdditionalFields/js/view/shipping-information': true
             },
             'Magento_Checkout/js/model/checkout-data-resolver': {
-                'Dckap_ShippingAdditionalFields/js/model/checkout-data-resolver': true
+                'DCKAP_ShippingAdditionalFields/js/model/checkout-data-resolver': true
             }
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Checkout\Controller\Index;
+namespace DCKAP\Checkout\Controller\Index;
 
 class Transportkey extends \Magento\Framework\App\Action\Action
 {
@@ -16,7 +16,7 @@ class Transportkey extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-        \Dckap\Checkout\Gateway\PaymentConfig $paymentConfig,
+        \DCKAP\Checkout\Gateway\PaymentConfig $paymentConfig,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Quote\Model\QuoteFactory $quote,
         \Magento\Store\Model\StoreManagerInterface $storeManager

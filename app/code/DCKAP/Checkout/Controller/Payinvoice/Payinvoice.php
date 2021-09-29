@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Checkout\Controller\Payinvoice;
+namespace DCKAP\Checkout\Controller\Payinvoice;
 
 class Payinvoice extends \Magento\Framework\App\Action\Action
 {
@@ -16,9 +16,9 @@ class Payinvoice extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Dckap\Checkout\Helper\Data $dckapCheckoutHelper,
+        \DCKAP\Checkout\Helper\Data $dckapCheckoutHelper,
         \Cloras\DDI\Helper\Data $clorasDDIHelper,
-        \Dckap\Checkout\Gateway\PaymentConfig $paymentConfig,
+        \DCKAP\Checkout\Gateway\PaymentConfig $paymentConfig,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {

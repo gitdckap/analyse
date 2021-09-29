@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Checkout\Model\Tax\Total\Quote;
+namespace DCKAP\Checkout\Model\Tax\Total\Quote;
 
 use Magento\Customer\Api\Data\AddressInterfaceFactory as CustomerAddressFactory;
 use Magento\Customer\Api\Data\RegionInterfaceFactory as CustomerAddressRegionFactory;

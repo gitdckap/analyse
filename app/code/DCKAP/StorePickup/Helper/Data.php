@@ -1,5 +1,5 @@
 <?php
-namespace Dckap\StorePickup\Helper;
+namespace DCKAP\StorePickup\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
@@ -8,7 +8,7 @@ use Magento\Store\Model\ScopeInterface;
 
 /**
  * category   Dckap
- * package    Dckap_StorePickup
+ * package    DCKAP_StorePickup
  */
 class Data extends AbstractHelper
 {
@@ -69,7 +69,7 @@ class Data extends AbstractHelper
      */
     public function getExtensionVersion()
     {
-        $moduleCode = 'Dckap_StorePickup';
+        $moduleCode = 'DCKAP_StorePickup';
         $moduleInfo = $this->_moduleList->getOne($moduleCode);
         return $moduleInfo['setup_version'];
     }

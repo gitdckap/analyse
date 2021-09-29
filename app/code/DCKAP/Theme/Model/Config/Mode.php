@@ -1,5 +1,5 @@
 <?php
-namespace Dckap\Theme\Model\Config;
+namespace DCKAP\Theme\Model\Config;
 
 class Mode implements \Magento\Framework\Option\ArrayInterface
 {

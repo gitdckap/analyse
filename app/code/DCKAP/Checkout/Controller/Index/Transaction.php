@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Checkout\Controller\Index;
+namespace DCKAP\Checkout\Controller\Index;
 
 class Transaction extends \Magento\Framework\App\Action\Action
 {
@@ -16,7 +16,7 @@ class Transaction extends \Magento\Framework\App\Action\Action
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Checkout\Model\SessionFactory $_checkoutSession,
-        \Dckap\Checkout\Gateway\PaymentConfig $paymentConfig,
+        \DCKAP\Checkout\Gateway\PaymentConfig $paymentConfig,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor
     ) {
         parent::__construct($context);

@@ -2,6 +2,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Dckap_QuickRFQ',
+    'DCKAP_QuickRFQ',
     __DIR__
 );

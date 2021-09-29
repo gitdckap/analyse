@@ -8,7 +8,7 @@
         <referenceBlock name="store.menu" remove="true" />
         <referenceBlock name="copyright" remove="true" />
         <referenceContainer name="content">
-            <block class="Dckap\QuickRFQ\Block\Invoice\View" name="erp_invoice_printview" template="Dckap_QuickRFQ::invoice/printview.phtml" >
+            <block class="DCKAP\QuickRFQ\Block\Invoice\View" name="erp_invoice_printview" template="DCKAP_QuickRFQ::invoice/printview.phtml" >
             </block>
         </referenceContainer>
     </body>

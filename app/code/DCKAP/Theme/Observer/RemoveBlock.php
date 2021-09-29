@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Theme\Observer;
+namespace DCKAP\Theme\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;

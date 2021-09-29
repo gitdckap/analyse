@@ -14,10 +14,10 @@
                                             here hook the template for extra data
                                         -->
                                         <item name="extra" xsi:type="array">
-                                            <item name="component" xsi:type="string">Dckap_QuickRFQ/js/quote</item>
+                                            <item name="component" xsi:type="string">DCKAP_QuickRFQ/js/quote</item>
                                             <!--<item name="component" xsi:type="string">uiComponent</item>-->
                                             <item name="config" xsi:type="array">
-                                                <item name="template" xsi:type="string">Dckap_QuickRFQ/checkout/minicart/quote</item>
+                                                <item name="template" xsi:type="string">DCKAP_QuickRFQ/checkout/minicart/quote</item>
                                             </item>
                                         </item>
                                     </item>

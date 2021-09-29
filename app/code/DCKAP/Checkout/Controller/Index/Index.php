@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Checkout\Controller\Index;
+namespace DCKAP\Checkout\Controller\Index;
 
 class Index extends \Magento\Framework\App\Action\Action
 {

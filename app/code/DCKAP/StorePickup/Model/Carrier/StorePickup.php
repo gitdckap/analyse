@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\StorePickup\Model\Carrier;
+namespace DCKAP\StorePickup\Model\Carrier;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
 
 /**
  * category   Dckap
- * package    Dckap_StorePickup
+ * package    DCKAP_StorePickup
  */
 class StorePickup extends AbstractCarrier implements CarrierInterface
 {

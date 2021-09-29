@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Dckap\ShippingAdditionalFields\Helper;
+namespace DCKAP\ShippingAdditionalFields\Helper;
 
 use FME\GoogleMapsStoreLocator\Model\StorelocatorFactory;
 use Magento\Store\Model\StoreManagerInterface;

@@ -3,7 +3,7 @@
  * @author Eric COURTIAL <e.courtial30@gmail.com>
  * Date: 02/11/2017
  */
-namespace Dckap\AccountCreation\Model;
+namespace DCKAP\AccountCreation\Model;
 
 use Magento\Framework\Option\ArrayInterface;
 use Magento\Email\Model\ResourceModel\Template\CollectionFactory;

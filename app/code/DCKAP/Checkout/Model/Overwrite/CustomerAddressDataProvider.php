@@ -1,10 +1,10 @@
 <?php
 
-namespace Dckap\Checkout\Model\Overwrite;
+namespace DCKAP\Checkout\Model\Overwrite;
 
 /**
  * Class CustomerAddressDataProvider
- * package Dckap\Checkout\Model\Overwrite
+ * package DCKAP\Checkout\Model\Overwrite
  */
 class CustomerAddressDataProvider
 {

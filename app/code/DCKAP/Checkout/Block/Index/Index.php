@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Dckap\Checkout\Block\Index;
+namespace DCKAP\Checkout\Block\Index;
 
 /**
  * Sales order history block

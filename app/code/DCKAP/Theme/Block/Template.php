@@ -1,5 +1,5 @@
 <?php
-namespace Dckap\Theme\Block;
+namespace DCKAP\Theme\Block;
 
 class Template extends \Magento\Framework\View\Element\Template
 {

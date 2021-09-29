@@ -1,5 +1,5 @@
 <?php
-namespace Dckap\QuickRFQ\Block\Quote;
+namespace DCKAP\QuickRFQ\Block\Quote;
 
 class Success extends \Magento\Framework\View\Element\Template
 {

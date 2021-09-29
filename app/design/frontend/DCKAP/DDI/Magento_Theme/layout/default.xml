@@ -10,7 +10,7 @@
         <referenceBlock name="register-link" remove="true" />
     </body>
     <referenceBlock name="head.additional">
-        <block class="Dckap\Theme\Block\Template" name="custom-head-components" template="Magento_Theme::html/head.phtml"/>
+        <block class="DCKAP\Theme\Block\Template" name="custom-head-components" template="Magento_Theme::html/head.phtml"/>
     </referenceBlock>
     <referenceContainer name="before.body.end">
         <block class="DCKAP\Catalog\Block\Price" name="custom_before_body_end" template="Magento_Theme::html/before-body-end.phtml" />
@@ -25,7 +25,7 @@
             </block>
      </referenceContainer>-->
     <referenceContainer name="footer">
-        <block name="custom.footer" template="Dckap_Theme::dckap/footer.phtml" />
+        <block name="custom.footer" template="DCKAP_Theme::dckap/footer.phtml" />
     </referenceContainer>
      <referenceBlock name="form.subscribe" remove="true" />
 </page>

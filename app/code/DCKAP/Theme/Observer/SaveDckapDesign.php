@@ -3,7 +3,7 @@
  * Copyright © 2015 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Dckap\Theme\Observer;
+namespace DCKAP\Theme\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 
@@ -19,7 +19,7 @@ class SaveDckapDesign implements ObserverInterface
      * @param \Magento\Framework\App\ResponseInterface $response
      */
     public function __construct(
-        \Dckap\Theme\Model\Cssconfig\Generator $cssenerator,
+        \DCKAP\Theme\Model\Cssconfig\Generator $cssenerator,
         \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
         $this->_cssGenerator = $cssenerator;

@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Dckap\QuickRFQ\Block\Customer;
+namespace DCKAP\QuickRFQ\Block\Customer;
 
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 use \Magento\Framework\App\ObjectManager;
@@ -21,7 +21,7 @@ class Index extends \Magento\Framework\View\Element\Template
     /**
      * @var string
      */
-    protected $_template = 'Dckap_QuickRFQ::orderpad.phtml';
+    protected $_template = 'DCKAP_QuickRFQ::orderpad.phtml';
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -33,7 +33,7 @@ class Index extends \Magento\Framework\View\Element\Template
      */
     protected $productRepository;
     /**
-     * @var \Dckap\Theme\Helper\Data
+     * @var \DCKAP\Theme\Helper\Data
      */
     protected $themeHelper;
     /**
@@ -61,7 +61,7 @@ class Index extends \Magento\Framework\View\Element\Template
      */
     protected $imageHelperFactory;
     /**
-     * @var \Dckap\QuickRFQ\Helper\Data
+     * @var \DCKAP\QuickRFQ\Helper\Data
      */
     protected $quickrfqHelper;
 
@@ -76,14 +76,14 @@ class Index extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-        \Dckap\Theme\Helper\Data $themeHelper,
+        \DCKAP\Theme\Helper\Data $themeHelper,
         \Cloras\Base\Helper\Data $clorasHelper,
         \Cloras\DDI\Helper\Data $clorasDDIHelper,
         \DCKAP\Extension\Model\Shipto $shiptoModel,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Helper\ImageFactory $imageHelperFactory,
-        \Dckap\QuickRFQ\Helper\Data $quickrfqHelper,
+        \DCKAP\QuickRFQ\Helper\Data $quickrfqHelper,
         array $data = []
     ) {
         $this->_customerSession = $customerSession;

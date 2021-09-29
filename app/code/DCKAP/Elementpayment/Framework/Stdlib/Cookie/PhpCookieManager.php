@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Elementpayment\Framework\Stdlib\Cookie;
+namespace DCKAP\Elementpayment\Framework\Stdlib\Cookie;
 
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\InputException;

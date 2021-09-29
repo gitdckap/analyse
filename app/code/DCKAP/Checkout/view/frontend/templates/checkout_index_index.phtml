@@ -1,6 +1,6 @@
 <?php
 $params = $this->getRequest()->getParams();
-$invoiceData = $this->helper('Dckap\Checkout\Helper\Data')->getInvoices($params);
+$invoiceData = $this->helper('DCKAP\Checkout\Helper\Data')->getInvoices($params);
 $paymentMethod = $this->helper('DCKAP\Extension\Helper\Data')->getPayInvoicePayment();
 $cctypecheck = $this->helper('DCKAP\Extension\Helper\Data')->getpayflowproAllowCreditCards();
 $cctypecheck = preg_split("/\,/", $cctypecheck);

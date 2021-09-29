@@ -4,7 +4,7 @@
     <body>
         <referenceBlock name="page.main.title" remove="true" />
         <referenceContainer name="content">
-            <block class="Dckap\QuickRFQ\Block\Order\View" name="erp_order_view" template="Dckap_QuickRFQ::order/view.phtml">
+            <block class="DCKAP\QuickRFQ\Block\Order\View" name="erp_order_view" template="DCKAP_QuickRFQ::order/view.phtml">
             </block>
         </referenceContainer>
     </body>

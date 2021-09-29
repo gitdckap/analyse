@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Quote;
+namespace DCKAP\QuickRFQ\Controller\Quote;
 
 class Submit extends \Magento\Framework\App\Action\Action
 {
@@ -29,7 +29,7 @@ class Submit extends \Magento\Framework\App\Action\Action
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Controller\Result\JsonFactory $jsonFactory,
-        \Dckap\QuickRFQ\Helper\Data $quickrfqHelper,
+        \DCKAP\QuickRFQ\Helper\Data $quickrfqHelper,
         \Magento\Customer\Model\Session $customerSession
     ) {
         $this->resultPageFactory = $resultPageFactory;

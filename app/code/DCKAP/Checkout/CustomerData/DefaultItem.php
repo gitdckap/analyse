@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Dckap\Checkout\CustomerData;
+namespace DCKAP\Checkout\CustomerData;
 
 use Magento\Catalog\Model\Product\Configuration\Item\ItemResolverInterface;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\ShippingAdditionalFields\Plugin\Quote;
+namespace DCKAP\ShippingAdditionalFields\Plugin\Quote;
 
 use Magento\Framework\Json\Helper\Data as JsonHelper;
 use Magento\Quote\Model\QuoteRepository;
@@ -8,7 +8,7 @@ use Magento\Quote\Model\QuoteRepository;
 /**
  * Class ContactInfoQuoteSave
  *
- * @package Dckap\ShippingAdditionalFields\Plugin\Quote
+ * @package DCKAP\ShippingAdditionalFields\Plugin\Quote
  */
 class ContactInfoQuoteSave
 {

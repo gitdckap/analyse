@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\AccountCreation\Setup;
+namespace DCKAP\AccountCreation\Setup;
 
 use Magento\Eav\Setup\EavSetup;
 use Magento\Eav\Setup\EavSetupFactory;
@@ -67,7 +67,7 @@ class InstallData implements InstallDataInterface
                 'type' => 'int',
                 'label' => 'Account is Active',
                 'input' => 'select',
-                "source" => "Dckap\AccountCreation\Model\Config\Source\CustomerYesNoOptions::class",
+                "source" => "DCKAP\AccountCreation\Model\Config\Source\CustomerYesNoOptions::class",
                 'required' => false,
                 'default' => '0',
                 'visible' => true,
@@ -99,7 +99,7 @@ class InstallData implements InstallDataInterface
                 'type' => 'int',
                 'label' => 'Is B2B',
                 'input' => 'select',
-                "source" => "Dckap\AccountCreation\Model\Config\Source\CustomerYesNoOptions::class",
+                "source" => "DCKAP\AccountCreation\Model\Config\Source\CustomerYesNoOptions::class",
                 'required' => false,
                 'default' => '0',
                 'visible' => true,

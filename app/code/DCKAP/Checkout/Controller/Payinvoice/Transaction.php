@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Checkout\Controller\Payinvoice;
+namespace DCKAP\Checkout\Controller\Payinvoice;
 
 class Transaction extends \Magento\Framework\App\Action\Action
 {

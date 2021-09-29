@@ -6,7 +6,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="payment_method_assign_data_elementpayment">
-        <observer name="elementpayment_gateway_data_assign" instance="Dckap\Elementpayment\Observer\DataAssignObserver" />
+        <observer name="elementpayment_gateway_data_assign" instance="DCKAP\Elementpayment\Observer\DataAssignObserver" />
     </event>
 </config>
 

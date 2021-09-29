@@ -10,7 +10,7 @@ $dataPostParam = '';
 if ($block->isLoggedIn()) {
     $dataPostParam = sprintf(" data-post='%s'", $block->getPostParams());
 }
-$getData = $this->helper('Dckap\MultiAccount\Helper\Data');
+$getData = $this->helper('DCKAP\MultiAccount\Helper\Data');
 ?>
 <li class="authorization-link">
     <?php if($block->getLabel()=="Sign In"){?>

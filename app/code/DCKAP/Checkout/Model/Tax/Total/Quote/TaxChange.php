@@ -1,5 +1,5 @@
 <?php
-namespace Dckap\Checkout\Model\Tax\Total\Quote;
+namespace DCKAP\Checkout\Model\Tax\Total\Quote;
 
 use Magento\Checkout\Model\SessionFactory as CheckoutSession;
 

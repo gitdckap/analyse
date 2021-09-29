@@ -1,5 +1,5 @@
 <?php
-namespace Dckap\Checkout\Model\Overwrite;
+namespace DCKAP\Checkout\Model\Overwrite;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Checkout\Model\Session;

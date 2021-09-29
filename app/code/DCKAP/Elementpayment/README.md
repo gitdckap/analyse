@@ -1,6 +1,6 @@
 #Contents
 ##Synopsis
-Dckap\Elementpayment module is responsible for Payment using Credit card via Element Payment Gateway
+DCKAP\Elementpayment module is responsible for Payment using Credit card via Element Payment Gateway
 
 ##Overview
 Guest and registered customers without credit line have the option to pay through Credit/Debit cards. Since Magento itself is not the PCI Compliant an Iframe of Vantiv payment gateway is embedded in the payment process.

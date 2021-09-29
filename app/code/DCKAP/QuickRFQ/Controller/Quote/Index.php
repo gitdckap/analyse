@@ -1,10 +1,10 @@
 <?php
 
-namespace Dckap\QuickRFQ\Controller\Quote;
+namespace DCKAP\QuickRFQ\Controller\Quote;
 
 /**
  * Class Index
- * @package Dckap\QuickRFQ\Controller\Quote
+ * @package DCKAP\QuickRFQ\Controller\Quote
  */
 class Index extends \Magento\Framework\App\Action\Action
 {

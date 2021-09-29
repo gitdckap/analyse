@@ -9,10 +9,10 @@
     <update handle="checkout_cart_item_renderers"/>
     <body>
         <referenceContainer name="checkout.cart.methods">
-            <block class="Dckap\QuickRFQ\Block\Index\Quote" name="request_for_quote_button" template="Dckap_QuickRFQ::quote.phtml" before="checkout.cart.methods.onepage.bottom" />
+            <block class="DCKAP\QuickRFQ\Block\Index\Quote" name="request_for_quote_button" template="DCKAP_QuickRFQ::quote.phtml" before="checkout.cart.methods.onepage.bottom" />
         </referenceContainer>
          <referenceContainer name="content">
-            <block class="Magento\Framework\View\Element\Template" after="-" name="custom.trigger" template="Dckap_QuickRFQ::customtrigger.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" after="-" name="custom.trigger" template="DCKAP_QuickRFQ::customtrigger.phtml"/>
         </referenceContainer>
         <referenceBlock name="checkout.cart.coupon" remove="true"/>
     </body>

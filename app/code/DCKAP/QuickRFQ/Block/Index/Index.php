@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\QuickRFQ\Block\Index;
+namespace DCKAP\QuickRFQ\Block\Index;
 
 
 class Index extends \Magento\Framework\View\Element\Template {

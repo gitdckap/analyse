@@ -1,7 +1,7 @@
 <?php
     $_product = $block->getProduct();
     $customHelper = $this->helper('DCKAP\Catalog\Helper\View');
-    $themeHelper = $this->helper('Dckap\Theme\Helper\Data');
+    $themeHelper = $this->helper('DCKAP\Theme\Helper\Data');
     $groups = $customHelper->getAttributeGroups($_product->getAttributeSetId());
     $_helperoption = $this->helper('DCKAP\Extension\Helper\Data');
     $detailTabTitle = $_helperoption->getDetailTabTitle();

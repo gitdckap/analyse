@@ -1,6 +1,6 @@
 <?php
 
-namespace Dckap\Theme\Block;
+namespace DCKAP\Theme\Block;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\DefaultPathInterface;

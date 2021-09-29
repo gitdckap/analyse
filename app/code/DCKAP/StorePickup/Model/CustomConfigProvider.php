@@ -1,11 +1,11 @@
 <?php
-namespace Dckap\StorePickup\Model;
+namespace DCKAP\StorePickup\Model;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 
 /**
  * Class CustomConfigProvider
- * package Dckap\StorePickup\Model
+ * package DCKAP\StorePickup\Model
  */
 class CustomConfigProvider implements ConfigProviderInterface
 {

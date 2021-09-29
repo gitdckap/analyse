@@ -2,11 +2,11 @@
 /**
  * Copyright © DCKAP Inc. All rights reserved.
  */
-namespace Dckap\Checkout\Controller\Ajax;
+namespace DCKAP\Checkout\Controller\Ajax;
 
 /**
  * Class Index
- * @package Dckap\Checkout\Controller\Ajax
+ * @package DCKAP\Checkout\Controller\Ajax
  */
 class Index extends \Magento\Framework\App\Action\Action
 {
@@ -118,7 +118,7 @@ class Index extends \Magento\Framework\App\Action\Action
              * 2.In total calculation this taxAmount will be added in total
              * 3.After added to total particular session data cleared
              *
-             * To refer -> app/code/Dckap/Checkout/Model/Total/Taxfee.php
+             * To refer -> app/code/DCKAP/Checkout/Model/Total/Taxfee.php
              */
             if ($checkoutReview['data']['isValid'] == 'yes') {
                 if (isset($checkoutReview['data']['orderDetails']['taxTotal'])) {

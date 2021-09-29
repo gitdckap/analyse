@@ -1,6 +1,6 @@
 define(
     [
-        'Dckap_ShippingAdditionalFields/js/warehouse/service/resource-url-manager',
+        'DCKAP_ShippingAdditionalFields/js/warehouse/service/resource-url-manager',
         'Magento_Checkout/js/model/quote',
         'Magento_Customer/js/model/customer',
         'mage/storage',

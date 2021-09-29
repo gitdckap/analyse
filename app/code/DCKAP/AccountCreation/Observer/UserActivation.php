@@ -4,7 +4,7 @@
  * Date: 01/08/2017
  * Time: 11:28
  */
-namespace Dckap\AccountCreation\Observer;
+namespace DCKAP\AccountCreation\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer as EventObserver;
@@ -12,9 +12,9 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Message\ManagerInterface;
-use Dckap\AccountCreation\Setup\InstallData;
+use DCKAP\AccountCreation\Setup\InstallData;
 use Psr\Log\LoggerInterface;
-use Dckap\AccountCreation\Model\AdminNotification;
+use DCKAP\AccountCreation\Model\AdminNotification;
 use Magento\Customer\Model\Session;
 use Magento\Customer\Api\AccountManagementInterface;
 
@@ -41,7 +41,7 @@ class UserActivation implements ObserverInterface
     protected $messageManager;
 
     /**
-     * @var \Dckap\AccountCreationModel\AdminNotification
+     * @var \DCKAP\AccountCreationModel\AdminNotification
      */
     protected $adminNotification;
 
@@ -66,7 +66,7 @@ class UserActivation implements ObserverInterface
      * @param \Magento\Customer\Api\CustomerRepositoryInterface  $customerRepository
      * @param \Magento\Framework\Message\ManagerInterface        $messageManager
      * @param \Psr\Log\LoggerInterface                           $logger
-     * @param \Dckap\AccountCreation\Model\AdminNotification     $adminNotification
+     * @param \DCKAP\AccountCreation\Model\AdminNotification     $adminNotification
      * @param \Magento\Customer\Model\Session                    $customerSession
      * @param AccountManagementInterface                         $accountManagement
      */

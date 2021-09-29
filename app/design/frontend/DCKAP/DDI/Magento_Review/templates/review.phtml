@@ -7,7 +7,7 @@
 /** @var \Magento\Review\Block\Product\Review $block */
 ?>
 <?php $dckapHelper = $this->helper('DCKAP\Extension\Helper\Data');
-$themeHelper = $this->helper('Dckap\Theme\Helper\Data');
+$themeHelper = $this->helper('DCKAP\Theme\Helper\Data');
 $displayReview = $dckapHelper->getDisplayReviews(); 
 $checkMode = $themeHelper->getWebsiteMode();?>
 <?php if (($displayReview&& $checkMode=="b2b")|| $checkMode=="b2c"){ ?>

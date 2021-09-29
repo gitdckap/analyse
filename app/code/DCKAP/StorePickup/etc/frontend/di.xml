@@ -3,7 +3,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="checkout_custom_shipping_block" xsi:type="object">Dckap\StorePickup\Model\CustomConfigProvider</item>
+                <item name="checkout_custom_shipping_block" xsi:type="object">DCKAP\StorePickup\Model\CustomConfigProvider</item>
             </argument>
         </arguments>
     </type>
