@@ -136,11 +136,11 @@ $strDefaultEndDate = date('Y-m-d');
                                     ?>
                                 <div class="alert-modal-content-<?=$block->escapeHtml($_order->getExistingOrderId())?>">
                                     <?php if(is_array($arrOrderDetails)) { ?>
-                                    <p><b>First Name:</b> <?= $arrOrderDetails['firstName'];?></p>
-                                    <p><b>Last Name:</b> <?= $arrOrderDetails['lastName'];?></p>
-                                    <p><b>Email Id:</b> <?= $arrOrderDetails['email'];?></p>
-                                    <p><b>Company:</b> <?= $arrOrderDetails['billCompanyName'];?></p>
-                                     <p><b>Account Number:</b> <?= $arrOrderDetails['accountNumber'];?></p>
+                                    <p><strong>First Name:</strong> <?= $arrOrderDetails['firstName'];?></p>
+                                    <p><strong>Last Name:</strong> <?= $arrOrderDetails['lastName'];?></p>
+                                    <p><strong>Email Id:</strongb> <?= $arrOrderDetails['email'];?></p>
+                                    <p><strong>Company:</strong> <?= $arrOrderDetails['billCompanyName'];?></p>
+                                     <p><strong>Account Number:</strong> <?= $arrOrderDetails['accountNumber'];?></p>
                                     <?php } ?>
                                 </div>
                             <?php } ?>

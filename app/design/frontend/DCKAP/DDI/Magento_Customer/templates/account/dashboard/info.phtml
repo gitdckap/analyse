@@ -15,7 +15,7 @@
         <div class="block-title"><strong><?= $block->escapeHtml(__('Company Information')) ?></strong></div>
         <div class="block-content">
             <div class="box box-company">
-                <p><b><?=$getData->getMultiAccountData('billCompanyName');?></b></p>
+                <p><strong><?=$getData->getMultiAccountData('billCompanyName');?></strong></p>
                 <p><?=$getData->getMultiAccountData('firstName').' '.$getData->getMultiAccountData('lastName');?></p>
                 <p><?=$getData->getMultiAccountData('email');?></p>
                 <p><?=$getData->getMultiAccountData('billAddress1');?></p>

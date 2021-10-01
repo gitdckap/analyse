@@ -16,7 +16,7 @@ if ($paymentMethod != '' && ($paymentMethod == 'authorizenet_acceptjs' || $payme
 
 
     <form class="form" id="co-payment-form" method="post" action="<?php echo $authUrl; ?>" enctype="multipart/form-data">
-        <span class="total-amount" style="display: block; margin-bottom: 15px; border-bottom: 1px solid;">Total Amount: <b><?php echo $priceHelper->currency($invoiceData['total'], true, false); ?></b></span>
+        <span class="total-amount" style="display: block; margin-bottom: 15px; border-bottom: 1px solid;">Total Amount: <strong><?php echo $priceHelper->currency($invoiceData['total'], true, false); ?></strong></span>
         <fieldset class="fieldset payment items ccard authorizenet_acceptjs" id="payment_form_authorizenet_acceptjs">
             <div class="field type">
                 <div class="control">
@@ -350,7 +350,7 @@ if ($paymentMethod != '' && ($paymentMethod == 'authorizenet_acceptjs' || $payme
 </style>
 
     <form class="form" id="co-payment-form" method="post" action="<?php echo $authUrl; ?>" enctype="multipart/form-data">
-        <span class="total-amount" style="display: block; margin-bottom: 15px; border-bottom: 1px solid;">Total Amount: <b><?php echo $priceHelper->currency($invoiceData['total'], true, false); ?></b></span>
+        <span class="total-amount" style="display: block; margin-bottom: 15px; border-bottom: 1px solid;">Total Amount: <strong><?php echo $priceHelper->currency($invoiceData['total'], true, false); ?></strong></span>
         <fieldset class="fieldset payment items ccard payflow_acceptjs" id="payment_form_payflow_acceptjs">
             <div class="field type">
                 <div class="control">

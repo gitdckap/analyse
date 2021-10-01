@@ -41,7 +41,7 @@
 .product_list_table .bundle.item-options dt { float: none; }
 .product_list_table .item-options dt:after{ content: ': '; }
 .product_list_table .remove-btn .delete-ico span { border: 0; clip: rect(0, 0, 0, 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
-.product_list_table .remove-btn .delete-ico:before { content: '\e604'; -webkit-font-smoothing: antialiased; font-size: 18px; line-height: 20px; color: #8f8f8f; font-family: 'luma-icons'; vertical-align: middle; display: inline-block; font-weight: normal; overflow: hidden; speak: none; text-align: center; }
+.product_list_table .remove-btn .delete-ico:before { content: '\e604'; -webkit-font-smoothing: antialiased; font-size: 18px; line-height: 20px; color: #8f8f8f; font-family: 'luma-icons', Serif; vertical-align: middle; display: inline-block; font-weight: normal; overflow: hidden; speak: none; text-align: center; }
 .product_list_table .remove-btn .delete-ico:hover:before { color: #333; }
 
 @media only screen and (max-width: 767px){

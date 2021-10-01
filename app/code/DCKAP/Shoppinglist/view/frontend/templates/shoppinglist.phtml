@@ -93,7 +93,7 @@
                     } ?>
               <tr>
                 <td data-th="<?php echo __('Image');?>" class="col image">
-                  <img src="<?php echo $block->getProductImage($prodctInfo);?>" />
+                  <img src="<?php echo $block->getProductImage($prodctInfo);?>" alt="shoppingimage" />
                 </td>
 
                 <td data-th="<?php echo __('Name');?>" class="col name">
@@ -223,7 +223,7 @@
         <div class="control search_field_div" id='newitem'>
           <input name='product_name' value='' id='product_name'  type='text' class='input-text' title=''/>
           <input type='hidden' name='product_id' id='product_id' />
-          <img src="<?php echo $block->getViewFileUrl('DCKAP_Shoppinglist::images/ring.gif');?>" class="item_loader" />
+          <img src="<?php echo $block->getViewFileUrl('DCKAP_Shoppinglist::images/ring.gif');?>" class="item_loader" alt="shopping ring" />
         </div>
       </div>
 

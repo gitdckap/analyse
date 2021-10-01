@@ -77,7 +77,7 @@ if ($invoice && !empty($invoice) && $invoice['isValid'] == 'yes'): ?>
                             <td class="col name" data-th="Product Name">
                                 <strong class="product name product-item-name"><?php echo $item['description']; ?></strong>
                                 <?php if (isset($item['serialNumbers']) && $item['serialNumbers'] != '') { ?>
-                                    <span>Serial Numbers: <b><?php echo $item['serialNumbers']; ?></b></span>
+                                    <span>Serial Numbers: <strong><?php echo $item['serialNumbers']; ?></strong></span>
                                 <?php } ?>
                             </td>
                             <td class="col sku" data-th="SKU"><?php echo $item['stockNum']; ?></td>

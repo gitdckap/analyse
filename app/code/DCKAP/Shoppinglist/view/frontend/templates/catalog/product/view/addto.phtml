@@ -33,7 +33,7 @@ if($_shoppinglistHelper->isShowShoppinglistAddOption()):
 			}
 		?>
         <div class="customhover" >
-        <span class="customicon" style="display: none;"><i class="far fa-list-alt"></i></span>
+        <span class="customicon" style="display: none;"><em class="far fa-list-alt"></em></span>
         <a href="#" class="action toshoppinglist"  data-post="<?php echo $action;?>" style="display: none;"><span><?php /* @escapeNotVerified */ echo __('Add to List') ?></span></a>
         </div>
 		<?php
@@ -76,7 +76,7 @@ if($_shoppinglistHelper->isShowShoppinglistAddOption()):
                                     <label class="label" for="shopping_list_existing_name"><span id="add_to_list"><?php /* @escapeNotVerified */ echo __('Add To list:');?></span></label>
                                     <div class="control">
                                         <div id='loadingimage' style='display:none'>
-                                            <img src='<?php echo $block->getViewFileUrl('DCKAP_Shoppinglist::images/ring.gif'); ?>'/>
+                                            <img src='<?php echo $block->getViewFileUrl('DCKAP_Shoppinglist::images/ring.gif'); ?>' alt="loadingimage"/>
                                         </div>
                                          <select name="shopping_list_id" id="shopping_list_id" data-validate="{required:true}" style='display:none' multiple="multiple" >
                                         </select>

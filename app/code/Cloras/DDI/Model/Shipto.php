@@ -146,7 +146,7 @@ class Shipto implements ShiptoInterface
                     $this->addressRepository->deleteById($address->getId());
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response['error']['message'][] = $e->getMessage();
         }
         return $response;
