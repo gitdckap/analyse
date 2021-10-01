@@ -16,13 +16,13 @@ class Items implements ItemsInterface
 
     private $updatedCustomerCount = 0;
 
-    public function __construct()
+    public function __construct($totalCustomers, $newCustomerCount, $updatedCustomerCount)
     {
         $this->newCustomers     = [];
         $this->updatedCustomers = [];
-        $this->totalCustomers = $this->totalCustomers;
-        $this->newCustomerCount = $this->newCustomerCount;
-        $this->updatedCustomerCount = $this->updatedCustomerCount;
+        $this->totalCustomers = $totalCustomers;
+        $this->newCustomerCount = $newCustomerCount;
+        $this->updatedCustomerCount = $updatedCustomerCount;
     }//end __construct()
 
     /**
@@ -65,7 +65,6 @@ class Items implements ItemsInterface
         return $this;
     }//end addUpdatedCustomer()
 
-
     public function getTotalCustomers()
     {
         return $this->totalCustomers;
@@ -75,8 +74,6 @@ class Items implements ItemsInterface
     {
         $this->totalCustomers = $customerCount;
     }
-
-
     public function getNewCustomerCount()
     {
         return $this->newCustomerCount;

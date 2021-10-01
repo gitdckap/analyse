@@ -73,7 +73,7 @@ class WhitelistEntry extends \Magento\Framework\Model\AbstractModel implements
      */
     public function getEditable()
     {
-        return !!$this->getData(static::KEY_EDITABLE);
+        return !$this->getData(static::KEY_EDITABLE);
     }
 
     /**

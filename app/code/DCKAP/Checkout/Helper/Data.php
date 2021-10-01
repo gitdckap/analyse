@@ -81,10 +81,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $startDate = date('m/d/y', strtotime('-20 year'));
         $endDate = date('m/d/y');
-        $filterData = [
-            'startDate' => $startDate,
-            'endDate' => $endDate
-        ];
+        if (!$filterData) {
+            $filterData = [
+                'startDate' => $startDate,
+                'endDate' => $endDate
+            ];
+        }
         list($status, $integrationData) = $this->clorasDDIHelper->isServiceEnabled('invoice_list');
         if ($status) {
             $filterData['openOnly'] = 'Y';

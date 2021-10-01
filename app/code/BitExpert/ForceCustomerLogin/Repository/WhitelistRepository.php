@@ -77,7 +77,7 @@ class WhitelistRepository implements \BitExpert\ForceCustomerLogin\Api\Repositor
 
         // check if existing whitelist entry is editable
         if ($whitelist->getId() &&
-            !$whitelist->getEditable()) {
+            $whitelist->getEditable()) {
             throw new \RuntimeException(
                 'Whitelist entry not editable.'
             );
@@ -104,7 +104,7 @@ class WhitelistRepository implements \BitExpert\ForceCustomerLogin\Api\Repositor
     {
         $whitelist = $this->entityFactory->create()->load($id);
         if (!$whitelist->getId() ||
-            !$whitelist->getEditable()) {
+            $whitelist->getEditable()) {
             return false;
         }
 

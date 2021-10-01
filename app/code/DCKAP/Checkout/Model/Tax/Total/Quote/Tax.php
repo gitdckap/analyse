@@ -79,11 +79,11 @@ class Tax extends \Magento\Tax\Model\Sales\Total\Quote\Tax
         }
         $checkoutData = $this->customerSession->getCheckoutData();
         if ($checkoutData && !empty($checkoutData)) {
-            $quote = $this->checkoutSession->create()->getQuote();
+            $quotes = $this->checkoutSession->create()->getQuote();
             /*To set DDI Tax into Magento Tax*/
             $ddiTaxAmount = 0.00;
-            if (isset($checkoutData[$quote->getId()])) {
-                $ddiTaxAmount = $checkoutData[$quote->getId()];
+            if (isset($checkoutData[$quotes->getId()])) {
+                $ddiTaxAmount = $checkoutData[$quotes->getId()];
             }
             $total->setGrandTotal($total->getGrandTotal() + $ddiTaxAmount);
             $total->setBaseGrandTotal($total->getBaseGrandTotal() + $ddiTaxAmount);

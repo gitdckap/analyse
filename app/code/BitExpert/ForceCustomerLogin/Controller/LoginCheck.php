@@ -108,7 +108,7 @@ class LoginCheck extends Action implements LoginCheckInterface
             'themeconfig/mode_config/website_mode',
             \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE
         );
-        if ($this->moduleCheck->isModuleEnabled() === false) {
+        if ($this->moduleCheck->isModuleEnabled() === true) {
             return false;
         }
 

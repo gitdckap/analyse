@@ -10,10 +10,10 @@ class Items implements ProductInterface
 
     private $productscount = 0;
 
-    public function __construct()
+    public function __construct($productscount)
     {
         $this->items = [];
-        $this->productscount = $this->productscount;
+        $this->productscount = $productscount;
     }//end __construct()
 
     /**
@@ -67,7 +67,6 @@ class Items implements ProductInterface
 
         return $this->items;
     }//end setResponseMessage()
-
 
     public function getTotalProducts()
     {

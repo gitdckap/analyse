@@ -120,89 +120,48 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $token = $this->scopeConfig->getValue('clorasbase/dynamic_pricing/api_token');
 
         $serviceUrl = $baseURL . $apiPath;
-
-        if(!empty($serviceUrl)){
+        $itemData['products'] = [];
+        if (!empty($serviceUrl)) {
             $payloadData = [];
-           
             $payloadData['customer_id'] = $p21CustomerId;
-
-
-            $itemData['products'] = [];
-
-            
-
             $itemData['products'] = $payloadItem;
-
             $payload = array_merge($itemData, $payloadData);
-
             $requestData = json_encode($payload);
-
             $ContentType = 'application/json';
-
-            
-
             $authValue = 'Bearer ' . $token;
-
                         $headers = [
                             'Content-Type'  => $ContentType,
                             'Authorization' => $authValue,
                         ];
-
-
                         $response = $this->clientCurl($method = 'POST', $serviceUrl, $headers, $requestData);
                         if (is_object($response)) {
-                       
+                            if ($response->getStatus() == 200) {
+                                $responseBody = $response->getBody();
 
-                      
-                        if ($response->getStatus() == 200) {
-                        
-                            $responseBody = $response->getBody();
+                                $results = json_decode($response->getBody(), true);
+                                if (array_key_exists('status', $results)) {
+                                    if ($results['status'] == 1) {
+                                        if (array_key_exists('data', $results)) {
+                                            if (!empty($results['data'])) {
+                                                foreach ($results['data'] as $result) {
+                                                    if (array_key_exists('unit_price', $result)) {
 
-                            $results = json_decode($response->getBody(), true);
-
-
-                            if(array_key_exists('status', $results)){
-
-                                if($results['status'] == 1){
-                                    if(array_key_exists('data', $results)){
-                                        if(!empty($results['data'])){
-                                            foreach ($results['data'] as $result) {
-                                                if (array_key_exists('unit_price', $result)) {
-
-                                                    $unitPrice = (($result['unit_price'] != 0) ? $result['unit_price'] : 0);
-                                                    $prices[$result['item_id']]['price'] = $unitPrice; 
+                                                        $unitPrice = (($result['unit_price'] != 0) ? $result['unit_price'] : 0);
+                                                        $prices[$result['item_id']]['price'] = $unitPrice;
+                                                    }
                                                 }
                                             }
                                         }
-                                    }                                
-
+                                    }
                                 }
-                            }                             
+                            }
                         }
-
-
-                       
-
-
-                        }
-
-
-
         }
-
-
         if (!empty($this->customerSession->getClorasCustomPrice())) {
                 //$prices = $this->customerSession->getClorasCustomPrice() + $prices;
         }
-        //$this->customerSession->setClorasCustomPrice($prices);    
-    
-
         return $prices;
-
-    
     }
-
-
 
     public function getProductItems($productIds, $sessionPrices, $qty, $filterBy)
     {

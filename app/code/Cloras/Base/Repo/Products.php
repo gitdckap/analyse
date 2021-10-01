@@ -112,6 +112,7 @@ class Products implements ProductResultsInterface
     public function updateProductsInventory($productInfo)
     {
         $response = [];
+        $products = [];
         try {
             $productInfo = $this->jsonHelper->unserialize($productInfo);
             $storeId     = $this->storeManager->getStore()->getId();

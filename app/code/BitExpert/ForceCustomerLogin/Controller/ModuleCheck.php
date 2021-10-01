@@ -46,7 +46,7 @@ class ModuleCheck
      */
     public function isModuleEnabled()
     {
-        return !!$this->scopeConfig->getValue(
+        return !$this->scopeConfig->getValue(
             self::MODULE_CONFIG_ENABLED,
             ScopeInterface::SCOPE_STORE
         );

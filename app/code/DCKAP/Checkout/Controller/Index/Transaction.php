@@ -80,10 +80,6 @@ class Transaction extends \Magento\Framework\App\Action\Action
                 $clean_xml = str_ireplace(['SOAP-ENV:', 'SOAP:'], '', $response);
                 $xml = simplexml_load_string($clean_xml);
                 $voidResult = (array)$xml->Body->VoidResponse->VoidResult;
-                    
-                if ($voidResult['ApprovalStatus'] = 'APPROVED') {
-                } else {
-                }
             }
         }
 

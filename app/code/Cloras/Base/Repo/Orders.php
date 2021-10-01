@@ -859,7 +859,7 @@ class Orders implements OrderResultsInterface
     private function orderShipmentTrack($shipmentsData, $message, $carrierCodeData)
     {
         $shipmentTracks = [];
-
+        
         if (array_key_exists('tracking_number', $shipmentsData) && array_key_exists('carrier_code', $shipmentsData)) {
             if (!empty($shipmentsData['tracking_number']) && !empty($shipmentsData['carrier_code'])) {
                 $trackCreation = $this->_trackCreationInterface;
@@ -882,7 +882,7 @@ class Orders implements OrderResultsInterface
                         $trackData[] = clone $trackCreation;
 
                         $shipmentTrack = $this->_shipmentInteface->setTracks($trackData);
-                        if (!empty($shipmentItem->getTracks())) {
+                        if (!empty($shipmentTrack->getTracks())) {
                             $shipmentTracks = $shipmentTrack->getTracks();
                         }
                     }

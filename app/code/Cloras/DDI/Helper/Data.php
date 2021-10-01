@@ -1162,12 +1162,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                         $this->logger->info('API Response ', (array)$results);
                     }
                     if ($response->getStatus() == 200 || $response->getStatus() == 100) {
-                        if (!empty($results)) {
-                            if (isset($results['data'])) {
-                                return $results['data'];
-                            } else {
-                                return $results;
-                            }
+                        if (!empty($results) && isset($results['data'])) {
+                            return $results['data'];
+                        } else {
+                            return $results;
                         }
                     } else {
                         if (isset($results['message'])) {
@@ -1432,6 +1430,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function submitOrder($integrationData, $checkoutData)
     {
+     
+        $results = 0;
+     
         if ($this->extensionHelper->getIsLogger()) {
             $this->logger->info('Started Submit Order DDI request');
         }
@@ -1504,14 +1505,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     $this->logger->info('API Response ++++ ', (array)$results);
                 }
                 if ($response->getStatus() == 100 || $response->getStatus() == 200) {
-                    if (!empty($results)) {
-                        if (isset($results['data'])) {
-                            return $results;
-                        } else {
-                            return $results;
-                        }
-                    }
-                } else {
                     return $results;
                 }
             }
@@ -1520,7 +1513,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $this->logger->info('Error : ' . $e->getMessage());
             }
         }
-        return 0;
+        return $results;
     }
 
     /**
@@ -1532,6 +1525,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function submitPendingOrder($integrationData, $checkoutData, $customerData)
     {
         $returnRes = [];
+        $results = 0;
         if ($this->extensionHelper->getIsLogger()) {
             $this->logger->info('Started pending order DDI request');
         }
@@ -1613,14 +1607,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                                     $this->logger->info('API Response ', (array)$results);
                                 }
                                 if ($response->getStatus() == 100 || $response->getStatus() == 200) {
-                                    if (!empty($results)) {
-                                        if (isset($results['data'])) {
-                                            return $results;
-                                        } else {
-                                            return $results;
-                                        }
-                                    }
-                                } else {
                                     return $results;
                                 }
                             }
@@ -1642,7 +1628,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 return $users;
             }
         }
-        return 0;
+        return $results;
     }
 
     /**

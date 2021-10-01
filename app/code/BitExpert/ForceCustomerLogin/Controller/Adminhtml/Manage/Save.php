@@ -74,7 +74,7 @@ class Save extends \Magento\Backend\App\Action
             );
 
             if (!$whitelistEntry->getId() ||
-                !$whitelistEntry->getEditable()) {
+                $whitelistEntry->getEditable()) {
                 throw new \RuntimeException(
                     __('Could not persist manage entry.')
                 );

@@ -16,13 +16,13 @@ class Items implements OrderItemsInterface
 
     private $totalOrders = 0;
 
-    public function __construct()
+    public function __construct($totalCustomers, $totalOrders)
     {
         $this->orders       = [];
         $this->customers    = [];
         $this->orderFilters = [];
-        $this->totalCustomers = $this->totalCustomers;
-        $this->totalOrders = $this->totalOrders;
+        $this->totalCustomers = $totalCustomers;
+        $this->totalOrders = $totalOrders;
     }//end __construct()
 
     /**
@@ -89,7 +89,6 @@ class Items implements OrderItemsInterface
 
         return $this;
     }//end addFilterOrders()
-
 
     public function getTotalOrders()
     {

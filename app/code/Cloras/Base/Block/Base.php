@@ -7,8 +7,6 @@ use \Magento\Framework\View\Element\Template\Context;
 
 class Base extends Template
 {
-   
-
     private $wishlistProvider;
     /**
      * Constructor
@@ -27,9 +25,7 @@ class Base extends Template
         $this->registry = $registry;
         $this->wishlistProvider = $wishlistProvider;
         $this->requestInterface = $requestInterface;
-        $this->saleList = $saleList;
     }
-
 
     public function getWishlistProductIds()
     {
