@@ -44,10 +44,8 @@ $welcomeMessage = $block->getWelcome();
             }
         }
         </script>
-    <?php break; ?>
-
-    <?php case 'other': ?>
+    <?php break; 
+     case 'other': ?>
         <?= $block->getChildHtml() ?>
-    <?php break; ?>
-
-<?php endswitch; ?>
+    <?php break;
+     endswitch; ?>

@@ -128,7 +128,7 @@ $orderStoreDate = $block->formatDate(
                 <span class="title"><?= $block->escapeHtml(__('Account Information')) ?></span>
                 <div class="actions">
                     <?php if ($customerUrl) : ?>
-                        <a href="<?= /* @noEscape */ $customerUrl ?>" target="_blank">
+                        <a href="<?= /* @noEscape */ $customerUrl ?>" target="_blank" rel="noopener noreferrer">
                             <?= $block->escapeHtml(__('Edit Customer')) ?>
                         </a>
                     <?php endif; ?>
@@ -140,7 +140,7 @@ $orderStoreDate = $block->formatDate(
                         <th><?= $block->escapeHtml(__('Customer Name')) ?></th>
                         <td>
                             <?php if ($customerUrl): ?>
-                                <a href="<?= $block->escapeUrl($customerUrl) ?>" target="_blank">
+                                <a href="<?= $block->escapeUrl($customerUrl) ?>" target="_blank" rel="noopener noreferrer">
                                     <span><?= $block->escapeHtml($order->getCustomerName()) ?></span>
                                 </a>
                             <?php else: ?>

@@ -117,10 +117,8 @@ if ($permission) {
                             <?php } else { ?>
                                 <span class="icon history">History</span>
                             <?php } ?>
-                            <span class="product-title"><a target="_blank"
-                                                           href="<?php echo $productUrl; ?>"><?php echo $item['description']; ?></a></span>
-                            <span class="sku">Product #: <a target="_blank"
-                                                            href="<?php echo $productUrl; ?>"><?php echo $item['stockNum']; ?></a></span>
+                            <span class="product-title"><a target="_blank" rel="noopener noreferrer" href="<?php echo $productUrl; ?>"><?php echo $item['description']; ?></a></span>
+                            <span class="sku">Product #: <a target="_blank" rel="noopener noreferrer" href="<?php echo $productUrl; ?>"><?php echo $item['stockNum']; ?></a></span>
                         </td>
                         <td data-th="<?= $block->escapeHtml(__('UOM')) ?>" class="col last-uom">
                             <?php if (isset($item['uom'])) {

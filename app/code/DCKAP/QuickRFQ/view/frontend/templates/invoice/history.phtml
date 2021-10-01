@@ -101,7 +101,7 @@ if ($permission) {
                     <td data-th="Invoice Status" class="col status"><?php echo $item['invoiceStatus']; ?></td>
                     <td data-th="Invoice Total" class="col order-total"><?php echo $item['invoiceTotal']; ?></td>
                     <td data-th="Balance Due" class="col order-total"><?php echo $item['openAmount']; ?></td>
-                    <td data-th="Action" class="col actions"><a href="<?php echo $viewUrl.'id/'.$item['invoiceNumber']; ?>" title="View Invoice" class="action view" target="_blank"><span>View Invoice</span></a></td>
+                    <td data-th="Action" class="col actions"><a href="<?php echo $viewUrl.'id/'.$item['invoiceNumber']; ?>" title="View Invoice" class="action view" target="_blank" rel="noopener noreferrer"><span>View Invoice</span></a></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

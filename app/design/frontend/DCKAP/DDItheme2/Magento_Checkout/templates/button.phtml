@@ -15,7 +15,7 @@ $orderPrintUrl = $block->getUrl('quickrfq/order/printview/'); ?>
 <?php if ($block->getCanViewOrder() && $block->getCanPrintOrder()) :
     $orderPrintUrl .= 'id/'.$order->getDdiOrderId();
     ?>
-    <a href="<?= /* @escapeNotVerified */ $orderPrintUrl ?>" target="_blank" class="print">
+    <a href="<?= /* @escapeNotVerified */ $orderPrintUrl ?>" target="_blank" rel="noopener noreferrer" class="print">
         <?= /* @escapeNotVerified */ __('Print receipt') ?>
     </a>
     <?= $block->getChildHtml() ?>

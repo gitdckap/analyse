@@ -51,7 +51,7 @@ $qtyLabel = ($stockCheck && !$_product->isSaleable()) ? 'Availability' : 'Qty';
                     </td>
                     <td data-th="<?= $block->escapeHtml(__('Product Name')) ?>" class="col item">
                         <strong class="product-item-name">
-                            <a class="product-item-link" target="_blank" title="<?= $block->escapeHtml($_item->getName()) ?>" href="<?= $_item->getProductUrl() ?>" >
+                            <a class="product-item-link" target="_blank" rel="noopener noreferrer" title="<?= $block->escapeHtml($_item->getName()) ?>" href="<?= $_item->getProductUrl() ?>" >
                                 <?= $block->escapeHtml($_item->getName()) ?>
                             </a>
                         </strong>

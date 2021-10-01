@@ -18,7 +18,9 @@ class TaxChange
         $checkoutSession = $this->checkoutSession->create();
         $checkoutData = $checkoutSession->getCheckoutData();
         if ($checkoutData && !empty($checkoutData)) {
-            $quote = $checkoutSession->getQuote();
+            if (!$quote) {
+                $quote = $checkoutSession->getQuote();
+            }
             $ddiTaxAmount = 0.00;
             if (isset($checkoutData[$quote->getId()])) {
                 $ddiTaxAmount = $checkoutData[$quote->getId()];
