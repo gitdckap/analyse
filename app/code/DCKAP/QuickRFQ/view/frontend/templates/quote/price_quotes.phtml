@@ -132,7 +132,7 @@ if ($permission) {
                         <ul class="items pages-items" aria-labelledby="paging-label">
                             <?php $url = '';
                             if (isset($params['sfield'])) {
-                                $url = 'sfield=' . $params['sfield'];
+                                $url = 'sfield=' . $block->escapeHtml($params['sfield']);
                                 if (isset($params['sorder'])) {
                                     $url .= '&sorder=' . $params['sorder'];
                                 }
@@ -145,7 +145,7 @@ if ($permission) {
                                         $href .= '&' . $url;
                                     }
                                 } ?>
-                                <a class="action  previous" href="<?php echo $href; ?>" title="Previous">
+                                <a class="action  previous" href="<?= $block->escapeUrl($href); ?>" title="Previous">
                                     <span class="label">Page</span>
                                     <span>Previous</span>
                                 </a>
@@ -158,7 +158,7 @@ if ($permission) {
                                         $href .= '&' . $url;
                                     }
                                 } ?>
-                                <a class="action  next" href="<?php echo $href; ?>" title="Next">
+                                <a class="action  next" href="<?= $block->escapeUrl($href); ?>" title="Next">
                                     <span class="label">Page</span>
                                     <span>Next</span>
                                 </a>

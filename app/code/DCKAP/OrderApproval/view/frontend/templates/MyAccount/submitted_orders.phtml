@@ -10,8 +10,8 @@ $_orders = $block->getOrders();
 $arrPostParams = $this->getRequest()->getParams();
 $arrCustomerShipToAddress = $block->getCustomerShipToAddresses();
 $arrShipToAddressAndNumbers = $DataHelper->getShiptoItems();
-$strDefaultStartDate = date('yy-m-d', strtotime('-90 day'));
-$strDefaultEndDate = date('yy-m-d');
+$strDefaultStartDate = date('Y-m-d', strtotime('-90 day'));
+$strDefaultEndDate = date('Y-m-d');
 
 ?>
     <div class="table-wrapper orders-history">
@@ -275,7 +275,7 @@ $strDefaultEndDate = date('yy-m-d');
                 }
             }
             if( false == empty($arrPostParams) && true == array_key_exists('srtshipto', $arrPostParams ) && false == empty( $arrPostParams['srtshipto'] ) && true == $boolIsShipToAvailable ) { ?>
-            $('#sorter-by-ship-to').val('<?php echo $arrPostParams['srtshipto']; ?>');
+            $('#sorter-by-ship-to').val('<?= $block->escapeHtml($arrPostParams['srtshipto']); ?>');
             $('#sorter-by-ship-to').select2().trigger('change');
 
             <?php } else if( false == $boolIsShipToAvailable) {  ?>

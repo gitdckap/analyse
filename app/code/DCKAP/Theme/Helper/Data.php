@@ -5,6 +5,7 @@ namespace DCKAP\Theme\Helper;
 use Magento\Framework\App\Helper\Context;
 use \Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Catalog\Model\Product\Option;
+use Magento\Framework\Serialize\SerializerInterface as Serializer;
 
 class Data extends AbstractHelper
 {
@@ -12,14 +13,16 @@ class Data extends AbstractHelper
     protected $option;
 
     protected $customerSession;
-
+    protected $serializer;
     public function __construct(
         Context $context,
         Option $option,
-        \Magento\Customer\Model\SessionFactory $customerSession
+        \Magento\Customer\Model\SessionFactory $customerSession,
+        Serializer $serializer
     ) {
         $this->option = $option;
         $this->customerSession = $customerSession;
+        $this->serializer = $serializer;
         parent::__construct($context);
     }
 
@@ -190,7 +193,7 @@ class Data extends AbstractHelper
             return $data;
         }
         try {
-            $data = unserialize($value);
+            $data = $this->serializer->unserialize($value);
         } catch (\Exception $exception) {
             $data = [];
         }

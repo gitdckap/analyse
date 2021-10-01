@@ -108,7 +108,7 @@ if ($paymentMethod != '' && ($paymentMethod == 'authorizenet_acceptjs' || $payme
                 </div>
             </div>
         </fieldset>
-        <input type="hidden" name="invoice" value="<?php echo $params['data']; ?>" />
+        <input type="hidden" name="invoice" value="<?= $block->escapeHtml($params['data']); ?>" />
         <button class="action primary" id="pay-invoice" type="submit" title="Pay">
             <span>Submit</span>
         </button>
@@ -194,8 +194,8 @@ if ($paymentMethod != '' && ($paymentMethod == 'authorizenet_acceptjs' || $payme
                             var cc_exp_date = transactionDetails.find('#cc_exp_date').val();
                             var cc_validation_key = transactionDetails.find('#cc_validation_key').val();
                             var cc_amount_approved = transactionDetails.find('#cc_amount_approved').val();
-                            var serviceurl = "<?php echo $payInvoiceUrl; ?>";
-                            var invoice = "<?php echo $params['data']; ?>";
+                            var serviceurl = "<?= $block->escapeUrl($payInvoiceUrl); ?>";
+                            var invoice = "<?= $block->escapeHtml($params['data']); ?>";
                             $.ajax({
                                 url: serviceurl,
                                 type: 'POST',
@@ -300,9 +300,9 @@ if ($paymentMethod != '' && ($paymentMethod == 'authorizenet_acceptjs' || $payme
             /* cayan iframe implementation */
             function calliframe() {
                 $('body').trigger('processStart');
-                var serviceurl1 = "<?php echo $transportKeyUrl; ?>";
-                var quote_id = "<?php echo explode('__', $params['data'])[0]; ?>";
-                var amount = "<?php echo $invoiceData['total']; ?>";
+                var serviceurl1 = "<?= $block->escapeUrl($transportKeyUrl); ?>";
+                var quote_id = "<?= explode('__', $block->escapeHtml($params['data']))[0]; ?>";
+                var amount = "<?= $block->escapeHtml($invoiceData['total']); ?>";
                 var taxAmount = 0.00;
                 // alert(serviceurl1);
                 $.ajax({
@@ -448,7 +448,7 @@ if ($paymentMethod != '' && ($paymentMethod == 'authorizenet_acceptjs' || $payme
                 </div>
             </div>
         </fieldset>
-        <input type="hidden" name="invoice" value="<?php echo $params['data']; ?>" />
+        <input type="hidden" name="invoice" value="<?= $block->escapeHtml($params['data']); ?>" />
         <button class="action primary" id="pay-invoice" type="submit" title="Pay">
             <span>Submit</span>
         </button>

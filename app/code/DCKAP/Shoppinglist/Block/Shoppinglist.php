@@ -8,6 +8,12 @@
 
 namespace DCKAP\Shoppinglist\Block;
 
+use Magento\Framework\Serialize\SerializerInterface as Serializer;
+
+/**
+ * Class Shoppinglist
+ * @package DCKAP\Shoppinglist\Block
+ */
 class Shoppinglist extends \Magento\Framework\View\Element\Template
 {
 
@@ -45,7 +51,22 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
      * @var \Magento\Catalog\Helper\Image
      */
     protected $productImage;
+    /**
+     * @var Serializer
+     */
+    protected $serializer;
 
+    /**
+     * Shoppinglist constructor.
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Customer\Model\SessionFactory $customerSession
+     * @param \Magento\Framework\App\Request\Http $request
+     * @param \DCKAP\Shoppinglist\Helper\Data $shoppinglistHelper
+     * @param \DCKAP\Shoppinglist\Model\ProductlistFactory $productlistFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Helper\Image $productImage
+     * @param Serializer $serializer
+     */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\SessionFactory $customerSession,
@@ -53,7 +74,8 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
         \DCKAP\Shoppinglist\Helper\Data $shoppinglistHelper,
         \DCKAP\Shoppinglist\Model\ProductlistFactory $productlistFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Helper\Image $productImage
+        \Magento\Catalog\Helper\Image $productImage,
+        Serializer $serializer
     ) {
         $this->customerSession = $customerSession;
         $this->storeManager = $context->getStoreManager();
@@ -62,14 +84,21 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
         $this->productlistFactory = $productlistFactory;
         $this->productFactory = $productFactory;
         $this->productImage = $productImage;
+        $this->serializer = $serializer;
         parent::__construct($context);
     }
 
+    /**
+     * @return \Magento\Customer\Model\Session
+     */
     public function getCustomerSession()
     {
         return $this->customerSession->create();
     }
 
+    /**
+     * @return int|mixed
+     */
     public function getShoppinglistId()
     {
 
@@ -86,12 +115,20 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
         return 0;
     }
 
+    /**
+     * @return \DCKAP\Shoppinglist\Helper\Array
+     */
     public function getShoppinglist()
     {
 
         return $this->shoppinglistHelper->getCustomerShoppingList();
     }
 
+    /**
+     * @param $shopping_list_id
+     * @return mixed
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     public function getShoppinglistProduct($shopping_list_id)
     {
 
@@ -107,18 +144,30 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
         return $collection;
     }
 
+    /**
+     * @param $productId
+     * @return \Magento\Catalog\Model\Product
+     */
     public function getProductInfo($productId)
     {
 
         return $this->productFactory->create()->load($productId);
     }
 
+    /**
+     * @param $product
+     * @return string
+     */
     public function getProductImage($product)
     {
 
         return $this->productImage->init($product, 'category_page_list', ['height' => '100', 'width' => '100'])->getUrl();
     }
 
+    /**
+     * @param $productId
+     * @return array
+     */
     public function getConfigurableOptionList($productId)
     {
         $product = $this->getProductInfo($productId);
@@ -138,9 +187,13 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
         return $attributeOptions;
     }
 
+    /**
+     * @param $shoppingListItem
+     * @return array|null
+     */
     public function getGroupedOptionList($shoppingListItem)
     {
-        $superGroup = unserialize($shoppingListItem['value']);
+        $superGroup = $this->serializer->unserialize($shoppingListItem['value']);
         if (isset($superGroup['super_group'])) {
             $superGroupOption = [];
             $i = 0;
@@ -156,9 +209,13 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
         return null;
     }
 
+    /**
+     * @param $shoppingListItem
+     * @return array|null
+     */
     public function getBundleOptionList($shoppingListItem)
     {
-        $bundleOption = unserialize($shoppingListItem['value']);
+        $bundleOption = $this->serializer->unserialize($shoppingListItem['value']);
         if (isset($bundleOption['bundle_option'])) {
             $product = $productName = $this->getProductInfo($shoppingListItem['product_id']);
 
@@ -202,6 +259,9 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
         return null;
     }
 
+    /**
+     * @return bool
+     */
     public function getValidateUserData()
     {
         $customerSession = $this->customerSession->create();
@@ -243,6 +303,11 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
         return $this->getChildHtml('pager');
     }
 
+    /**
+     * @param $shopping_list_id
+     * @return mixed
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     public function getShoppinglistProductCollection($shopping_list_id)
     {
         $page = ($this->getRequest()->getParam('p')) ? $this->getRequest()->getParam('p') : 1;
@@ -257,5 +322,18 @@ class Shoppinglist extends \Magento\Framework\View\Element\Template
         $collection->setPageSize($pageSize);
         $collection->setCurPage($page);
         return $collection;
+    }
+
+    /**
+     * @param $data
+     * @return array|bool|float|int|string|null
+     */
+    public function getUnserializedValues($data)
+    {
+        $unserialized = [];
+        if($data) {
+            return $this->serializer->unserialize($data);
+        }
+        return $unserialized;
     }
 }

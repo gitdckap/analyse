@@ -108,7 +108,7 @@
                         <?php if ($product['product_type'] == 'configurable'): ?>
                             <?php if ($_options = $block->getConfigurableOptionList($product['product_id'])):?>
                         <dl class="item-options">
-                                <?php $values = unserialize($product['value']); ?>
+                                <?php $values = $block->getUnserializedValues($product['value']); ?>
                                 <?php foreach ($values['super_attribute'] as $key => $value): ?>
                                     <?php if (array_key_exists($key, $_options)): ?>
                               <dt><?php echo $_options[$key]['label'];?></dt>

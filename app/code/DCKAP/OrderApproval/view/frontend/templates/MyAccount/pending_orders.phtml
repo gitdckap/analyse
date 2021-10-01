@@ -147,7 +147,7 @@ $arrCustomerShipToAddress = $block->getCustomerShipToAddresses();
             }
 
             if( false == empty($params) && true == array_key_exists('shipto', $params ) && false == empty( $params['shipto'] ) && true == $boolIsShipToAvailable ) { ?>
-            $('#sort-by-ship-to-number').val('<?php echo $params['shipto']; ?>');
+            $('#sort-by-ship-to-number').val('<?= $block->escapeHtml($params['shipto']); ?>');
             $('#sort-by-ship-to-number').select2().trigger('change');
 
             <?php } else if( false == $boolIsShipToAvailable) {  ?>

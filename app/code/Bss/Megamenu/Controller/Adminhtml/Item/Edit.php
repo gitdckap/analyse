@@ -47,12 +47,14 @@ class Edit extends \Magento\Backend\App\Action
         \Magento\Backend\App\Action\Context $context,
         JsonFactory $resultJsonFactory,
         \Bss\Megamenu\Model\MenuItemsFactory $modelMenuFactory,
+        \Magento\Framework\Serialize\SerializerInterface $serializer,
         \Bss\Megamenu\Model\MenuStoresFactory $menuStoresFactory
     ) {
         parent::__construct($context);
         $this->resultJsonFactory = $resultJsonFactory;
         $this->modelMenuFactory = $modelMenuFactory;
         $this->menuStoresFactory = $menuStoresFactory;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -78,7 +80,7 @@ class Edit extends \Magento\Backend\App\Action
 
                 if (!empty($menu->getId())) {
                     $result = $menu->getData();
-                    $result['content'] = unserialize($menu->getContent());
+                    $result['content'] = $this->serializer->unserialize($menu->getContent());
                     $result['empty'] = false;
                     $result['mega_menu_id'] = $id[1];
                 } else {
@@ -110,7 +112,7 @@ class Edit extends \Magento\Backend\App\Action
                         ->setStatus($params['megamenu_enable'])
                         ->setType($params['megamenu_type'])
                         ->setLabel($params['megamenu_label_type'])
-                        ->setContent(serialize($params))
+                        ->setContent($this->serializer->serialize($params))
                         ->setBlockTop($params['megamenu_static_block_top'])
                         ->setBlockLeft($params['megamenu_static_block_left'])
                         ->setBlockRight($params['megamenu_static_block_right'])
@@ -129,7 +131,7 @@ class Edit extends \Magento\Backend\App\Action
                         ->setStatus($params['megamenu_enable'])
                         ->setType($params['megamenu_type'])
                         ->setLabel($params['megamenu_label_type'])
-                        ->setContent(serialize($params))
+                        ->setContent($this->serializer->serialize($params))
                         ->setBlockTop($params['megamenu_static_block_top'])
                         ->setBlockLeft($params['megamenu_static_block_left'])
                         ->setBlockRight($params['megamenu_static_block_right'])
@@ -145,7 +147,7 @@ class Edit extends \Magento\Backend\App\Action
                 }
 
                 $result = $menu->getData();
-                $result['content'] = unserialize($menu->getContent());
+                $result['content'] = $this->serializer->unserialize($menu->getContent());
                 $resultMenus = $result;
             }
         } catch (\Exception $e) {

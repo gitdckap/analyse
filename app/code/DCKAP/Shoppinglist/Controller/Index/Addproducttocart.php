@@ -11,6 +11,10 @@ namespace DCKAP\Shoppinglist\Controller\Index;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Checkout\Model\Session;
 
+/**
+ * Class Addproducttocart
+ * @package DCKAP\Shoppinglist\Controller\Index
+ */
 class Addproducttocart extends \Magento\Framework\App\Action\Action
 {
     /**
@@ -63,11 +67,23 @@ class Addproducttocart extends \Magento\Framework\App\Action\Action
      */
     protected $shoppinglistHelper;
 
+    /**
+     * @var \DCKAP\Shoppinglist\Helper\Data
+     */
     protected $listItemId;
 
+    /**
+     * @var \Magento\Quote\Api\CartRepositoryInterface
+     */
     protected $quoteRepository;
 
+    /**
+     * @var \DCKAP\Catalog\Helper\Data
+     */
     protected $dckapCatalogHelper;
+    /**
+     * @var \Magento\Framework\Serialize\SerializerInterface
+     */
     protected $serializer;
 
     /**
@@ -166,11 +182,7 @@ class Addproducttocart extends \Magento\Framework\App\Action\Action
                      /* customized code */
                     $product = $this->productRepository->getById($productId);
                      $sku = $product->getSku();
-                   
-                 /*  $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/shoppinglistuom.log');
-                    $logger = new \Zend\Log\Logger();
-                    $logger->addWriter($writer);
-                    $logger->info($uom);*/
+
                     $uom = 'CS';
                         $erpProductData = $this->dckapCatalogHelper->getSessionProductData($sku);
                     if (isset($erpProductData['lineItem']['uom']['uomCode'])) {
@@ -271,6 +283,10 @@ class Addproducttocart extends \Magento\Framework\App\Action\Action
         return $resultRedirect;
     }
 
+    /**
+     * @param $post
+     * @return |null
+     */
     protected function getShoppingListCollection($post)
     {
 
@@ -284,17 +300,22 @@ class Addproducttocart extends \Magento\Framework\App\Action\Action
         return $productlistModelCollection;
     }
 
+    /**
+     * @param $collectionItem
+     * @param $params
+     * @return mixed
+     */
     protected function nestedLoopAvoid($collectionItem, $params)
     {
 
         if ($collectionItem->getProductType() == 'configurable') {
             if ($superAttribute = $collectionItem->getValue()) {
-                $superAttribute = unserialize($superAttribute);
+                $superAttribute = $this->serializer->unserialize($superAttribute);
                 $params['super_attribute'] = (isset($superAttribute['super_attribute']))? $superAttribute['super_attribute']:'';
             }
         } elseif ($collectionItem->getProductType() == 'bundle') {
             if ($bundleOption = $collectionItem->getValue()) {
-                $bundleOption = unserialize($bundleOption);
+                $bundleOption = $this->serializer->unserialize($bundleOption);
                 if (isset($bundleOption['bundle_option'])) {
                     $params['bundle_option'] = $bundleOption['bundle_option'];
                 }
@@ -305,7 +326,7 @@ class Addproducttocart extends \Magento\Framework\App\Action\Action
             }
         } elseif ($collectionItem->getProductType() == 'grouped') {
             if ($superGroup = $collectionItem->getValue()) {
-                $superGroup = unserialize($superGroup);
+                $superGroup = $this->serializer->unserialize($superGroup);
                 //multiply each simple product with quantity entered in qty box.
                 foreach ($superGroup['super_group'] as $key => $value) {
                     $superGroup['super_group'][$key] = $value * $params['qty'];
@@ -316,6 +337,9 @@ class Addproducttocart extends \Magento\Framework\App\Action\Action
         return $params;
     }
 
+    /**
+     * @param $collectionItem
+     */
     protected function deleteCollectinItems($collectionItem)
     {
         if (!$this->shoppinglistHelper->isMaintainItemAfterAddtoCart()) {
@@ -323,6 +347,10 @@ class Addproducttocart extends \Magento\Framework\App\Action\Action
         }
     }
 
+    /**
+     * @param $collectionItem
+     * @return mixed
+     */
     protected function getProductIdCollection($collectionItem)
     {
 
