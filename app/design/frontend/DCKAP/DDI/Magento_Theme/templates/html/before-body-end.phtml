@@ -8,8 +8,6 @@ $ecommUserData = $extensionHelper->getErpEcommUserData();
 $validateUserData = $extensionHelper->getValidateUserData();
 $childUrl = $block->getUrl('Catalog/configurable/get');
 $actionName = $block->getFullActionName();
-?>
-<?php
 /**
  * common css and js for multiple pages
  */
@@ -228,7 +226,7 @@ $includedPages = [
                 <?php } ?>
                 if (productIds.length > 0) {
                     var customurl = "<?php echo $block->getBasePriceUrl(); ?>";
-                    $('.price-box .price').hide();
+                    //$('.price-box .price').hide();
 
                     $.ajax({
                         url: customurl,
@@ -255,7 +253,9 @@ $includedPages = [
                                         $('#product-id-' + product_id + ' .stock').after('<div class="availability only" title="Only ' + qty + ' left" style="display: none;">Only <strong>' + qty + '</strong> left</div>');
                                         <?php } ?>
                                     } else {
+                                        <?php if($dckapCatalogHelper->getStockDisplay() > 1) { ?>
                                         $('#product-id-' + product_id + ' .stock').removeClass('available').removeClass('unavailable').addClass('unavailable').html('<span>Out of stock</span>');
+                                        <?php } ?>
                                     }
                                     <?php } ?>
                                     $('#product-id-' + product_id + ' .custom_uom').val(uom);
@@ -632,17 +632,21 @@ $includedPages = [
                                 $('#additional').append(specification);
                                 $('#collateral').html('').css('display', 'block');
                                 $('#collateral').append(attachments);
-                                if(type == "simple"){
-                                if (qty > 0) {
-                                    $('.product-info-main .stock').removeClass('available').removeClass('unavailable').addClass('available').css('display','block').html('<span>Available In-Stock</span>');
-                                    $('.product-info-main .stock').after('<div class="availability only" title="Only ' + qty + ' left">Only <strong>' + qty + '</strong> left</div>');
-
+                                if (type == "simple") {
+                                    <?php if ($dckapCatalogHelper->getStockDisplay() > 0) { ?>
+                                    if (qty > 0) {
+                                        $('.product-info-main .stock').removeClass('available').removeClass('unavailable').addClass('available').css('display','block').html('<span>Available In-Stock</span>');
+                                        <?php if($dckapCatalogHelper->getStockDisplay() > 1) { ?>
+                                        $('.product-info-main .stock').after('<div class="availability only" title="Only ' + qty + ' left">Only <strong>' + qty + '</strong> left</div>');
+                                        <?php } ?>
+                                    } else {
+                                        $('.product-info-main .stock').removeClass('available').removeClass('unavailable').addClass('unavailable').html('<span>Out of stock</span>');
+                                        <?php if($dckapCatalogHelper->getStockDisplay() > 1) { ?>
+                                        $('.product-info-main .stock').after('<div class="availability only" title="Only 0 left">Only <strong>0</strong> left</div>');
+                                        <?php } ?>
+                                    }
+                                    <?php } ?>
                                 } else {
-                                    $('.product-info-main .stock').removeClass('available').removeClass('unavailable').addClass('unavailable').html('<span>Out of stock</span>');
-                                    $('.product-info-main .stock').after('<div class="availability only" title="Only 0 left">Only <strong>0</strong> left</div>');
-                                }
-                                }
-                                else{
                                     $('.product-info-main .stock').removeClass('available').removeClass('unavailable').addClass('unavailable').html('');
                                 }
                                 $('.box-tocart #product-options-wrapper').show();

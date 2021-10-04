@@ -73,7 +73,7 @@ class User extends \Magento\Framework\App\Action\Action
                     $shiptoNumber = SELF::DEFAULT_SHIP_TO_NUMBER;
                 }
                 if ($orderApprovalStatus == 0) {
-                    if (isset($params['totalAmount'])) {
+                    if (isset($params['totalAmount']) && $this->orderApprovalHelper->isThresholdEnable()) {
                         $orderApprovalStatus = $this->ThresholdAmountBaseOrderApproval($params['totalAmount']);
                     }
                 }

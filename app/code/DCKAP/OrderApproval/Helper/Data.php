@@ -162,6 +162,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * @return mixed
+     */
+    public function isThresholdEnable()
+    {
+        $boolThreshold = $this->scopeConfig->getValue(
+            'OrderApproval_section/threshold_based_order_approval/threshold_setting',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        return $boolThreshold;
+    }
+
+    /**
      * @param bool $email
      * @param bool $accountNumber
      * @param bool $shiptoNumber

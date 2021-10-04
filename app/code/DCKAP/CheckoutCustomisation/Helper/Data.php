@@ -90,7 +90,8 @@ class Data extends AbstractHelper
                 foreach ($carrierMethods as $methodCode => $method) {
                     $code = $carrierCode . '_' . $methodCode;
                     if ($code == 'ddistorepickup_ddistorepickup') {
-                        $pickup_option = true;
+//                        $pickup_option = true;
+                        return true;
                     } else {
                         $pickup_option = false;
                     }

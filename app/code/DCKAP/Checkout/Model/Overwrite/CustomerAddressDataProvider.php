@@ -51,8 +51,10 @@ class CustomerAddressDataProvider
                 if (isset($result[$key])) {
                     if (isset($address['custom_attributes']['ddi_ship_number']) && isset($arrCustomerData['is_from_order_pad']) && isset($arrCustomerData['SelectedShipTo']) && $address['custom_attributes']['ddi_ship_number']['value'] == $arrCustomerData['SelectedShipTo']) {
                         $new_value = $result[$key];
+                        $new_arr = array($key => $new_value);
                         unset($result[$key]);
-                        array_unshift($result, $new_value);
+//                        array_unshift($result, $new_value);
+                        $result = $new_arr + $result;
                     }
                 }
                 /**
@@ -61,19 +63,23 @@ class CustomerAddressDataProvider
                  */
                 if ($addressId && isset($result[$addressId])) {
                     $new_value = $result[$addressId];
+                    $new_arr = array($key => $new_value);
                     unset($result[$addressId]);
-                    array_unshift($result, $new_value);
+//                    array_unshift($result, $new_value);
+                    $result = $new_arr + $result;
                 }
 
                 if (isset($result[$key])) {
                     if (isset($arrCustomerData['is_from_order_pad']) == false && $address['default_shipping'] == 1) {
                         $new_value = $result[$key];
+                        $new_arr = array($key => $new_value);
                         unset($result[$key]);
-                        array_unshift($result, $new_value);
+//                        array_unshift($result, $new_value);
+                        $result = $new_arr + $result;
                     }
                 }
             }
         }
-        return $result;
+        return is_array($result)?array_values($result):$result;
     }
 }

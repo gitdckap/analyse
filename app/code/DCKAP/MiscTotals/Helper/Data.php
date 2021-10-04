@@ -57,11 +57,13 @@ class Data extends AbstractHelper
     public function getAdultSignatureFee($quote_id)
     {
         $miscamt = 0;
-        $quoteitems = $this->QuoteFactory->create()->load($quote_id);
-        $params['m_quote_items'] = $quoteitems->getAllVisibleItems();
-        $params ['review_type'] = "checkout_review";
-        $params ['po_number'] = "123";
-        $miscamt = $this->callReview($params, 'checkout_review');
+        if ($this->isModuleEnabled()) {
+            $quoteitems = $this->QuoteFactory->create()->load($quote_id);
+            $params['m_quote_items'] = $quoteitems->getAllVisibleItems();
+            $params ['review_type'] = "checkout_review";
+//            $params ['po_number'] = "123";
+            $miscamt = $this->callReview($params, 'checkout_review');
+        }
         return $miscamt;
     }
 

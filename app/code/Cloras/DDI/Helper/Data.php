@@ -1718,6 +1718,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 }
             }
         }
+        if (count($lineItemData) == 0) {
+            return 0;
+        }
 
         $street = $this->_checkoutSession->getQuote()->getShippingAddress()->getStreet();
 
@@ -1950,6 +1953,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                         }
                     }
                 }
+            }
+            if (count($lineItemData) == 0) {
+                return 0;
             }
             $company_name= ($shippingAddress['company'] ?$shippingAddress['company']:"");
             $street = (isset($shippingAddress['street'])) ? $shippingAddress['street'] : [] ;

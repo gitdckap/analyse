@@ -47,12 +47,19 @@
 										<?php if ($block->canShowAddToCart()): ?>
                                             <div class="actions-primary">
 												<?php if (!$offline || $offline == "0") {
-													if ($stockConfig != 0 && $_item->getTypeId() != 'configurable' && $_item->getTypeId() != 'grouped') { ?>
-                                                        <div class="stock unavailable" title="<?= __('Availability') ?>">
-                                                            <span><?= __('Out of stock') ?></span>
-                                                        </div>
-													<?php }
-												}
+                                                    if ($_item->getTypeId() != 'configurable' && $_item->getTypeId() != 'grouped') {
+                                                        if ($dckapCatalogHelper->getStockDisplay() > 0) { ?>
+                                                            <div class="stock unavailable" title="<?= __('Availability') ?>">
+                                                                <span><?= __('Out of stock') ?></span>
+                                                            </div>
+                                                            <?php if ($dckapCatalogHelper->getStockDisplay() > 1) { ?>
+                                                                <div class="availability only" style="width: 100%;">
+                                                                    <?= __('Only ') ?><strong>0</strong><?= __(' left') ?>
+                                                                </div>
+                                                            <?php }
+                                                        }
+                                                    }
+                                                }
 													if ($_item->isSaleable()):
 														if ($_item->getTypeId() == 'configurable' || $_item->getTypeId() == 'grouped') { ?>
                                                             <a href="<?php echo $block->getProductUrl($_item); ?>"

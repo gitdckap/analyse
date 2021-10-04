@@ -7,8 +7,8 @@ $amount = (float)$quote->getGrandTotal();*/
 $checkoutSession = $objectManager->get('\Magento\Checkout\Model\SessionFactory')->create();
 $checkoutReviewData = $checkoutSession->getCheckoutData();
 $amount = $checkoutReviewData['order_total'];
-$authorizedAmount = (float) $params['AmountApproved'];
-if ($authorizedAmount < $amount) {
+$authorizedAmount = (float)(isset($params['AmountApproved']) ? $params['AmountApproved'] : false);
+if($authorizedAmount && ($authorizedAmount < $amount)) {
     ?>
 <script>
     require([
